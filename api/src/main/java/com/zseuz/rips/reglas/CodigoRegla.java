@@ -13,6 +13,7 @@ import static com.zseuz.rips.reglas.Severidad.ERROR;
  *   <li>RV02x: fechas y edad.
  *   <li>RV03x: coherencia clínica.
  *   <li>RV04x: valores monetarios.
+ *   <li>RV05x: cruce con la factura electrónica (XML), cuando se adjunta.
  * </ul>
  */
 public enum CodigoRegla {
@@ -40,7 +41,12 @@ public enum CodigoRegla {
     RV040(ERROR, "Valor monetario negativo"),
     RV041(ERROR, "Pago moderador mayor que el valor del servicio"),
     RV042(ADVERTENCIA, "Servicio con valor cero"),
-    RV043(ERROR, "Cantidad o peso que debe ser mayor que cero");
+    RV043(ERROR, "Cantidad o peso que debe ser mayor que cero"),
+
+    RV050(ERROR, "Número de factura distinto al de la factura electrónica"),
+    RV051(ERROR, "Obligado distinto al emisor de la factura electrónica"),
+    RV052(ADVERTENCIA, "Valor del RIPS distinto al valor bruto de la factura"),
+    RV053(ADVERTENCIA, "Atención posterior a la emisión de la factura");
 
     private final Severidad severidad;
     private final String titulo;

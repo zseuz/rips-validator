@@ -36,6 +36,19 @@
     }
   </label>
 
+  <div class="factura">
+    @if (factura(); as f) {
+      <span class="factura__chip">🧾 {{ f.nombre }} <button type="button" aria-label="Quitar la factura" (click)="factura.set(null)">✕</button></span>
+      <span class="suave">Se cruzará con el RIPS: número, emisor, valor y fechas.</span>
+    } @else {
+      <label class="factura__adjuntar">
+        <input type="file" accept=".xml,application/xml,text/xml" class="sr-only" (change)="alElegirFactura($event)" />
+        📎 Adjuntar el XML de la factura electrónica (opcional)
+      </label>
+      <span class="suave">Primero el XML, luego el RIPS: se cruzan número, emisor, valor y fechas.</span>
+    }
+  </div>
+
   @if (error(); as mensaje) {
     <p class="alerta" role="alert">
       <strong>{{ archivo()?.nombre }}:</strong> {{ mensaje }}
@@ -46,6 +59,7 @@
     <span class="suave">¿No tienes un archivo a mano? Prueba con un ejemplo sintético:</span>
     <button class="boton" type="button" [disabled]="validando()" (click)="probarEjemplo('rips-valido.json')">✓ RIPS válido</button>
     <button class="boton" type="button" [disabled]="validando()" (click)="probarEjemplo('rips-con-errores.json')">✕ RIPS con errores</button>
+    <button class="boton" type="button" [disabled]="validando()" (click)="probarEjemplo('rips-valido.json', true)">🧾 RIPS + factura XML</button>
   </section>
 
   <section class="que-valida">

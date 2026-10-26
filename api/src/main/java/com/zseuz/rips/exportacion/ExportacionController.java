@@ -116,7 +116,8 @@ class ExportacionController {
             case '1' -> "Transacción y usuarios";
             case '2' -> "Fechas y edad";
             case '3' -> "Coherencia clínica";
-            default -> "Valores";
+            case '4' -> "Valores";
+            default -> "Factura electrónica";
         };
     }
 

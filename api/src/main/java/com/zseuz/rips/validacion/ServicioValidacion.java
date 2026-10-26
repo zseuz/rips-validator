@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zseuz.rips.factura.FacturaElectronica;
 import com.zseuz.rips.reglas.ValidadorRips;
 import com.zseuz.rips.rips.Rips;
 
@@ -26,7 +27,13 @@ public class ServicioValidacion {
 
     @Transactional
     public ResultadoValidacion validar(Rips rips) {
-        Validacion validacion = new Validacion(rips, validador.validar(rips), reloj.instant());
+        return validar(rips, null);
+    }
+
+    /** Igual que {@link #validar(Rips)}, cruzando además con la factura electrónica si viene. */
+    @Transactional
+    public ResultadoValidacion validar(Rips rips, FacturaElectronica factura) {
+        Validacion validacion = new Validacion(rips, validador.validar(rips, factura), reloj.instant());
         return ResultadoValidacion.de(repositorio.save(validacion));
     }
 

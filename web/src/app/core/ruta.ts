@@ -50,6 +50,8 @@ const CAMPOS: Record<string, string> = {
   tipoOS: 'Tipo de servicio',
   cantidadOS: 'Cantidad',
   peso: 'Peso',
+  factura: 'Factura electrónica',
+  LineExtensionAmount: 'Valor bruto',
   vrServicio: 'Valor del servicio',
   valorPagoModerador: 'Pago moderador',
   conceptoRecaudo: 'Concepto de recaudo',

@@ -73,6 +73,44 @@
   animation: girar 0.8s linear infinite;
 }
 
+.factura {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+}
+
+.factura__adjuntar {
+  color: var(--primario);
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-within {
+    text-decoration: underline;
+  }
+}
+
+.factura__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.4rem 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--primario-suave);
+  color: var(--primario);
+  font-weight: 500;
+
+  button {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+}
+
 .ejemplos {
   display: flex;
   flex-wrap: wrap;

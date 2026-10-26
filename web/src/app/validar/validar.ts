@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, forkJoin, of } from 'rxjs';
 
 import { formatearFecha, formatearTamano } from '../core/formato';
 import { ResultadoValidacion } from '../core/modelos';
@@ -42,6 +42,8 @@ export class Validar {
   });
 
   protected readonly archivo = signal<Archivo | null>(null);
+  /** XML de la factura electrónica, opcional: si está, la validación también cruza RIPS y factura. */
+  protected readonly factura = signal<{ nombre: string; contenido: Blob } | null>(null);
   protected readonly validando = signal(false);
   protected readonly arrastrando = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -65,16 +67,32 @@ export class Validar {
     }
   }
 
-  protected probarEjemplo(nombre: string): void {
+  protected alElegirFactura(evento: Event): void {
+    const campo = evento.target as HTMLInputElement;
+    const archivo = campo.files?.[0];
+    campo.value = '';
+    if (archivo) {
+      this.factura.set({ nombre: archivo.name, contenido: archivo });
+    }
+  }
+
+  protected probarEjemplo(nombre: string, conFactura = false): void {
     this.empezar({ nombre, tamano: 'ejemplo' });
-    this.api.ejemplo(nombre).subscribe({
-      next: (contenido) => this.validar(contenido),
+    const xml = conFactura ? this.api.ejemplo('factura-FEV1001.xml') : of(null);
+    forkJoin([this.api.ejemplo(nombre), xml]).subscribe({
+      next: ([contenido, factura]) => {
+        if (factura !== null) {
+          this.factura.set({ nombre: 'factura-FEV1001.xml', contenido: new Blob([factura], { type: 'application/xml' }) });
+        }
+        this.validar(contenido);
+      },
       error: () => this.fallar('No se pudo cargar el archivo de ejemplo.'),
     });
   }
 
   protected reiniciar(): void {
     this.archivo.set(null);
+    this.factura.set(null);
     this.resultado.set(null);
     this.error.set(null);
   }
@@ -100,7 +118,8 @@ export class Validar {
       this.fallar(`El archivo no es un JSON válido: ${(e as Error).message}`);
       return;
     }
-    this.enviar(this.api.validar(contenido));
+    const factura = this.factura();
+    this.enviar(factura ? this.api.validarConFactura(contenido, factura.contenido, factura.nombre) : this.api.validar(contenido));
   }
 
   private enviar(peticion: Observable<ResultadoValidacion>): void {

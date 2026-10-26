@@ -41,7 +41,8 @@ class LimitesFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !("POST".equals(request.getMethod()) && RUTA_VALIDAR.equals(request.getRequestURI()));
+        // POST /api/v1/validaciones y /api/v1/validaciones/con-factura
+        return !("POST".equals(request.getMethod()) && request.getRequestURI().startsWith(RUTA_VALIDAR));
     }
 
     @Override

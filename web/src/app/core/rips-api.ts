@@ -23,6 +23,16 @@ export class RipsApi {
       .pipe(catchError(traducirError));
   }
 
+  /** Valida el RIPS y lo cruza con el XML de su factura electrónica. */
+  validarConFactura(json: string, factura: Blob, nombreFactura: string): Observable<ResultadoValidacion> {
+    const formulario = new FormData();
+    formulario.append('rips', new Blob([json], { type: 'application/json' }), 'rips.json');
+    formulario.append('factura', factura, nombreFactura);
+    return this.http
+      .post<ResultadoValidacion>(`${BASE}/validaciones/con-factura`, formulario)
+      .pipe(catchError(traducirError));
+  }
+
   buscar(id: number): Observable<ResultadoValidacion> {
     return this.http.get<ResultadoValidacion>(`${BASE}/validaciones/${id}`).pipe(catchError(traducirError));
   }
@@ -40,10 +50,14 @@ export class RipsApi {
 }
 
 function traducirError(error: HttpErrorResponse): Observable<never> {
+  // Para la factura XML la API explica qué no pudo leer (ProblemDetail.detail).
+  const detalle: string | undefined = error.error?.detail;
   const mensaje =
     error.status === 0
       ? 'No se pudo conectar con la API. Verifica que esté corriendo en el puerto 8080.'
-      : error.status === 400
+      : error.status === 400 && detalle
+        ? detalle
+        : error.status === 400
         ? 'El archivo no tiene la estructura de un RIPS en JSON (Resolución 2275 de 2023).'
         : error.status === 404
           ? 'La validación no existe.'
