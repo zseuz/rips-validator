@@ -24,12 +24,13 @@ const enOrdenDelArchivo = (a: Hallazgo, b: Hallazgo) => comparadorRutas.compare(
  * Colores de cada estado. Las clases van completas (no armadas por partes) para que Tailwind las
  * encuentre al compilar.
  */
-const TONOS: Record<EstadoValidacion, { banner: string; icono: string; insignia: string; punto: string; nombre: NombreIcono }> = {
+const TONOS: Record<EstadoValidacion, { banner: string; icono: string; insignia: string; punto: string; sello: string; nombre: NombreIcono }> = {
   RECHAZADO: {
     banner: 'border-rose-500/20 bg-rose-500/10 shadow-rose-500/10 dark:bg-rose-500/10',
     icono: 'bg-gradient-to-br from-rose-500 to-rose-600 shadow-rose-500/40',
     insignia: 'border-rose-500/30 bg-rose-500/10 text-rose-700 shadow-rose-500/20 dark:text-rose-300',
     punto: 'bg-rose-500',
+    sello: 'border-rose-600 text-rose-600 shadow-lg shadow-rose-500/20 dark:border-rose-400 dark:text-rose-400',
     nombre: 'error',
   },
   VALIDO_CON_ADVERTENCIAS: {
@@ -37,6 +38,7 @@ const TONOS: Record<EstadoValidacion, { banner: string; icono: string; insignia:
     icono: 'bg-gradient-to-br from-amber-400 to-amber-500 shadow-amber-500/40',
     insignia: 'border-amber-500/30 bg-amber-500/10 text-amber-700 shadow-amber-500/20 dark:text-amber-300',
     punto: 'bg-amber-500',
+    sello: 'border-amber-600 text-amber-700 shadow-lg shadow-amber-500/20 dark:border-amber-400 dark:text-amber-300',
     nombre: 'advertencia',
   },
   VALIDO: {
@@ -44,6 +46,7 @@ const TONOS: Record<EstadoValidacion, { banner: string; icono: string; insignia:
     icono: 'bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-emerald-500/40',
     insignia: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 shadow-emerald-500/20 dark:text-emerald-300',
     punto: 'bg-emerald-500',
+    sello: 'border-emerald-600 text-emerald-700 shadow-lg shadow-emerald-500/20 dark:border-emerald-400 dark:text-emerald-300',
     nombre: 'ok',
   },
 };
