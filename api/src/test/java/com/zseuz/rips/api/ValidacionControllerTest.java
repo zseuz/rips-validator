@@ -77,7 +77,9 @@ class ValidacionControllerTest {
 
         mvc.perform(get("/api/v1/validaciones").param("size", "5"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].numFactura").exists())
+                // La base en memoria es compartida con otras clases de prueba: la más reciente puede no ser esta.
+                .andExpect(jsonPath("$.content[0].id").exists())
+                .andExpect(jsonPath("$.content[0].estado").exists())
                 .andExpect(jsonPath("$.content[0].hallazgos").doesNotExist())
                 .andExpect(jsonPath("$.page.size").value(5));
     }
