@@ -1,0 +1,45 @@
+name: Actualizar tablas de SISPRO
+
+# Cada mes vuelve a descargar las tablas de referencia y abre un PR si cambió algún código.
+on:
+  schedule:
+    - cron: "0 9 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Descargar tablas
+        run: python etl/descargar_tablas_sispro.py --salida catalogos
+
+      # metadatos.json cambia siempre (fecha de descarga): solo cuenta si cambió algún CSV.
+      - name: ¿Cambió algún código?
+        id: cambios
+        run: |
+          if git diff --quiet -- 'catalogos/*.csv'; then
+            git checkout -- catalogos/metadatos.json
+            echo "hay=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "hay=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Abrir PR
+        if: steps.cambios.outputs.hay == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: tablas-sispro
+          commit-message: Actualizar tablas de referencia de SISPRO
+          title: Actualizar tablas de referencia de SISPRO
+          body: Cambios en las tablas descargadas de la consulta pública de SISPRO. Revisar el CI antes de unir.
