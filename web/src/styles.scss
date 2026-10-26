@@ -1,5 +1,5 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --ancho: 1080px;
 
   --fondo: #f6f7fb;
@@ -25,29 +25,40 @@
   --radio: 14px;
 }
 
+@mixin tema-oscuro {
+  color-scheme: dark;
+  --fondo: #0d1117;
+  --superficie: #151b24;
+  --superficie-2: #1d2531;
+  --borde: #2a3342;
+  --texto: #e6edf3;
+  --texto-suave: #9aa5b8;
+
+  --primario: #2dd4bf;
+  --primario-suave: rgb(45 212 191 / 12%);
+  --acento: #818cf8;
+
+  --exito: #4ade80;
+  --exito-suave: rgb(74 222 128 / 12%);
+  --aviso: #fbbf24;
+  --aviso-suave: rgb(251 191 36 / 12%);
+  --error: #fb923c;
+  --error-fuerte: #f87171;
+  --error-suave: rgb(248 113 113 / 12%);
+
+  --sombra: 0 1px 2px rgb(0 0 0 / 40%);
+}
+
+// Sin preferencia guardada se sigue al sistema; el botón del encabezado fija
+// data-tema="claro" u "oscuro" en <html> y manda sobre el sistema.
 @media (prefers-color-scheme: dark) {
-  :root {
-    --fondo: #0d1117;
-    --superficie: #151b24;
-    --superficie-2: #1d2531;
-    --borde: #2a3342;
-    --texto: #e6edf3;
-    --texto-suave: #9aa5b8;
-
-    --primario: #2dd4bf;
-    --primario-suave: rgb(45 212 191 / 12%);
-    --acento: #818cf8;
-
-    --exito: #4ade80;
-    --exito-suave: rgb(74 222 128 / 12%);
-    --aviso: #fbbf24;
-    --aviso-suave: rgb(251 191 36 / 12%);
-    --error: #fb923c;
-    --error-fuerte: #f87171;
-    --error-suave: rgb(248 113 113 / 12%);
-
-    --sombra: 0 1px 2px rgb(0 0 0 / 40%);
+  :root:not([data-tema='claro']) {
+    @include tema-oscuro;
   }
+}
+
+:root[data-tema='oscuro'] {
+  @include tema-oscuro;
 }
 
 *,

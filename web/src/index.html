@@ -7,6 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Valida RIPS en JSON (Resolución 2275 de 2023) antes de enviarlos al Ministerio de Salud">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    // Aplica el tema guardado antes de pintar la página (ver core/tema.ts).
+    try {
+      const tema = localStorage.getItem('rips-tema');
+      if (tema === 'claro' || tema === 'oscuro') document.documentElement.dataset.tema = tema;
+    } catch {}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">

@@ -65,6 +65,30 @@ nav {
   }
 }
 
+nav {
+  align-items: center;
+}
+
+.tema {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-left: 0.35rem;
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+  background: var(--superficie);
+  color: var(--texto-suave);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, transform 0.3s;
+
+  &:hover {
+    color: var(--primario);
+    border-color: var(--primario);
+    transform: rotate(20deg);
+  }
+}
+
 main {
   flex: 1;
   width: 100%;
