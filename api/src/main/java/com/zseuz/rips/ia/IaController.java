@@ -27,13 +27,13 @@ class IaController {
         this.validaciones = validaciones;
     }
 
-    @Operation(summary = "Si la explicación con IA está disponible (hay ANTHROPIC_API_KEY) y con qué modelo")
+    @Operation(summary = "Si la explicación con IA está disponible (hay GEMINI_API_KEY o ANTHROPIC_API_KEY) y con qué modelo")
     @GetMapping("/ia")
     EstadoIa estado() {
-        return new EstadoIa(explicador.disponible(), explicador.disponible() ? explicador.modelo() : null);
+        return new EstadoIa(explicador.disponible(), explicador.modelo());
     }
 
-    @Operation(summary = "Explica un hallazgo en lenguaje sencillo con Claude",
+    @Operation(summary = "Explica un hallazgo en lenguaje sencillo con IA (Gemini o Claude)",
             description = "posicion es el índice del hallazgo en la lista de la validación, desde 0. No se envían datos personales.")
     @PostMapping("/validaciones/{id}/hallazgos/{posicion}/explicacion")
     Explicacion explicar(@PathVariable long id, @PathVariable int posicion) {

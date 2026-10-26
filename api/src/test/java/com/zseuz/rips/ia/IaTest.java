@@ -18,7 +18,7 @@ import com.zseuz.rips.reglas.Hallazgo;
 import com.zseuz.rips.reglas.Severidad;
 
 /** Sin clave (como en CI): la API arranca, avisa que la IA no está disponible y no llama a nadie. */
-@SpringBootTest(properties = "rips.ia.api-key=")
+@SpringBootTest(properties = { "rips.ia.gemini.api-key=", "rips.ia.claude.api-key=" })
 @AutoConfigureMockMvc
 class IaTest {
 

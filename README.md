@@ -199,11 +199,19 @@ Para agregar reglas basta con crear una clase que implemente
 
 ## Explicación con IA (opcional)
 
-Con la variable `ANTHROPIC_API_KEY` en la API, cada hallazgo muestra **✨ Explicar y cómo corregirlo**:
-Claude (`claude-opus-5-5`, configurable en `rips.ia.modelo`) responde qué significa, cómo corregirlo y qué
-pasa si no se corrige. No se envían datos personales (documentos ni fechas de nacimiento), las
-explicaciones se guardan para no pagar dos veces la misma y cuentan dentro del límite por minuto. Sin
-clave, todo lo demás funciona igual y el botón no aparece.
+Cada hallazgo puede mostrar **✨ Explicar y cómo corregirlo**: la IA responde qué significa, cómo
+corregirlo y qué pasa si no se corrige, en JSON estructurado. Funciona con **Gemini** o con **Claude**:
+
+| Variable de entorno | Proveedor | Modelo por defecto |
+|---|---|---|
+| `GEMINI_API_KEY` | Gemini (API REST `generateContent`) | `gemini-3.5-flash` (`rips.ia.gemini.modelo`) |
+| `ANTHROPIC_API_KEY` | Claude (SDK oficial de Anthropic) | `claude-opus-5-5` (`rips.ia.claude.modelo`) |
+
+Con `rips.ia.proveedor=auto` (por defecto) se usa Gemini si hay su clave y, si no, Claude; también se
+puede fijar `gemini` o `claude`. No se envían datos personales (documentos ni fechas de nacimiento), las
+explicaciones se guardan para no pagar dos veces la misma, cuentan dentro del límite por minuto y, si
+Gemini está sobrecargado (500/503), se reintenta dos veces antes de avisar. Sin ninguna clave, todo lo
+demás funciona igual y el botón no aparece.
 
 ## Base de datos
 
@@ -274,7 +282,7 @@ SISPRO y abre un PR si cambió algún código.
 ## Hoja de ruta
 
 - [x] Frontend en Angular: subir el archivo, ver los errores resaltados y consultar el historial
-- [x] Explicación de cada error con IA (Claude) en lenguaje sencillo
+- [x] Explicación de cada error con IA (Gemini o Claude) en lenguaje sencillo
 - [x] Reporte de Power BI descargable, conectado a la API
 - [x] Urgencias, hospitalización, recién nacidos, medicamentos y otros servicios
 - [x] Tablas de referencia oficiales de SISPRO (CIE-10, CUPS, municipios…) en la base de datos
