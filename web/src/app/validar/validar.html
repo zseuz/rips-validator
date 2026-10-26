@@ -1,50 +1,88 @@
 @if (resultado(); as r) {
-  <div class="radicado">
-    <p>
-      <span class="suave">RIPS:</span>&nbsp;<span class="codigo">{{ rips()?.nombre }}</span><br />
-      <span class="suave">Factura:</span>&nbsp;<span class="codigo">{{ factura()?.nombre }}</span>
-    </p>
-    <button class="boton" type="button" (click)="validarOtros()">Validar otros archivos</button>
+  <div class="animate-entrar mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/70 px-4 py-3 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/60">
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+      <span class="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400">
+        <app-icono nombre="archivo-codigo" [tamano]="16" class="text-indigo-500" />
+        RIPS:&nbsp;<span class="font-mono font-medium text-slate-800 dark:text-slate-100">{{ rips()?.nombre }}</span>
+      </span>
+      <span class="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400">
+        <app-icono nombre="archivo-texto" [tamano]="16" class="text-indigo-500" />
+        Factura:&nbsp;<span class="font-mono font-medium text-slate-800 dark:text-slate-100">{{ factura()?.nombre }}</span>
+      </span>
+    </div>
+    <button
+      type="button"
+      class="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg active:scale-95 dark:bg-white dark:text-slate-900"
+      (click)="validarOtros()">
+      <app-icono nombre="subir" [tamano]="16" />
+      Validar otros archivos
+    </button>
   </div>
   <app-resultado [resultado]="r" />
 } @else {
-  <section class="encabezado">
-    <h1>Revisa la cuenta antes de radicarla</h1>
-    <p>
-      Sube el RIPS en JSON y el XML de la factura electrónica. El validador revisa cada campo contra las tablas
-      oficiales de SISPRO, cruza el RIPS con la factura y te dice qué corregir antes de que el Ministerio lo devuelva.
+  <section class="animate-entrar mb-8 max-w-3xl">
+    <span class="inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
+      <app-icono nombre="escudo" [tamano]="14" />
+      Validación previa al envío al Ministerio
+    </span>
+    <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl dark:text-white">Revisa la cuenta antes de radicarla</h1>
+    <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">
+      Sube el RIPS en JSON y el XML de la factura electrónica. Cada campo se revisa contra las tablas oficiales de SISPRO,
+      se cruza el RIPS con la factura y verás qué corregir antes de que el Ministerio lo devuelva.
     </p>
   </section>
 
-  <form class="formulario" (submit)="$event.preventDefault(); validar()">
-    <div class="campos">
-      @for (campo of ['rips', 'factura']; track campo) {
-        @let esRips = campo === 'rips';
-        @let cargado = esRips ? rips() : factura();
-        <div class="campo">
-          <span class="campo__nombre" [id]="'etiqueta-' + campo">{{ esRips ? 'RIPS de la factura' : 'Factura electrónica' }}</span>
-          <span class="campo__ayuda">{{ esRips ? 'Archivo .json de la Resolución 2275 de 2023' : 'Archivo .xml de la DIAN (Invoice o AttachedDocument)' }}</span>
+  <form
+    class="animate-entrar rounded-2xl border border-slate-200/80 bg-white/70 p-5 shadow-xl shadow-slate-900/5 backdrop-blur-md sm:p-7 dark:border-slate-800 dark:bg-slate-900/60"
+    style="animation-delay: 100ms"
+    (submit)="$event.preventDefault(); validar()">
+    <div class="grid gap-5 md:grid-cols-2">
+      @for (campo of campos; track campo.id) {
+        @let cargado = campo.id === 'rips' ? rips() : factura();
+        <div>
+          <p class="font-semibold text-slate-900 dark:text-white" [id]="'etiqueta-' + campo.id">{{ campo.nombre }}</p>
+          <p class="mb-3 text-sm text-slate-500 dark:text-slate-400">{{ campo.ayuda }}</p>
 
           @if (cargado; as a) {
-            <div class="archivo">
-              <span class="archivo__nombre codigo">{{ a.nombre }}</span>
-              <span class="suave">{{ a.tamano }}</span>
-              <button class="enlace" type="button" (click)="quitar($any(campo))" [disabled]="validando()">Quitar</button>
+            <div class="animate-asentar flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-emerald-500 text-white shadow-md shadow-emerald-500/30">
+                <app-icono nombre="ok" [tamano]="22" />
+              </span>
+              <span class="min-w-0 flex-1">
+                <span class="block truncate font-mono text-sm font-semibold text-slate-900 dark:text-white">{{ a.nombre }}</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">{{ a.tamano }}</span>
+              </span>
+              <button
+                type="button"
+                class="grid h-9 w-9 place-items-center rounded-lg text-slate-500 transition hover:bg-white hover:text-rose-600 dark:hover:bg-slate-800"
+                [attr.aria-label]="'Quitar ' + a.nombre"
+                [disabled]="validando()"
+                (click)="quitar(campo.id)">
+                <app-icono nombre="cerrar" [tamano]="18" />
+              </button>
             </div>
           } @else {
+            @let encima = arrastrando() === campo.id;
             <label
-              class="zona"
-              [class.zona--encima]="arrastrando() === campo"
-              (dragover)="$event.preventDefault(); arrastrando.set($any(campo))"
+              class="group flex cursor-pointer flex-col items-center gap-3 rounded-2xl border-2 border-dashed px-4 py-8 text-center transition-all duration-300 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-500/15"
+              [class]="encima
+                ? 'scale-[1.02] border-indigo-500 bg-indigo-500/10'
+                : 'border-slate-300 bg-slate-50/60 hover:border-indigo-400 hover:bg-indigo-500/5 dark:border-slate-700 dark:bg-slate-800/30 dark:hover:border-indigo-500'"
+              (dragover)="$event.preventDefault(); arrastrando.set(campo.id)"
               (dragleave)="arrastrando.set(null)"
-              (drop)="alSoltar($any(campo), $event)">
+              (drop)="alSoltar(campo.id, $event)">
               <input
                 type="file"
                 class="sr-only"
-                [attr.aria-labelledby]="'etiqueta-' + campo"
-                [accept]="esRips ? '.json,application/json' : '.xml,application/xml,text/xml'"
-                (change)="alElegir($any(campo), $event)" />
-              Arrastra el archivo aquí o <span class="zona__elegir">elígelo</span>
+                [attr.aria-labelledby]="'etiqueta-' + campo.id"
+                [accept]="campo.acepta"
+                (change)="alElegir(campo.id, $event)" />
+              <span class="grid h-12 w-12 place-items-center rounded-2xl bg-indigo-500/10 text-indigo-600 transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110 dark:text-indigo-300">
+                <app-icono [nombre]="campo.icono" [tamano]="24" />
+              </span>
+              <span class="text-sm text-slate-600 dark:text-slate-300">
+                Arrastra el archivo aquí o <span class="font-semibold text-indigo-600 underline-offset-4 group-hover:underline dark:text-indigo-300">elígelo</span>
+              </span>
             </label>
           }
         </div>
@@ -52,50 +90,52 @@
     </div>
 
     @if (error(); as mensaje) {
-      <p class="alerta" role="alert">{{ mensaje }}</p>
+      <p class="animate-entrar mt-5 flex items-start gap-2 rounded-xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300" role="alert">
+        <app-icono nombre="error" [tamano]="18" class="mt-0.5" />
+        {{ mensaje }}
+      </p>
     }
 
-    <div class="acciones">
-      <button class="boton boton--primario" type="submit" [disabled]="!rips() || !factura() || validando()">
+    <div class="mt-6 flex flex-wrap items-center gap-4 border-t border-slate-200/80 pt-6 dark:border-slate-800">
+      <button
+        type="submit"
+        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/40 active:scale-95 disabled:translate-y-0 disabled:cursor-not-allowed disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none dark:disabled:from-slate-700 dark:disabled:to-slate-700"
+        [disabled]="!rips() || !factura() || validando()">
+        <app-icono nombre="escudo" [tamano]="18" />
         {{ validando() ? 'Validando…' : 'Validar' }}
       </button>
       @if (faltan(); as f) {
-        <span class="suave">Falta {{ f }}.</span>
+        <span class="text-sm text-slate-500 dark:text-slate-400">Falta {{ f }}.</span>
       }
     </div>
 
-    <p class="ejemplos">
+    <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">
       ¿No tienes archivos a mano? Prueba con un ejemplo sintético:
-      <button class="enlace" type="button" [disabled]="validando()" (click)="usarEjemplo('correcto')">cuenta correcta</button>
+      <button type="button" class="font-semibold text-indigo-600 hover:underline disabled:opacity-50 dark:text-indigo-300" [disabled]="validando()" (click)="usarEjemplo('correcto')">cuenta correcta</button>
       o
-      <button class="enlace" type="button" [disabled]="validando()" (click)="usarEjemplo('errores')">cuenta con errores</button>.
+      <button type="button" class="font-semibold text-indigo-600 hover:underline disabled:opacity-50 dark:text-indigo-300" [disabled]="validando()" (click)="usarEjemplo('errores')">cuenta con errores</button>.
     </p>
   </form>
 
-  <section class="revisiones" aria-labelledby="que-revisa">
-    <h2 id="que-revisa">Qué revisa</h2>
-    <dl>
-      <div>
-        <dt>Códigos oficiales</dt>
-        <dd>Cada código debe existir y estar habilitado en SISPRO: CIE-10, CUPS, municipios, países, prestadores del REPS y 18 tablas más.</dd>
-      </div>
-      <div>
-        <dt>Usuarios y servicios</dt>
-        <dd>Consultas, procedimientos, urgencias, hospitalización, recién nacidos, medicamentos y otros servicios, con sus fechas y consecutivos.</dd>
-      </div>
-      <div>
-        <dt>Coherencia clínica</dt>
-        <dd>Diagnósticos que no aplican al sexo o a la edad, CUPS de consulta reportados como procedimiento, egresos antes del ingreso.</dd>
-      </div>
-      <div>
-        <dt>Cruce con la factura</dt>
-        <dd>Número de factura, NIT del emisor, valor total y fechas del XML frente a lo que dice el RIPS.</dd>
-      </div>
-    </dl>
+  <section class="mt-12" aria-labelledby="que-revisa">
+    <h2 id="que-revisa" class="text-xl font-bold text-slate-900 dark:text-white">Qué revisa</h2>
+    <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      @for (r of revisiones; track r.titulo; let i = $index) {
+        <div
+          class="animate-entrar group rounded-2xl border border-slate-200/80 bg-white/70 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900/60"
+          [style.animation-delay.ms]="200 + i * 80">
+          <span class="grid h-10 w-10 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110 {{ r.tono }}">
+            <app-icono [nombre]="r.icono" [tamano]="20" />
+          </span>
+          <h3 class="mt-4 font-semibold text-slate-900 dark:text-white">{{ r.titulo }}</h3>
+          <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-400">{{ r.texto }}</p>
+        </div>
+      }
+    </div>
     @if (resumenTablas(); as t) {
-      <p class="fuente">
-        La API tiene cargadas {{ t.cantidad }} tablas de SISPRO, con {{ t.cie10 }} diagnósticos, {{ t.cups }} procedimientos
-        y {{ t.reps }} sedes de prestadores.
+      <p class="mt-5 text-sm text-slate-500 dark:text-slate-400">
+        La API tiene cargadas {{ t.cantidad }} tablas de SISPRO, con {{ t.cie10 }} diagnósticos, {{ t.cups }} procedimientos y
+        {{ t.reps }} sedes de prestadores.
         @if (t.fecha) {
           Descargadas el {{ t.fecha }}
         }

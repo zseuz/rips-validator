@@ -1,8 +1,10 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
+import { Contador } from '../core/contador';
 import { ESTADOS, formatearFecha } from '../core/formato';
-import { Explicacion, Hallazgo, ResultadoValidacion, Severidad } from '../core/modelos';
+import { Icono, NombreIcono } from '../core/icono';
+import { EstadoValidacion, Explicacion, Hallazgo, ResultadoValidacion, Severidad } from '../core/modelos';
 import { RipsApi } from '../core/rips-api';
 import { describirRuta } from '../core/ruta';
 
@@ -18,6 +20,47 @@ interface EstadoExplicacion {
 const comparadorRutas = new Intl.Collator('es', { numeric: true });
 const enOrdenDelArchivo = (a: Hallazgo, b: Hallazgo) => comparadorRutas.compare(a.ruta, b.ruta);
 
+/**
+ * Colores de cada estado. Las clases van completas (no armadas por partes) para que Tailwind las
+ * encuentre al compilar.
+ */
+const TONOS: Record<EstadoValidacion, { banner: string; icono: string; halo: string; chip: string; titulo: string; nombre: NombreIcono }> = {
+  RECHAZADO: {
+    banner: 'border-rose-500/20 bg-rose-500/10 shadow-rose-500/10 dark:bg-rose-500/10',
+    icono: 'bg-gradient-to-br from-rose-500 to-rose-600 shadow-rose-500/40',
+    halo: 'bg-rose-500',
+    chip: 'bg-rose-500/15 text-rose-700 ring-rose-500/30 dark:text-rose-300',
+    titulo: 'text-rose-700 dark:text-rose-300',
+    nombre: 'error',
+  },
+  VALIDO_CON_ADVERTENCIAS: {
+    banner: 'border-amber-500/20 bg-amber-500/10 shadow-amber-500/10 dark:bg-amber-500/10',
+    icono: 'bg-gradient-to-br from-amber-400 to-amber-500 shadow-amber-500/40',
+    halo: 'bg-amber-500',
+    chip: 'bg-amber-500/15 text-amber-700 ring-amber-500/30 dark:text-amber-300',
+    titulo: 'text-amber-700 dark:text-amber-300',
+    nombre: 'advertencia',
+  },
+  VALIDO: {
+    banner: 'border-emerald-500/20 bg-emerald-500/10 shadow-emerald-500/10 dark:bg-emerald-500/10',
+    icono: 'bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-emerald-500/40',
+    halo: 'bg-emerald-500',
+    chip: 'bg-emerald-500/15 text-emerald-700 ring-emerald-500/30 dark:text-emerald-300',
+    titulo: 'text-emerald-700 dark:text-emerald-300',
+    nombre: 'ok',
+  },
+};
+
+interface Kpi {
+  etiqueta: string;
+  icono: NombreIcono;
+  /** Clases del cuadro del ícono y, si aplica, del fondo de la tarjeta. */
+  tono: string;
+  tarjeta: string;
+  numero?: number;
+  texto?: string;
+}
+
 interface ResumenRegla {
   codigo: string;
   titulo: string;
@@ -28,8 +71,8 @@ interface ResumenRegla {
 /** Muestra el resultado de una validación: estado, totales y la lista filtrable de hallazgos. */
 @Component({
   selector: 'app-resultado',
+  imports: [Icono, Contador],
   templateUrl: './resultado.html',
-  styleUrl: './resultado.scss',
 })
 export class Resultado {
   readonly resultado = input.required<ResultadoValidacion>();
@@ -41,11 +84,38 @@ export class Resultado {
   /** Explicaciones pedidas, por posición del hallazgo en la respuesta de la API. */
   protected readonly explicaciones = signal(new Map<number, EstadoExplicacion>());
 
+  protected readonly filtros: { valor: Filtro; etiqueta: string }[] = [
+    { valor: 'TODOS', etiqueta: 'Todos' },
+    { valor: 'ERROR', etiqueta: 'Errores' },
+    { valor: 'ADVERTENCIA', etiqueta: 'Advertencias' },
+  ];
   protected readonly filtro = signal<Filtro>('TODOS');
   protected readonly regla = signal<string | null>(null);
   protected readonly busqueda = signal('');
 
   protected readonly estado = computed(() => ESTADOS[this.resultado().estado]);
+  protected readonly tono = computed(() => TONOS[this.resultado().estado]);
+
+  protected readonly kpis = computed<Kpi[]>(() => {
+    const r = this.resultado();
+    const neutra = 'border-slate-200/80 bg-white/70 dark:border-slate-800 dark:bg-slate-900/60';
+    return [
+      { etiqueta: 'Factura', icono: 'archivo-texto', tono: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-300', tarjeta: neutra, texto: r.numFactura ?? 'Sin número' },
+      { etiqueta: 'Obligado', icono: 'edificio', tono: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-300', tarjeta: neutra, texto: r.numDocumentoIdObligado ?? 'Sin NIT' },
+      { etiqueta: 'Usuarios', icono: 'usuarios', tono: 'bg-sky-500/10 text-sky-600 dark:text-sky-300', tarjeta: neutra, numero: r.totalUsuarios },
+      { etiqueta: 'Servicios', icono: 'estetoscopio', tono: 'bg-violet-500/10 text-violet-600 dark:text-violet-300', tarjeta: neutra, numero: r.totalServicios },
+      {
+        etiqueta: 'Errores', icono: 'error', numero: r.totalErrores,
+        tono: 'bg-rose-500/15 text-rose-600 dark:text-rose-300',
+        tarjeta: r.totalErrores > 0 ? 'border-rose-500/25 bg-rose-500/10 shadow-rose-500/10 dark:bg-rose-500/10' : neutra,
+      },
+      {
+        etiqueta: 'Advertencias', icono: 'advertencia', numero: r.totalAdvertencias,
+        tono: 'bg-amber-500/15 text-amber-600 dark:text-amber-300',
+        tarjeta: r.totalAdvertencias > 0 ? 'border-amber-500/25 bg-amber-500/10 shadow-amber-500/10 dark:bg-amber-500/10' : neutra,
+      },
+    ];
+  });
   protected readonly fecha = computed(() => formatearFecha(this.resultado().fechaValidacion));
 
   /** Hallazgos agrupados por regla, de la más frecuente a la menos. */

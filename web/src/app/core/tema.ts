@@ -19,6 +19,23 @@ export class TemaService {
     effect(() => {
       this.raiz.dataset['tema'] = this.tema();
     });
+    // Mientras la persona no elija, el tema sigue los cambios del sistema (p. ej. modo nocturno).
+    // matchMedia puede no existir fuera del navegador (pruebas con jsdom).
+    if (typeof matchMedia === 'function') {
+      matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!this.elegido()) {
+          this.tema.set(e.matches ? 'oscuro' : 'claro');
+        }
+      });
+    }
+  }
+
+  private elegido(): boolean {
+    try {
+      return localStorage.getItem(CLAVE) !== null;
+    } catch {
+      return false;
+    }
   }
 
   /** Cambia de tema y lo recuerda para las próximas visitas. */
@@ -36,6 +53,6 @@ export class TemaService {
     if (guardado === 'claro' || guardado === 'oscuro') {
       return guardado;
     }
-    return matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro';
+    return typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro';
   }
 }

@@ -5,6 +5,7 @@ import { catchError, map, of, startWith, switchMap } from 'rxjs';
 
 import { ResultadoValidacion } from '../core/modelos';
 import { RipsApi } from '../core/rips-api';
+import { Icono } from '../core/icono';
 import { Resultado } from '../resultado/resultado';
 
 type Estado = { cargando: true } | { cargando: false; resultado?: ResultadoValidacion; error?: string };
@@ -12,23 +13,21 @@ type Estado = { cargando: true } | { cargando: false; resultado?: ResultadoValid
 /** Una validación del historial, abierta desde /validaciones/:id. */
 @Component({
   selector: 'app-detalle',
-  imports: [Resultado, RouterLink],
+  imports: [Resultado, RouterLink, Icono],
   template: `
-    <a class="volver" routerLink="/historial">Volver al historial</a>
+    <a routerLink="/historial"
+       class="mb-5 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-500/10 dark:text-indigo-300">
+      <app-icono nombre="atras" [tamano]="16" />
+      Volver al historial
+    </a>
     @let e = estado();
     @if (e.cargando) {
-      <p class="suave">Cargando…</p>
+      <div class="h-40 animate-pulse rounded-2xl bg-slate-200/70 dark:bg-slate-800/70"></div>
     } @else if (e.resultado) {
       <app-resultado [resultado]="e.resultado" />
     } @else {
-      <p class="alerta" role="alert">{{ e.error }}</p>
+      <p class="rounded-xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-rose-700 dark:text-rose-300" role="alert">{{ e.error }}</p>
     }
-  `,
-  styles: `
-    :host { display: grid; gap: 1.25rem; }
-    .volver { justify-self: start; color: var(--sello); font-weight: 500; }
-    
-    
   `,
 })
 export class Detalle {

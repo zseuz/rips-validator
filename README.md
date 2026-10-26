@@ -9,6 +9,7 @@ y explica cada error con la ruta exacta del campo.
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot_4-6DB33F?style=flat-square&logo=springboot&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Angular](https://img.shields.io/badge/Angular_22-DD0031?style=flat-square&logo=angular&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
@@ -85,7 +86,7 @@ flowchart LR
 | Carpeta | Contenido |
 |---|---|
 | [`api/`](api) | API REST en Spring Boot 4 (Java 21) con las reglas, el historial y Swagger |
-| [`web/`](web) | Frontend en Angular 22: arrastrar el archivo, ver los hallazgos filtrables y consultar el historial |
+| [`web/`](web) | Frontend en Angular 22 con Tailwind CSS 4 e íconos de Lucide: arrastrar el archivo, ver los hallazgos filtrables y consultar el historial |
 | [`etl/`](etl) | Descarga de tablas de SISPRO, generador de RIPS sintéticos y validador por lotes con reporte en CSV y Excel |
 | [`catalogos/`](catalogos) | Las 16 tablas de referencia de SISPRO en CSV y `metadatos.json` con la fecha de descarga |
 | [`powerbi/`](powerbi) | Reporte de Power BI (PBIP) con 5 páginas y su generador |

@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, forkJoin, of } from 'rxjs';
 
 import { formatearFecha, formatearTamano } from '../core/formato';
+import { Icono, NombreIcono } from '../core/icono';
 import { ResultadoValidacion } from '../core/modelos';
 import { RipsApi } from '../core/rips-api';
 import { Resultado } from '../resultado/resultado';
@@ -28,12 +29,43 @@ const EJEMPLOS = {
  */
 @Component({
   selector: 'app-validar',
-  imports: [Resultado],
+  imports: [Resultado, Icono],
   templateUrl: './validar.html',
-  styleUrl: './validar.scss',
 })
 export class Validar {
   private readonly api = inject(RipsApi);
+
+  protected readonly campos: { id: Campo; nombre: string; ayuda: string; acepta: string; icono: NombreIcono }[] = [
+    { id: 'rips', nombre: 'RIPS de la factura', ayuda: 'Archivo .json de la Resolución 2275 de 2023', acepta: '.json,application/json', icono: 'archivo-codigo' },
+    { id: 'factura', nombre: 'Factura electrónica', ayuda: 'Archivo .xml de la DIAN (Invoice o AttachedDocument)', acepta: '.xml,application/xml,text/xml', icono: 'archivo-texto' },
+  ];
+
+  protected readonly revisiones: { titulo: string; texto: string; icono: NombreIcono; tono: string }[] = [
+    {
+      titulo: 'Códigos oficiales',
+      texto: 'Cada código debe existir y estar habilitado en SISPRO: CIE-10, CUPS, municipios, prestadores del REPS y más.',
+      icono: 'escudo',
+      tono: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-300',
+    },
+    {
+      titulo: 'Usuarios y servicios',
+      texto: 'Consultas, procedimientos, urgencias, hospitalización, recién nacidos, medicamentos y otros servicios.',
+      icono: 'usuarios',
+      tono: 'bg-sky-500/10 text-sky-600 dark:text-sky-300',
+    },
+    {
+      titulo: 'Coherencia clínica',
+      texto: 'Diagnósticos que no aplican al sexo o a la edad, CUPS mal clasificados y egresos antes del ingreso.',
+      icono: 'estetoscopio',
+      tono: 'bg-violet-500/10 text-violet-600 dark:text-violet-300',
+    },
+    {
+      titulo: 'Cruce con la factura',
+      texto: 'Número de factura, NIT del emisor, valor total y fechas del XML frente a lo que dice el RIPS.',
+      icono: 'archivo-texto',
+      tono: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-300',
+    },
+  ];
 
   protected readonly rips = signal<Archivo | null>(null);
   protected readonly factura = signal<Archivo | null>(null);

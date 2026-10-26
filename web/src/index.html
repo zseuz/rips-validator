@@ -10,13 +10,15 @@
   <script>
     // Aplica el tema guardado antes de pintar la página (ver core/tema.ts).
     try {
-      const tema = localStorage.getItem('rips-tema');
-      if (tema === 'claro' || tema === 'oscuro') document.documentElement.dataset.tema = tema;
+      const guardado = localStorage.getItem('rips-tema');
+      const tema = guardado === 'claro' || guardado === 'oscuro' ? guardado
+        : matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro';
+      document.documentElement.dataset.tema = tema;
     } catch {}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
   <app-root></app-root>

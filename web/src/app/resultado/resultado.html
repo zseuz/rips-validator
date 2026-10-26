@@ -1,130 +1,212 @@
 @let r = resultado();
+@let t = tono();
 
-<section class="veredicto veredicto--{{ r.estado }}">
-  <p class="sello" aria-hidden="true">
-    <span class="sello__texto">{{ estado().sello }}</span>
-    <span class="sello__fecha">{{ fecha() }}</span>
-  </p>
-  <div class="veredicto__texto">
-    <h2>{{ estado().titulo }}</h2>
-    <p class="veredicto__detalle">{{ estado().detalle }}</p>
-  </div>
+<div class="grid gap-6">
+  <!-- Banner de estado -->
+  <section
+    class="animate-asentar relative overflow-hidden rounded-2xl border p-6 shadow-xl backdrop-blur-md sm:p-8 {{ t.banner }}">
+    <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
+      <div class="relative grid h-16 w-16 shrink-0 place-items-center">
+        <span class="animate-halo absolute inset-0 rounded-2xl {{ t.halo }}"></span>
+        <span class="relative grid h-16 w-16 place-items-center rounded-2xl text-white shadow-lg {{ t.icono }}">
+          <app-icono [nombre]="t.nombre" [tamano]="32" [trazo]="2" />
+        </span>
+      </div>
 
-  <!-- Casillas de formulario: los datos de la cuenta y sus totales, como en una planilla de radicación. -->
-  <dl class="casillas">
-    <div class="casilla casilla--ancha">
-      <dt>Factura</dt>
-      <dd class="codigo">{{ r.numFactura ?? 'sin número' }}</dd>
+      <div class="min-w-0 flex-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase ring-1 {{ t.chip }}">{{ estado().sello }}</span>
+          <span class="text-sm text-slate-500 dark:text-slate-400">{{ fecha() }}</span>
+        </div>
+        <h2 class="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl {{ t.titulo }}">{{ estado().titulo }}</h2>
+        <p class="mt-1 text-slate-600 dark:text-slate-300">{{ estado().detalle }}</p>
+      </div>
+
+      <span class="self-start rounded-lg bg-white/70 px-3 py-1.5 text-sm font-medium text-slate-600 ring-1 ring-slate-200 sm:self-center dark:bg-slate-900/60 dark:text-slate-300 dark:ring-slate-700">
+        Validación n.º {{ r.id }}
+      </span>
     </div>
-    <div class="casilla casilla--ancha">
-      <dt>Obligado</dt>
-      <dd class="codigo">{{ r.numDocumentoIdObligado ?? 'sin NIT' }}</dd>
-    </div>
-    <div class="casilla">
-      <dt>Usuarios</dt>
-      <dd>{{ r.totalUsuarios }}</dd>
-    </div>
-    <div class="casilla">
-      <dt>Servicios</dt>
-      <dd>{{ r.totalServicios }}</dd>
-    </div>
-    <div class="casilla" [class.casilla--error]="r.totalErrores > 0">
-      <dt>Errores</dt>
-      <dd>{{ r.totalErrores }}</dd>
-    </div>
-    <div class="casilla" [class.casilla--aviso]="r.totalAdvertencias > 0">
-      <dt>Advertencias</dt>
-      <dd>{{ r.totalAdvertencias }}</dd>
-    </div>
+  </section>
+
+  <!-- Métricas -->
+  <dl class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+    @for (k of kpis(); track k.etiqueta; let i = $index) {
+      <div
+        class="animate-entrar group rounded-2xl border p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl {{ k.tarjeta }}"
+        [style.animation-delay.ms]="120 + i * 70">
+        <dt class="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
+          <span class="grid h-9 w-9 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110 {{ k.tono }}">
+            <app-icono [nombre]="k.icono" [tamano]="18" />
+          </span>
+          {{ k.etiqueta }}
+        </dt>
+        <dd class="mt-3 truncate font-bold tracking-tight text-slate-900 dark:text-white"
+            [class.text-3xl]="k.numero !== undefined"
+            [class.font-mono]="k.texto !== undefined"
+            [class.text-lg]="k.texto !== undefined">
+          @if (k.numero !== undefined) {
+            <app-contador [valor]="k.numero" />
+          } @else {
+            {{ k.texto }}
+          }
+        </dd>
+      </div>
+    }
   </dl>
-  <p class="veredicto__pie">Validación n.º {{ r.id }}</p>
-</section>
 
-@if (r.hallazgos.length > 0) {
-  <section class="hallazgos" aria-labelledby="titulo-hallazgos">
-    <header class="hallazgos__cabecera">
-      <h3 id="titulo-hallazgos">Qué corregir</h3>
-      <button class="enlace" type="button" (click)="descargarCsv()">Descargar CSV</button>
-    </header>
-
-    <div class="reglas" aria-label="Hallazgos por regla">
-      @for (g of porRegla(); track g.codigo) {
+  @if (r.hallazgos.length > 0) {
+    <!-- Qué corregir -->
+    <section
+      class="animate-entrar rounded-2xl border border-slate-200/80 bg-white/70 p-5 shadow-xl shadow-slate-900/5 backdrop-blur-md sm:p-6 dark:border-slate-800 dark:bg-slate-900/60"
+      style="animation-delay: 450ms"
+      aria-labelledby="titulo-hallazgos">
+      <header class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <h3 id="titulo-hallazgos" class="text-lg font-bold text-slate-900 dark:text-white">Qué corregir</h3>
+          <span class="rounded-full bg-slate-900 px-2.5 py-0.5 text-xs font-bold text-white dark:bg-white dark:text-slate-900">{{ r.hallazgos.length }}</span>
+        </div>
         <button
           type="button"
-          class="regla regla--{{ g.severidad }}"
-          [class.regla--activa]="regla() === g.codigo"
-          [attr.aria-pressed]="regla() === g.codigo"
-          [attr.aria-label]="g.codigo + ', ' + g.titulo + ': ' + g.cantidad + (g.cantidad === 1 ? ' hallazgo' : ' hallazgos')"
-          (click)="alternarRegla(g.codigo)">
-          <span class="codigo">{{ g.codigo }}</span>
-          <span class="regla__titulo">{{ g.titulo }}</span>
-          <span class="regla__cantidad">{{ g.cantidad }}</span>
+          class="inline-flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5 px-3.5 py-2 text-sm font-semibold text-indigo-600 transition-all hover:-translate-y-0.5 hover:bg-indigo-500/10 hover:shadow-md active:scale-95 dark:text-indigo-300"
+          (click)="descargarCsv()">
+          <app-icono nombre="descargar" [tamano]="16" />
+          Descargar CSV
         </button>
-      }
-    </div>
+      </header>
 
-    <div class="herramientas">
-      <div class="segmentos" role="group" aria-label="Severidad">
-        <button type="button" [attr.aria-pressed]="filtro() === 'TODOS'" (click)="filtro.set('TODOS')">Todos</button>
-        <button type="button" [attr.aria-pressed]="filtro() === 'ERROR'" (click)="filtro.set('ERROR')">Errores</button>
-        <button type="button" [attr.aria-pressed]="filtro() === 'ADVERTENCIA'" (click)="filtro.set('ADVERTENCIA')">Advertencias</button>
+      <!-- Por regla: chips que filtran la lista -->
+      <div class="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" aria-label="Hallazgos por regla">
+        @for (g of porRegla(); track g.codigo) {
+          @let activa = regla() === g.codigo;
+          <button
+            type="button"
+            class="regla group flex items-center gap-3 rounded-xl border px-3 py-2.5 text-left text-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            [class]="activa
+              ? 'border-indigo-500 bg-indigo-500/10 ring-2 ring-indigo-500/30 dark:bg-indigo-500/15'
+              : 'border-slate-200 bg-white/60 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800/40 dark:hover:border-slate-600'"
+            [attr.aria-pressed]="activa"
+            [attr.aria-label]="g.codigo + ', ' + g.titulo + ': ' + g.cantidad + (g.cantidad === 1 ? ' hallazgo' : ' hallazgos')"
+            (click)="alternarRegla(g.codigo)">
+            <span
+              class="rounded-md px-2 py-0.5 font-mono text-xs font-semibold"
+              [class]="g.severidad === 'ERROR' ? 'bg-rose-500/10 text-rose-600 dark:text-rose-300' : 'bg-amber-500/10 text-amber-700 dark:text-amber-300'">
+              {{ g.codigo }}
+            </span>
+            <span class="min-w-0 flex-1 text-slate-700 dark:text-slate-200">{{ g.titulo }}</span>
+            <span class="grid h-6 min-w-6 place-items-center rounded-full bg-slate-100 px-1.5 text-xs font-bold text-slate-700 dark:bg-slate-700 dark:text-slate-100">{{ g.cantidad }}</span>
+          </button>
+        }
       </div>
-      <label class="buscar">
-        <span class="sr-only">Buscar</span>
-        <input type="search" placeholder="Buscar por campo, valor o mensaje" [value]="busqueda()" (input)="busqueda.set($any($event.target).value)" />
-      </label>
-    </div>
 
-    <ol class="lista">
-      @for (h of visibles(); track $index) {
-        <li class="hallazgo hallazgo--{{ h.severidad }}">
-          <div class="hallazgo__marca">
-            <span class="codigo">{{ h.codigo }}</span>
-            <span class="estado estado--{{ h.severidad }}">{{ h.severidad === 'ERROR' ? 'Error' : 'Advertencia' }}</span>
-          </div>
-          <div class="hallazgo__cuerpo">
-            <p class="migas">
-              @for (parte of migas(h.ruta); track $index) {
-                <span>{{ parte }}</span>
-              }
-            </p>
-            <p class="hallazgo__mensaje">{{ h.mensaje }}</p>
-            <p class="hallazgo__detalle">
+      <!-- Filtros -->
+      <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200/80 pt-5 dark:border-slate-800">
+        <div class="segmentos inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800/80" role="group" aria-label="Severidad">
+          @for (opcion of filtros; track opcion.valor) {
+            <button
+              type="button"
+              class="rounded-lg px-3.5 py-1.5 text-sm font-semibold transition-all"
+              [class]="filtro() === opcion.valor
+                ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white'
+                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'"
+              [attr.aria-pressed]="filtro() === opcion.valor"
+              (click)="filtro.set(opcion.valor)">
+              {{ opcion.etiqueta }}
+            </button>
+          }
+        </div>
+        <label class="relative w-full sm:w-80">
+          <span class="sr-only">Buscar</span>
+          <app-icono nombre="buscar" [tamano]="16" class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-slate-400" />
+          <input
+            type="search"
+            placeholder="Buscar por campo, valor o mensaje"
+            class="w-full rounded-xl border border-slate-200 bg-white/80 py-2 pr-3 pl-9 text-sm text-slate-800 placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 focus:outline-none dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-100"
+            [value]="busqueda()"
+            (input)="busqueda.set($any($event.target).value)" />
+        </label>
+      </div>
+
+      <!-- Lista de hallazgos -->
+      <ol class="mt-4 grid gap-3">
+        @for (h of visibles(); track h; let i = $index) {
+          @let esError = h.severidad === 'ERROR';
+          <li
+            class="hallazgo animate-entrar relative overflow-hidden rounded-xl border border-slate-200/80 bg-white/80 p-4 pl-5 transition-all duration-200 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/70"
+            [style.animation-delay.ms]="i < 12 ? i * 35 : 0">
+            <span class="absolute inset-y-0 left-0 w-1" [class]="esError ? 'bg-rose-500' : 'bg-amber-400'"></span>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200">{{ h.codigo }}</span>
+              <span
+                class="estado inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold"
+                [class]="esError ? 'bg-rose-500/10 text-rose-600 dark:text-rose-300' : 'bg-amber-500/10 text-amber-700 dark:text-amber-300'">{{ esError ? 'Error' : 'Advertencia' }}</span>
+              <span class="flex flex-wrap items-center gap-1 text-sm font-semibold text-slate-900 dark:text-white">
+                @for (parte of migas(h.ruta); track $index; let ultima = $last) {
+                  <span>{{ parte }}</span>
+                  @if (!ultima) {
+                    <app-icono nombre="siguiente" [tamano]="14" class="text-slate-400" />
+                  }
+                }
+              </span>
+            </div>
+
+            <p class="mt-2 text-slate-700 dark:text-slate-300">{{ h.mensaje }}</p>
+            <p class="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
               @if (h.valor !== null) {
-                Valor recibido <code class="valor">{{ h.valor }}</code> en
+                <span>Valor recibido</span>
+                <code class="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-slate-800 dark:bg-slate-800 dark:text-slate-100">{{ h.valor }}</code>
+                <span>en</span>
               }
-              <code>{{ h.ruta }}</code>
+              <code class="font-mono break-all">{{ h.ruta }}</code>
             </p>
+
             @if (ia().disponible) {
               @let e = explicaciones().get(posicion(h));
               @if (!e) {
-                <button class="enlace explicar" type="button" (click)="explicar(h)">Explicar y cómo corregirlo</button>
+                <button
+                  type="button"
+                  class="mt-3 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-semibold text-indigo-600 transition-all hover:bg-indigo-500/10 active:scale-95 dark:text-indigo-300"
+                  (click)="explicar(h)">
+                  <app-icono nombre="chispas" [tamano]="16" />
+                  Explicar y cómo corregirlo
+                </button>
               } @else if (e?.cargando) {
-                <p class="explicacion explicacion--cargando">Consultando a {{ ia().modelo }}…</p>
+                <div
+                  class="animate-brillo mt-3 rounded-xl bg-gradient-to-r from-indigo-500/5 via-violet-500/15 to-indigo-500/5 bg-[length:200%_100%] px-4 py-3 text-sm font-medium text-indigo-700 dark:text-indigo-300">
+                  Consultando a {{ ia().modelo }}…
+                </div>
               } @else if (e?.explicacion; as x) {
-                <div class="explicacion">
-                  <p><strong>Qué significa.</strong> {{ x.queSignifica }}</p>
-                  <p><strong>Cómo corregirlo.</strong> {{ x.comoCorregirlo }}</p>
-                  <p><strong>Si no se corrige.</strong> {{ x.impacto }}</p>
-                  <p class="explicacion__pie">Explicación generada con IA ({{ ia().modelo }}). Verifícala antes de corregir.</p>
+                <div class="animate-entrar mt-3 rounded-xl border border-indigo-500/20 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-4 text-sm">
+                  <p class="mb-2 inline-flex items-center gap-1.5 font-semibold text-indigo-700 dark:text-indigo-300">
+                    <app-icono nombre="chispas" [tamano]="16" /> Explicación de {{ ia().modelo }}
+                  </p>
+                  <dl class="grid gap-2 text-slate-700 dark:text-slate-300">
+                    <div><dt class="font-semibold text-slate-900 dark:text-white">Qué significa</dt><dd>{{ x.queSignifica }}</dd></div>
+                    <div><dt class="font-semibold text-slate-900 dark:text-white">Cómo corregirlo</dt><dd>{{ x.comoCorregirlo }}</dd></div>
+                    <div><dt class="font-semibold text-slate-900 dark:text-white">Si no se corrige</dt><dd>{{ x.impacto }}</dd></div>
+                  </dl>
+                  <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Generada con IA: verifícala antes de corregir.</p>
                 </div>
               } @else {
-                <p class="explicacion explicacion--error">
+                <p class="mt-3 flex flex-wrap items-center gap-2 rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">
                   {{ e?.error }}
-                  <button class="enlace" type="button" (click)="explicar(h)">Intentar de nuevo</button>
+                  <button type="button" class="font-semibold underline" (click)="explicar(h)">Intentar de nuevo</button>
                 </p>
               }
             }
-          </div>
-        </li>
-      } @empty {
-        <li class="sin-coincidencias">
-          Ningún hallazgo coincide con los filtros.
-          <button class="enlace" type="button" (click)="limpiarFiltros()">Quitar filtros</button>
-        </li>
-      }
-    </ol>
-  </section>
-} @else {
-  <p class="limpio">El archivo pasó todas las reglas y cuadra con su factura.</p>
-}
+          </li>
+        } @empty {
+          <li class="rounded-xl border border-dashed border-slate-300 p-6 text-center text-slate-500 dark:border-slate-700 dark:text-slate-400">
+            Ningún hallazgo coincide con los filtros.
+            <button type="button" class="ml-1 font-semibold text-indigo-600 hover:underline dark:text-indigo-300" (click)="limpiarFiltros()">Quitar filtros</button>
+          </li>
+        }
+      </ol>
+    </section>
+  } @else {
+    <p class="animate-entrar flex items-center gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-5 font-medium text-emerald-800 dark:text-emerald-200" style="animation-delay: 450ms">
+      <app-icono nombre="ok" [tamano]="22" />
+      El archivo pasó todas las reglas y cuadra con su factura.
+    </p>
+  }
+</div>
