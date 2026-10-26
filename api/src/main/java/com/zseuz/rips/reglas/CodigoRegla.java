@@ -1,0 +1,54 @@
+package com.zseuz.rips.reglas;
+
+import static com.zseuz.rips.reglas.Severidad.ADVERTENCIA;
+import static com.zseuz.rips.reglas.Severidad.ERROR;
+
+/**
+ * Catálogo de reglas. El código es estable: los clientes (frontend, reportes de Power BI) lo usan
+ * para agrupar hallazgos, así que no se renumera; una regla nueva toma un código nuevo.
+ *
+ * <ul>
+ *   <li>RV00x: estructura y formato de campos.
+ *   <li>RV01x: transacción y usuarios.
+ *   <li>RV02x: fechas y edad.
+ *   <li>RV03x: coherencia clínica.
+ *   <li>RV04x: valores monetarios.
+ * </ul>
+ */
+public enum CodigoRegla {
+    RV001(ERROR, "Campo obligatorio sin diligenciar"),
+    RV002(ERROR, "Formato inválido"),
+    RV003(ERROR, "Valor que no existe en el catálogo"),
+    RV004(ERROR, "Fecha inválida o posterior a hoy"),
+
+    RV010(ERROR, "Transacción sin usuarios"),
+    RV011(ERROR, "Usuario repetido en la transacción"),
+    RV012(ERROR, "Consecutivo fuera de secuencia"),
+    RV013(ADVERTENCIA, "Usuario sin servicios reportados"),
+
+    RV020(ADVERTENCIA, "Tipo de documento no corresponde a la edad"),
+    RV021(ERROR, "Atención anterior a la fecha de nacimiento"),
+
+    RV030(ERROR, "Diagnóstico incompatible con el sexo del usuario"),
+    RV031(ADVERTENCIA, "Diagnóstico relacionado igual al principal"),
+
+    RV040(ERROR, "Valor monetario negativo"),
+    RV041(ERROR, "Pago moderador mayor que el valor del servicio"),
+    RV042(ADVERTENCIA, "Servicio con valor cero");
+
+    private final Severidad severidad;
+    private final String titulo;
+
+    CodigoRegla(Severidad severidad, String titulo) {
+        this.severidad = severidad;
+        this.titulo = titulo;
+    }
+
+    public Severidad severidad() {
+        return severidad;
+    }
+
+    public String titulo() {
+        return titulo;
+    }
+}

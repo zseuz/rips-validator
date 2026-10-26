@@ -1,0 +1,135 @@
+{
+  "numDocumentoIdObligado": "900123456",
+  "numFactura": "FEV1001",
+  "tipoNota": null,
+  "numNota": null,
+  "usuarios": [
+    {
+      "tipoDocumentoIdentificacion": "CC",
+      "numDocumentoIdentificacion": "52123456",
+      "tipoUsuario": "01",
+      "fechaNacimiento": "1988-04-12",
+      "codSexo": "M",
+      "codPaisResidencia": "170",
+      "codMunicipioResidencia": "11001",
+      "codZonaTerritorialResidencia": "02",
+      "incapacidad": "NO",
+      "consecutivo": 1,
+      "codPaisOrigen": "170",
+      "servicios": {
+        "consultas": [
+          {
+            "codPrestador": "110010000001",
+            "fechaInicioAtencion": "2026-09-15 08:30",
+            "numAutorizacion": null,
+            "codConsulta": "890201",
+            "modalidadGrupoServicioTecSal": "01",
+            "grupoServicios": "01",
+            "codServicio": 325,
+            "finalidadTecnologiaSalud": "15",
+            "causaMotivoAtencion": "38",
+            "codDiagnosticoPrincipal": "J069",
+            "codDiagnosticoRelacionado1": null,
+            "codDiagnosticoRelacionado2": null,
+            "codDiagnosticoRelacionado3": null,
+            "tipoDiagnosticoPrincipal": "01",
+            "tipoDocumentoIdentificacion": "CC",
+            "numDocumentoIdentificacion": "79876543",
+            "vrServicio": 45000,
+            "conceptoRecaudo": "05",
+            "valorPagoModerador": 0,
+            "numFEVPagoModerador": null,
+            "consecutivo": 1
+          },
+          {
+            "codPrestador": "110010000001",
+            "fechaInicioAtencion": "2026-09-29 10:00",
+            "numAutorizacion": null,
+            "codConsulta": "890301",
+            "modalidadGrupoServicioTecSal": "01",
+            "grupoServicios": "01",
+            "codServicio": 325,
+            "finalidadTecnologiaSalud": "15",
+            "causaMotivoAtencion": "38",
+            "codDiagnosticoPrincipal": "Z340",
+            "codDiagnosticoRelacionado1": "J069",
+            "codDiagnosticoRelacionado2": null,
+            "codDiagnosticoRelacionado3": null,
+            "tipoDiagnosticoPrincipal": "02",
+            "tipoDocumentoIdentificacion": "CC",
+            "numDocumentoIdentificacion": "79876543",
+            "vrServicio": 45000,
+            "conceptoRecaudo": "05",
+            "valorPagoModerador": 0,
+            "numFEVPagoModerador": null,
+            "consecutivo": 2
+          }
+        ],
+        "procedimientos": [
+          {
+            "codPrestador": "110010000001",
+            "fechaInicioAtencion": "2026-09-15 09:10",
+            "idMIPRES": null,
+            "numAutorizacion": null,
+            "codProcedimiento": "902210",
+            "viaIngresoServicioSalud": "02",
+            "modalidadGrupoServicioTecSal": "01",
+            "grupoServicios": "02",
+            "codServicio": 706,
+            "finalidadTecnologiaSalud": "15",
+            "tipoDocumentoIdentificacion": "CC",
+            "numDocumentoIdentificacion": "79876543",
+            "codDiagnosticoPrincipal": "J069",
+            "codDiagnosticoRelacionado": null,
+            "codComplicacion": null,
+            "vrServicio": 18500,
+            "conceptoRecaudo": "05",
+            "valorPagoModerador": 0,
+            "numFEVPagoModerador": null,
+            "consecutivo": 1
+          }
+        ]
+      }
+    },
+    {
+      "tipoDocumentoIdentificacion": "TI",
+      "numDocumentoIdentificacion": "1012345678",
+      "tipoUsuario": "02",
+      "fechaNacimiento": "2015-06-20",
+      "codSexo": "H",
+      "codPaisResidencia": "170",
+      "codMunicipioResidencia": "05001",
+      "codZonaTerritorialResidencia": "02",
+      "incapacidad": "NO",
+      "consecutivo": 2,
+      "codPaisOrigen": "170",
+      "servicios": {
+        "consultas": [
+          {
+            "codPrestador": "050010000002",
+            "fechaInicioAtencion": "2026-10-02 15:45",
+            "numAutorizacion": null,
+            "codConsulta": "890201",
+            "modalidadGrupoServicioTecSal": "01",
+            "grupoServicios": "01",
+            "codServicio": 325,
+            "finalidadTecnologiaSalud": "15",
+            "causaMotivoAtencion": "38",
+            "codDiagnosticoPrincipal": "A09X",
+            "codDiagnosticoRelacionado1": null,
+            "codDiagnosticoRelacionado2": null,
+            "codDiagnosticoRelacionado3": null,
+            "tipoDiagnosticoPrincipal": "01",
+            "tipoDocumentoIdentificacion": "CC",
+            "numDocumentoIdentificacion": "80111222",
+            "vrServicio": 45000,
+            "conceptoRecaudo": "02",
+            "valorPagoModerador": 4500,
+            "numFEVPagoModerador": "FEV0999",
+            "consecutivo": 1
+          }
+        ]
+      }
+    }
+  ]
+}

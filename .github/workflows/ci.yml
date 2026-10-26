@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Pruebas de la API
+        working-directory: api
+        run: sh mvnw -B verify
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: etl/requirements.txt
+
+      - name: Dependencias del ETL
+        run: pip install -r etl/requirements.txt
+
+      # Prueba de punta a punta: genera RIPS sintéticos y los valida contra la API real.
+      - name: Lote de punta a punta
+        run: |
+          nohup java -jar api/target/rips-validator-*.jar > api.log 2>&1 &
+          python etl/generar_rips.py --facturas 25 --tasa-errores 0.4 --semilla 1 --salida datos
+          curl -sf --retry 30 --retry-delay 2 --retry-connrefused http://localhost:8080/actuator/health
+          python etl/validar_lote.py datos --api http://localhost:8080 --reporte reporte
+
+      - name: Reporte del lote
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-lote
+          path: reporte/

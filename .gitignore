@@ -1,0 +1,13 @@
+api/target/
+api/.mvn/wrapper/maven-wrapper.jar
+
+etl/datos/
+etl/reporte/
+*.log
+__pycache__/
+.venv/
+
+.idea/
+*.iml
+.vscode/
+.DS_Store
