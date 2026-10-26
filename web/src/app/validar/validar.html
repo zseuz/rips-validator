@@ -50,20 +50,29 @@
 
   <section class="que-valida">
     <div class="tarjeta">
-      <h3>📐 Estructura</h3>
-      <p>Campos obligatorios, formatos de CUPS, CIE-10, código REPS y DIVIPOLA, catálogos y fechas.</p>
+      <h3>📚 Tablas oficiales</h3>
+      <p>Cada código se busca en las tablas de SISPRO: CIE-10, CUPS, municipios, países, tipos de documento y más. Debe existir y estar habilitado.</p>
     </div>
     <div class="tarjeta">
       <h3>👥 Usuarios</h3>
-      <p>Usuarios repetidos, consecutivos fuera de orden y documento que no corresponde a la edad.</p>
+      <p>Campos obligatorios, fechas, usuarios repetidos, consecutivos fuera de orden y documento que no corresponde a la edad.</p>
     </div>
     <div class="tarjeta">
       <h3>🩺 Coherencia clínica</h3>
-      <p>Diagnósticos incompatibles con el sexo y atenciones anteriores al nacimiento.</p>
+      <p>Diagnósticos que no aplican al sexo o la edad según la CIE-10, CUPS de consulta reportados como procedimiento y atenciones antes del nacimiento.</p>
     </div>
     <div class="tarjeta">
       <h3>💲 Valores</h3>
       <p>Valores negativos o en cero y pagos moderadores mayores que el servicio.</p>
     </div>
   </section>
+
+  @if (resumenTablas(); as t) {
+    <p class="fuente">
+      Validando contra {{ t.cantidad }} tablas de referencia de SISPRO · CIE-10: {{ t.cie10 }} códigos · CUPS: {{ t.cups }} códigos
+      @if (t.fecha) {
+        · descargadas el {{ t.fecha }}
+      }
+    </p>
+  }
 }

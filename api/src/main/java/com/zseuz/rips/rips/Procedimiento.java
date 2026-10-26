@@ -37,6 +37,8 @@ public record Procedimiento(
 
     @Override
     public List<Campo> diagnosticosRelacionados() {
-        return List.of(new Campo("codDiagnosticoRelacionado", codDiagnosticoRelacionado));
+        return List.of(
+                new Campo("codDiagnosticoRelacionado", codDiagnosticoRelacionado),
+                new Campo("codComplicacion", codComplicacion));
     }
 }

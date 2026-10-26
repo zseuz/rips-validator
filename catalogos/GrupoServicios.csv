@@ -1,0 +1,6 @@
+codigo,nombre,habilitado
+01,Consulta externa,SI
+02,Apoyo diagnóstico y complementación terapéutica,SI
+03,Internación,SI
+04,Quirúrgico,SI
+05,Atención inmediata,SI

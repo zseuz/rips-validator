@@ -1,0 +1,18 @@
+codigo,nombre,habilitado
+AS,Adulto sin identificacion,SI
+CC,Cedula de Ciudadania,SI
+CD,Carnet Diplomatico,SI
+CE,Cedula de Extranjeria,SI
+CN,Certificado de nacido vivo,SI
+DE,Documento extranjero,SI
+MS,Menor sin identificacion,SI
+NI,Número de identificación tributario NIT,SI
+NV,Certificado nacido vivo,SI
+PA,Pasaporte,SI
+PC,PET Tutor,SI
+PE,Permiso Especial de Permanencia,SI
+PT,Permiso por protección temporal,SI
+RC,Registro civil,SI
+SC,Salvoconducto,SI
+SI,Sin identificación,SI
+TI,Tarjeta de Identidad,SI

@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.zseuz.rips.referencia.Tablas;
 import com.zseuz.rips.rips.Rips;
 import com.zseuz.rips.rips.Usuario;
 
@@ -33,34 +34,33 @@ class ReglasUsuario implements ReglaRips {
 
     private void validar(Usuario usuario, String ruta, LocalDate hoy, Hallazgos hallazgos) {
         if (hallazgos.obligatorio(ruta + "tipoDocumentoIdentificacion", usuario.tipoDocumentoIdentificacion())) {
-            hallazgos.catalogo(ruta + "tipoDocumentoIdentificacion", usuario.tipoDocumentoIdentificacion(), Catalogos.TIPOS_DOCUMENTO);
+            hallazgos.referencia(ruta + "tipoDocumentoIdentificacion", usuario.tipoDocumentoIdentificacion(), Tablas.TIPO_DOCUMENTO);
         }
         if (hallazgos.obligatorio(ruta + "numDocumentoIdentificacion", usuario.numDocumentoIdentificacion())) {
             hallazgos.formato(ruta + "numDocumentoIdentificacion", usuario.numDocumentoIdentificacion(), Catalogos.NUMERO_DOCUMENTO,
                     "hasta 20 letras o dígitos, sin puntos ni espacios");
         }
         if (hallazgos.obligatorio(ruta + "tipoUsuario", usuario.tipoUsuario())) {
-            hallazgos.formato(ruta + "tipoUsuario", usuario.tipoUsuario(), Catalogos.TIPO_USUARIO, "un código de 2 dígitos");
+            hallazgos.referencia(ruta + "tipoUsuario", usuario.tipoUsuario(), Tablas.TIPO_USUARIO);
         }
         if (hallazgos.obligatorio(ruta + "codSexo", usuario.codSexo())) {
-            hallazgos.catalogo(ruta + "codSexo", usuario.codSexo(), Catalogos.SEXOS);
+            hallazgos.referencia(ruta + "codSexo", usuario.codSexo(), Tablas.SEXO);
         }
         if (hallazgos.obligatorio(ruta + "codPaisResidencia", usuario.codPaisResidencia())) {
-            hallazgos.formato(ruta + "codPaisResidencia", usuario.codPaisResidencia(), Catalogos.PAIS, "un código de país de 3 dígitos");
+            hallazgos.referencia(ruta + "codPaisResidencia", usuario.codPaisResidencia(), Tablas.PAIS);
         }
         // El municipio solo existe para quienes residen en Colombia.
         if (Catalogos.PAIS_COLOMBIA.equals(usuario.codPaisResidencia())
                 && hallazgos.obligatorio(ruta + "codMunicipioResidencia", usuario.codMunicipioResidencia())) {
-            hallazgos.formato(ruta + "codMunicipioResidencia", usuario.codMunicipioResidencia(), Catalogos.MUNICIPIO,
-                    "un código DIVIPOLA de 5 dígitos");
+            hallazgos.referencia(ruta + "codMunicipioResidencia", usuario.codMunicipioResidencia(), Tablas.MUNICIPIO);
         }
         if (hallazgos.obligatorio(ruta + "codZonaTerritorialResidencia", usuario.codZonaTerritorialResidencia())) {
-            hallazgos.catalogo(ruta + "codZonaTerritorialResidencia", usuario.codZonaTerritorialResidencia(), Catalogos.ZONAS_TERRITORIALES);
+            hallazgos.referencia(ruta + "codZonaTerritorialResidencia", usuario.codZonaTerritorialResidencia(), Tablas.ZONA);
         }
         if (hallazgos.obligatorio(ruta + "incapacidad", usuario.incapacidad())) {
             hallazgos.catalogo(ruta + "incapacidad", usuario.incapacidad(), Catalogos.SI_NO);
         }
-        hallazgos.formato(ruta + "codPaisOrigen", usuario.codPaisOrigen(), Catalogos.PAIS, "un código de país de 3 dígitos");
+        hallazgos.referencia(ruta + "codPaisOrigen", usuario.codPaisOrigen(), Tablas.PAIS);
 
         if (hallazgos.obligatorio(ruta + "fechaNacimiento", usuario.fechaNacimiento())) {
             hallazgos.fecha(ruta + "fechaNacimiento", usuario.fechaNacimiento(), hoy)

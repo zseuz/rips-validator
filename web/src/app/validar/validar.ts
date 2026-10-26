@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Observable, catchError, of } from 'rxjs';
 
-import { formatearTamano } from '../core/formato';
+import { formatearFecha, formatearTamano } from '../core/formato';
 import { ResultadoValidacion } from '../core/modelos';
 import { RipsApi } from '../core/rips-api';
 import { Resultado } from '../resultado/resultado';
@@ -22,6 +23,23 @@ interface Archivo {
 })
 export class Validar {
   private readonly api = inject(RipsApi);
+
+  /** Resumen de las tablas de SISPRO que tiene cargadas la API, para mostrarlo bajo las tarjetas. */
+  protected readonly tablas = toSignal(this.api.tablas$.pipe(catchError(() => of([]))), { initialValue: [] });
+  protected readonly resumenTablas = computed(() => {
+    const tablas = this.tablas();
+    if (tablas.length === 0) {
+      return null;
+    }
+    const registros = (nombre: string) => (tablas.find((t) => t.tabla === nombre)?.registros ?? 0).toLocaleString('es-CO');
+    const fechas = tablas.map((t) => t.descargada).filter((f): f is string => f !== null).sort();
+    return {
+      cantidad: tablas.length,
+      cie10: registros('CIE10'),
+      cups: registros('CUPSRips'),
+      fecha: fechas.length > 0 ? formatearFecha(fechas[fechas.length - 1]) : null,
+    };
+  });
 
   protected readonly archivo = signal<Archivo | null>(null);
   protected readonly validando = signal(false);

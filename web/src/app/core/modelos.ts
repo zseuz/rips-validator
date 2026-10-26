@@ -33,6 +33,12 @@ export interface Pagina<T> {
   page: { size: number; number: number; totalElements: number; totalPages: number };
 }
 
+export interface TablaReferencia {
+  tabla: string;
+  registros: number;
+  descargada: string | null;
+}
+
 export interface Regla {
   codigo: string;
   severidad: Severidad;

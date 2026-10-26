@@ -9,7 +9,9 @@ import java.util.Optional;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.zseuz.rips.referencia.Tablas;
 import com.zseuz.rips.rips.Consulta;
+import com.zseuz.rips.rips.Procedimiento;
 import com.zseuz.rips.rips.Rips;
 import com.zseuz.rips.rips.ServicioRips;
 import com.zseuz.rips.rips.Usuario;
@@ -64,38 +66,57 @@ class ReglasServicios implements ReglaRips {
                             "El usuario nació el " + nacimiento.get(), servicio.fechaInicioAtencion()));
         }
 
-        String campoCups = ruta + servicio.campoCodigoTecnologia();
-        if (hallazgos.obligatorio(campoCups, servicio.codigoTecnologia())) {
-            hallazgos.formato(campoCups, servicio.codigoTecnologia(), Catalogos.CUPS, "un código CUPS de 6 caracteres");
-        }
-
+        validarCups(servicio, ruta, hallazgos);
         validarDiagnosticos(servicio, ruta, hallazgos);
-        if (servicio instanceof Consulta consulta
-                && hallazgos.obligatorio(ruta + "tipoDiagnosticoPrincipal", consulta.tipoDiagnosticoPrincipal())) {
-            hallazgos.catalogo(ruta + "tipoDiagnosticoPrincipal", consulta.tipoDiagnosticoPrincipal(), Catalogos.TIPOS_DIAGNOSTICO_PRINCIPAL);
+
+        // Campos que se revisan contra SISPRO cuando vienen diligenciados.
+        hallazgos.referencia(ruta + "modalidadGrupoServicioTecSal", servicio.modalidadGrupoServicioTecSal(), Tablas.MODALIDAD);
+        hallazgos.referencia(ruta + "grupoServicios", servicio.grupoServicios(), Tablas.GRUPO_SERVICIOS);
+        hallazgos.referencia(ruta + "finalidadTecnologiaSalud", servicio.finalidadTecnologiaSalud(), Tablas.FINALIDAD);
+        if (servicio instanceof Consulta consulta) {
+            hallazgos.referencia(ruta + "causaMotivoAtencion", consulta.causaMotivoAtencion(), Tablas.CAUSA_EXTERNA);
+            if (hallazgos.obligatorio(ruta + "tipoDiagnosticoPrincipal", consulta.tipoDiagnosticoPrincipal())) {
+                hallazgos.referencia(ruta + "tipoDiagnosticoPrincipal", consulta.tipoDiagnosticoPrincipal(), Tablas.TIPO_DIAGNOSTICO);
+            }
+        } else if (servicio instanceof Procedimiento procedimiento) {
+            hallazgos.referencia(ruta + "viaIngresoServicioSalud", procedimiento.viaIngresoServicioSalud(), Tablas.VIA_INGRESO);
         }
 
         if (hallazgos.obligatorio(ruta + "tipoDocumentoIdentificacion", servicio.tipoDocumentoIdentificacion())) {
-            hallazgos.catalogo(ruta + "tipoDocumentoIdentificacion", servicio.tipoDocumentoIdentificacion(), Catalogos.TIPOS_DOCUMENTO);
+            hallazgos.referencia(ruta + "tipoDocumentoIdentificacion", servicio.tipoDocumentoIdentificacion(), Tablas.TIPO_DOCUMENTO);
         }
         if (hallazgos.obligatorio(ruta + "numDocumentoIdentificacion", servicio.numDocumentoIdentificacion())) {
             hallazgos.formato(ruta + "numDocumentoIdentificacion", servicio.numDocumentoIdentificacion(), Catalogos.NUMERO_DOCUMENTO,
                     "hasta 20 letras o dígitos, sin puntos ni espacios");
         }
         if (hallazgos.obligatorio(ruta + "conceptoRecaudo", servicio.conceptoRecaudo())) {
-            hallazgos.catalogo(ruta + "conceptoRecaudo", servicio.conceptoRecaudo(), Catalogos.CONCEPTOS_RECAUDO);
+            hallazgos.referencia(ruta + "conceptoRecaudo", servicio.conceptoRecaudo(), Tablas.CONCEPTO_RECAUDO);
         }
 
         validarValores(servicio, ruta, hallazgos);
     }
 
+    /** El CUPS debe existir y, según la tabla CUPSRips, estar marcado para consultas (AC) o procedimientos (AP). */
+    private static void validarCups(ServicioRips servicio, String ruta, Hallazgos hallazgos) {
+        String campo = ruta + servicio.campoCodigoTecnologia();
+        String esperado = servicio instanceof Consulta ? "AC" : "AP";
+        if (hallazgos.obligatorio(campo, servicio.codigoTecnologia())) {
+            hallazgos.referencia(campo, servicio.codigoTecnologia(), Tablas.CUPS)
+                    .filter(cups -> cups.uso() != null && !esperado.equals(cups.uso()))
+                    .ifPresent(cups -> hallazgos.agregar(CodigoRegla.RV006, campo,
+                            cups.etiqueta() + " se reporta como " + ("AC".equals(cups.uso()) ? "consulta" : "procedimiento")
+                                    + ", no como " + ("AC".equals(esperado) ? "consulta" : "procedimiento"),
+                            cups.codigo()));
+        }
+    }
+
     private static void validarDiagnosticos(ServicioRips servicio, String ruta, Hallazgos hallazgos) {
         String principal = servicio.codDiagnosticoPrincipal();
         if (hallazgos.obligatorio(ruta + "codDiagnosticoPrincipal", principal)) {
-            hallazgos.formato(ruta + "codDiagnosticoPrincipal", principal, Catalogos.CIE10, "un código CIE-10 (p. ej. J069)");
+            hallazgos.referencia(ruta + "codDiagnosticoPrincipal", principal, Tablas.CIE10);
         }
         for (ServicioRips.Campo relacionado : servicio.diagnosticosRelacionados()) {
-            hallazgos.formato(ruta + relacionado.nombre(), relacionado.valor(), Catalogos.CIE10, "un código CIE-10 (p. ej. J069)");
+            hallazgos.referencia(ruta + relacionado.nombre(), relacionado.valor(), Tablas.CIE10);
             if (principal != null && principal.equals(relacionado.valor())) {
                 hallazgos.agregar(CodigoRegla.RV031, ruta + relacionado.nombre(),
                         "Repite el diagnóstico principal; déjelo vacío o reporte otro diagnóstico", relacionado.valor());

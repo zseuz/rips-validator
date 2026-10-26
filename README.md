@@ -22,12 +22,12 @@ el Ministerio la valida antes de entregar el CUV. Cuando algo falla, el prestado
 con mensajes poco claros. Este proyecto revisa el archivo **antes** de enviarlo:
 
 - 📍 Señala el campo exacto: `usuarios[0].servicios.consultas[2].codDiagnosticoPrincipal`.
-- 🧠 Además del formato, cruza datos: diagnóstico contra sexo, documento contra edad, fecha de atención contra nacimiento, copago contra valor del servicio.
+- 📚 Busca cada código en las **tablas de referencia oficiales de SISPRO**: CIE-10, CUPS, municipios, países y 12 tablas más.
+- 🧠 Cruza datos: diagnóstico contra sexo y edad (según la CIE-10), CUPS de consulta frente a procedimiento, documento contra edad, atención contra nacimiento, copago contra valor del servicio.
 - 📊 Guarda el historial y exporta los hallazgos para analizarlos en Power BI.
 
-> ⚠️ Proyecto de portafolio, **no oficial**. No reemplaza la validación del Ministerio. Los
-> catálogos son un subconjunto de las tablas de SISPRO, y todos los datos de ejemplo son
-> sintéticos: ninguno corresponde a pacientes reales.
+> ⚠️ Proyecto de portafolio, **no oficial**. No reemplaza la validación del Ministerio. Todos los
+> datos de ejemplo son sintéticos: ninguno corresponde a pacientes reales.
 
 ## ¿Qué RIPS valida?
 
@@ -40,15 +40,40 @@ con mensajes poco claros. Este proyecto revisa el archivo **antes** de enviarlo:
 | **Aún no** | Urgencias, hospitalización, recién nacidos, medicamentos y otros servicios: se aceptan, pero no se revisan |
 | **No aplica** | Los RIPS antiguos en archivos planos (Resolución 3374 de 2000: `AF`, `US`, `AC`, `AP`…) |
 
+## Tablas de referencia de SISPRO
+
+El validador no inventa catálogos: usa las tablas que publica el Ministerio en la
+[consulta pública de SISPRO](https://web.sispro.gov.co/WebPublico/Consultas/ConsultarReferenciaBasica.aspx).
+
+| Tabla | Códigos | Para qué campo |
+|---|---:|---|
+| `CIE10` | 12.634 | Diagnósticos; además, sexo y rango de edad en que aplica cada uno |
+| `CUPSRips` | 13.640 | `codConsulta` y `codProcedimiento`; si se reporta como consulta (AC) o procedimiento (AP) |
+| `Municipio` · `Pais` | 1.124 · 249 | Residencia y país de origen |
+| `TipoIdPISIS` · `Sexo` · `RIPSTipoUsuarioVersion2` · `ZonaVersion2` | | Datos del usuario |
+| `ModalidadAtencion` · `GrupoServicios` · `RIPSFinalidadConsultaVersion2` · `RIPSCausaExternaVersion2` · `ViaIngresoUsuario` · `RIPSTipoDiagnosticoPrincipalVersion2` · `conceptoRecaudo` · `TipoNota` | | Datos de los servicios y la transacción |
+
+[`etl/descargar_tablas_sispro.py`](etl/descargar_tablas_sispro.py) las descarga de la consulta
+pública y las deja en [`catalogos/`](catalogos), junto con la fecha de descarga. La API las
+empaqueta en el jar, las carga en memoria para validar y, al arrancar, las copia en la tabla
+`item_referencia` de la base de datos para cruzarlas en SQL o Power BI. Para actualizarlas:
+
+```bash
+cd etl && python descargar_tablas_sispro.py --salida ../catalogos
+```
+
+Aún no se validan contra tablas el código del prestador (REPS) ni `codServicio`: solo su formato.
+
 ## Arquitectura
 
 ```mermaid
 flowchart LR
+    S["🏛️ SISPRO<br/>tablas de referencia"] --> T["🐍 descargar_tablas_sispro.py"] --> C["📁 catalogos/*.csv"] --> A
     W["🅰️ Frontend Angular<br/>subir archivo · historial"] -- "/api" --> A
     G["🐍 generar_rips.py<br/>RIPS sintéticos"] --> L["🐍 validar_lote.py<br/>Pandas"]
     L -- "POST /api/v1/validaciones" --> A["⚙️ API Spring Boot"]
     A --> R["📏 Reglas<br/>transacción · usuario · servicios · coherencia clínica"]
-    A --> D[("🗄️ MySQL / H2<br/>historial")]
+    A --> D[("🗄️ MySQL / H2<br/>historial · item_referencia")]
     L --> X["📄 CSV + Excel"] --> P["📊 Power BI"]
 ```
 
@@ -56,7 +81,8 @@ flowchart LR
 |---|---|
 | [`api/`](api) | API REST en Spring Boot 4 (Java 21) con las reglas, el historial y Swagger |
 | [`web/`](web) | Frontend en Angular 22: arrastrar el archivo, ver los hallazgos filtrables y consultar el historial |
-| [`etl/`](etl) | Generador de RIPS sintéticos y validador por lotes con reporte en CSV y Excel |
+| [`etl/`](etl) | Descarga de tablas de SISPRO, generador de RIPS sintéticos y validador por lotes con reporte en CSV y Excel |
+| [`catalogos/`](catalogos) | Las 16 tablas de referencia de SISPRO en CSV y `metadatos.json` con la fecha de descarga |
 | [`ejemplos/`](ejemplos) | Un RIPS válido y uno con errores, que también usan las pruebas (el frontend sirve una copia en `web/public/ejemplos`) |
 
 ## Inicio rápido
@@ -94,6 +120,8 @@ curl -X POST http://localhost:8080/api/v1/validaciones -H "Content-Type: applica
 | `GET` | `/api/v1/validaciones?page=0&size=20` | Historial paginado, del más reciente al más antiguo |
 | `GET` | `/api/v1/validaciones/{id}` | Resultado completo con sus hallazgos |
 | `GET` | `/api/v1/reglas` | Catálogo de reglas |
+| `GET` | `/api/v1/tablas` | Tablas de SISPRO cargadas, con su tamaño y fecha de descarga |
+| `GET` | `/api/v1/tablas/{tabla}/{codigo}` | Busca un código, p. ej. `/api/v1/tablas/CIE10/O800` |
 
 Respuesta real con [`ejemplos/rips-con-errores.json`](ejemplos/rips-con-errores.json) (recortada):
 
@@ -133,17 +161,20 @@ guarda: solo el resumen y los hallazgos.
 | Código | Severidad | Regla |
 |---|---|---|
 | RV001 | Error | Campo obligatorio sin diligenciar |
-| RV002 | Error | Formato inválido (CUPS, CIE-10, código REPS, DIVIPOLA…) |
-| RV003 | Error | Valor que no existe en el catálogo |
+| RV002 | Error | Formato inválido (código REPS, número de documento, factura…) |
+| RV003 | Error | Código que no existe en la tabla de referencia de SISPRO |
 | RV004 | Error | Fecha inexistente, mal formada o posterior a hoy |
+| RV005 | Error | Código deshabilitado en SISPRO |
+| RV006 | Error | CUPS de consulta reportado como procedimiento, o al revés |
 | RV010 | Error | Transacción sin usuarios |
 | RV011 | Error | Usuario repetido en la transacción |
 | RV012 | Error | Consecutivo fuera de secuencia |
 | RV013 | Advertencia | Usuario sin servicios reportados |
 | RV020 | Advertencia | Tipo de documento que no corresponde a la edad (RC, TI, CC) |
 | RV021 | Error | Atención anterior a la fecha de nacimiento |
-| RV030 | Error | Diagnóstico incompatible con el sexo (capítulo O en hombres, próstata en mujeres) |
+| RV030 | Error | Diagnóstico que no aplica al sexo del usuario según la CIE-10 de SISPRO |
 | RV031 | Advertencia | Diagnóstico relacionado igual al principal |
+| RV032 | Advertencia | Diagnóstico fuera del rango de edad de la CIE-10 (edad el día de la atención) |
 | RV040 | Error | Valor monetario negativo |
 | RV041 | Error | Pago moderador mayor que el valor del servicio |
 | RV042 | Advertencia | Servicio con valor cero |
@@ -164,9 +195,8 @@ python validar_lote.py datos --api http://localhost:8080 --reporte reporte
 incompleto, usuario duplicado…). `validar_lote.py` las envía a la API y deja en `reporte/` las
 tablas `facturas.csv`, `hallazgos.csv` y `resumen.xlsx`, listas para Power BI.
 
-Ejemplo con 40 facturas, 13 de ellas con errores inyectados: el validador marcó como válidas las
-27 limpias, rechazó 12 y dejó una con advertencias (la que solo tenía el documento que no
-correspondía a la edad).
+Ejemplo con 60 facturas (`--semilla 11`), 17 de ellas con errores inyectados: contra las tablas de
+SISPRO, el validador aceptó las 43 limpias sin ningún falso positivo y rechazó las 17 dañadas.
 
 ## Pruebas
 
@@ -178,8 +208,8 @@ cd api && ./mvnw verify
 cd web && npx ng test --watch=false
 ```
 
-La API tiene 25 pruebas (las reglas una por una y la API completa con MockMvc) y el frontend 6
-(con Vitest). En cada push, el [CI](.github/workflows/ci.yml) además genera un lote sintético, lo
+La API tiene 34 pruebas (las reglas una por una contra las tablas reales de SISPRO, y la API completa
+con MockMvc) y el frontend 8 (con Vitest). En cada push, el [CI](.github/workflows/ci.yml) además genera un lote sintético, lo
 valida contra la API real y publica el reporte como artefacto.
 
 ## Hoja de ruta
@@ -188,7 +218,8 @@ valida contra la API real y publica el reporte como artefacto.
 - [ ] Explicación de cada error con IA (Claude) en lenguaje sencillo
 - [ ] Tablero de Power BI sobre `hallazgos.csv`
 - [ ] Urgencias, hospitalización, recién nacidos, medicamentos y otros servicios
-- [ ] Catálogos completos de SISPRO cargados desde archivo
+- [x] Tablas de referencia oficiales de SISPRO (CIE-10, CUPS, municipios…) en la base de datos
+- [ ] Validar el prestador contra el REPS
 - [ ] Cruce de los totales de los RIPS con el XML de la factura electrónica
 
 ---

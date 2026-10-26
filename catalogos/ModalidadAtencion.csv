@@ -1,0 +1,9 @@
+codigo,nombre,habilitado
+01,Intramural,SI
+02,Extramural unidad móvil,SI
+03,Extramural domiciliaria,SI
+04,Extramural jornada de salud,SI
+06,Telemedicina interactiva,SI
+07,Telemedicina no interactiva,SI
+08,Telemedicina telexperticia,SI
+09,Telemedicina telemonitoreo,SI

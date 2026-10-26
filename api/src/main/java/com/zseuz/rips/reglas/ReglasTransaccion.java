@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.zseuz.rips.referencia.Tablas;
 import com.zseuz.rips.rips.Rips;
 import com.zseuz.rips.rips.Usuario;
 
@@ -21,7 +22,7 @@ class ReglasTransaccion implements ReglaRips {
             hallazgos.formato("numDocumentoIdObligado", rips.numDocumentoIdObligado(), Catalogos.DOCUMENTO_OBLIGADO,
                     "solo dígitos (NIT sin dígito de verificación)");
         }
-        hallazgos.catalogo("tipoNota", rips.tipoNota(), Catalogos.TIPOS_NOTA);
+        hallazgos.referencia("tipoNota", rips.tipoNota(), Tablas.TIPO_NOTA);
         if (!Catalogos.NOTA_SIN_FACTURA.equals(rips.tipoNota())
                 && hallazgos.obligatorio("numFactura", rips.numFactura())) {
             hallazgos.formato("numFactura", rips.numFactura(), Catalogos.NUMERO_FACTURA,

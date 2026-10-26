@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 
 import com.zseuz.rips.Ejemplos;
+import com.zseuz.rips.referencia.TablasReferencia;
 import com.zseuz.rips.rips.Rips;
 
 import tools.jackson.databind.DeserializationFeature;
@@ -26,11 +27,14 @@ class ValidadorRipsTest {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .build();
 
+    /** Las tablas reales de SISPRO (catalogos/*.csv); se leen una vez para toda la clase. */
+    private static final TablasReferencia TABLAS = new TablasReferencia();
+
     private final ValidadorRips validador = new ValidadorRips(List.of(
             new ReglasTransaccion(),
             new ReglasUsuario(Ejemplos.RELOJ),
             new ReglasServicios(Ejemplos.RELOJ),
-            new ReglasCoherenciaClinica()));
+            new ReglasCoherenciaClinica(TABLAS)), TABLAS);
 
     @Test
     void elEjemploValidoNoTieneHallazgos() {
@@ -83,10 +87,53 @@ class ValidadorRipsTest {
     }
 
     @Test
-    void cupsMalFormado() {
+    void cupsQueNoExiste() {
         assertThat(validar(rips -> consulta(rips, 0, 0).put("codConsulta", "89020")))
                 .extracting(Hallazgo::codigo, Hallazgo::ruta)
-                .containsExactly(tuple("RV002", "usuarios[0].servicios.consultas[0].codConsulta"));
+                .containsExactly(tuple("RV003", "usuarios[0].servicios.consultas[0].codConsulta"));
+    }
+
+    @Test
+    void cupsDeshabilitadoEnSispro() {
+        assertThat(validar(rips -> procedimiento(rips, 0, 0).put("codProcedimiento", "010100")))
+                .extracting(Hallazgo::codigo, Hallazgo::mensaje)
+                .containsExactly(tuple("RV005", "010100 (PUNCION CISTERNAL SOD) está deshabilitado en la tabla CUPSRips de SISPRO"));
+    }
+
+    @Test
+    void cupsDeConsultaReportadoComoProcedimiento() {
+        assertThat(validar(rips -> procedimiento(rips, 0, 0).put("codProcedimiento", "890201")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV006", "usuarios[0].servicios.procedimientos[0].codProcedimiento"));
+    }
+
+    @Test
+    void diagnosticoQueNoExisteEnLaCie10() {
+        assertThat(validar(rips -> consulta(rips, 0, 0).put("codDiagnosticoPrincipal", "J999")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV003", "usuarios[0].servicios.consultas[0].codDiagnosticoPrincipal"));
+    }
+
+    @Test
+    void municipioQueNoExisteEnDivipola() {
+        assertThat(validar(rips -> usuario(rips, 0).put("codMunicipioResidencia", "11002")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV003", "usuarios[0].codMunicipioResidencia"));
+    }
+
+    @Test
+    void campoOpcionalSeRevisaSiVieneDiligenciado() {
+        assertThat(validar(rips -> consulta(rips, 0, 0).put("finalidadTecnologiaSalud", "99")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV003", "usuarios[0].servicios.consultas[0].finalidadTecnologiaSalud"));
+    }
+
+    @Test
+    void diagnosticoFueraDelRangoDeEdad() {
+        // P070 (peso extremadamente bajo al nacer) solo aplica a menores de 1 año; la usuaria tiene 38.
+        assertThat(validar(rips -> consulta(rips, 0, 0).put("codDiagnosticoPrincipal", "P070")))
+                .extracting(Hallazgo::codigo, Hallazgo::severidad)
+                .containsExactly(tuple("RV032", Severidad.ADVERTENCIA));
     }
 
     @Test
@@ -183,5 +230,9 @@ class ValidadorRipsTest {
 
     private static ObjectNode consulta(ObjectNode rips, int usuario, int indice) {
         return (ObjectNode) usuario(rips, usuario).get("servicios").get("consultas").get(indice);
+    }
+
+    private static ObjectNode procedimiento(ObjectNode rips, int usuario, int indice) {
+        return (ObjectNode) usuario(rips, usuario).get("servicios").get("procedimientos").get(indice);
     }
 }

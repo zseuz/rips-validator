@@ -64,6 +64,16 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<!-- Tablas de referencia de SISPRO (etl/descargar_tablas_sispro.py): viajan dentro del jar -->
+			<resource>
+				<directory>${project.basedir}/../catalogos</directory>
+				<targetPath>catalogos</targetPath>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

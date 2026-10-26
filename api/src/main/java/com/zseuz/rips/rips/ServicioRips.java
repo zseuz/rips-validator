@@ -13,6 +13,12 @@ public interface ServicioRips {
 
     String fechaInicioAtencion();
 
+    String modalidadGrupoServicioTecSal();
+
+    String grupoServicios();
+
+    String finalidadTecnologiaSalud();
+
     String codDiagnosticoPrincipal();
 
     String tipoDocumentoIdentificacion();
@@ -33,7 +39,7 @@ public interface ServicioRips {
     /** Nombre del campo JSON que trae el código CUPS, para armar la ruta del hallazgo. */
     String campoCodigoTecnologia();
 
-    /** Diagnósticos relacionados en el orden del JSON, con su nombre de campo. */
+    /** Diagnósticos CIE-10 además del principal (relacionados y complicación), con su nombre de campo. */
     List<Campo> diagnosticosRelacionados();
 
     record Campo(String nombre, String valor) {

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, shareReplay, throwError } from 'rxjs';
 
-import { Pagina, Regla, ResultadoValidacion, ResumenValidacion } from './modelos';
+import { Pagina, Regla, ResultadoValidacion, ResumenValidacion, TablaReferencia } from './modelos';
 
 const BASE = '/api/v1';
 
@@ -12,6 +12,8 @@ export class RipsApi {
 
   /** El catálogo no cambia mientras corre la API: se pide una sola vez. */
   readonly reglas$: Observable<Regla[]> = this.http.get<Regla[]>(`${BASE}/reglas`).pipe(shareReplay(1));
+
+  readonly tablas$: Observable<TablaReferencia[]> = this.http.get<TablaReferencia[]>(`${BASE}/tablas`).pipe(shareReplay(1));
 
   /** Envía el archivo tal cual, sin reinterpretarlo, para que la API vea exactamente lo que se subió. */
   validar(json: string): Observable<ResultadoValidacion> {

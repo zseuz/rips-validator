@@ -8,7 +8,7 @@ import static com.zseuz.rips.reglas.Severidad.ERROR;
  * para agrupar hallazgos, así que no se renumera; una regla nueva toma un código nuevo.
  *
  * <ul>
- *   <li>RV00x: estructura y formato de campos.
+ *   <li>RV00x: estructura, formato y tablas de referencia de SISPRO.
  *   <li>RV01x: transacción y usuarios.
  *   <li>RV02x: fechas y edad.
  *   <li>RV03x: coherencia clínica.
@@ -18,8 +18,10 @@ import static com.zseuz.rips.reglas.Severidad.ERROR;
 public enum CodigoRegla {
     RV001(ERROR, "Campo obligatorio sin diligenciar"),
     RV002(ERROR, "Formato inválido"),
-    RV003(ERROR, "Valor que no existe en el catálogo"),
+    RV003(ERROR, "Código que no existe en la tabla de referencia de SISPRO"),
     RV004(ERROR, "Fecha inválida o posterior a hoy"),
+    RV005(ERROR, "Código deshabilitado en SISPRO"),
+    RV006(ERROR, "CUPS que no corresponde al tipo de servicio"),
 
     RV010(ERROR, "Transacción sin usuarios"),
     RV011(ERROR, "Usuario repetido en la transacción"),
@@ -29,8 +31,9 @@ public enum CodigoRegla {
     RV020(ADVERTENCIA, "Tipo de documento no corresponde a la edad"),
     RV021(ERROR, "Atención anterior a la fecha de nacimiento"),
 
-    RV030(ERROR, "Diagnóstico incompatible con el sexo del usuario"),
+    RV030(ERROR, "Diagnóstico que no aplica al sexo del usuario"),
     RV031(ADVERTENCIA, "Diagnóstico relacionado igual al principal"),
+    RV032(ADVERTENCIA, "Diagnóstico fuera del rango de edad de la CIE-10"),
 
     RV040(ERROR, "Valor monetario negativo"),
     RV041(ERROR, "Pago moderador mayor que el valor del servicio"),
