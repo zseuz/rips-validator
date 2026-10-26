@@ -39,6 +39,21 @@
 			<version>3.1.1</version>
 		</dependency>
 
+		<!-- Esquema versionado: src/main/resources/db/migration -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-flyway</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+		</dependency>
+		<!-- Consola web de H2 en /h2-console (solo desarrollo) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-h2console</artifactId>
+		</dependency>
+
 		<!-- H2 para desarrollo y pruebas; MySQL con el perfil "mysql" (docker compose) -->
 		<dependency>
 			<groupId>com.h2database</groupId>
