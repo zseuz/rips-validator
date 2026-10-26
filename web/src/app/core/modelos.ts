@@ -39,6 +39,17 @@ export interface TablaReferencia {
   descargada: string | null;
 }
 
+export interface EstadoIa {
+  disponible: boolean;
+  modelo: string | null;
+}
+
+export interface Explicacion {
+  queSignifica: string;
+  comoCorregirlo: string;
+  impacto: string;
+}
+
 export interface Regla {
   codigo: string;
   severidad: Severidad;

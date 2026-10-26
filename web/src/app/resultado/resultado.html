@@ -77,6 +77,23 @@
             }
             <code>{{ h.ruta }}</code>
           </p>
+          @if (ia().disponible) {
+            @let e = explicaciones().get(posicion(h));
+            @if (!e) {
+              <button class="explicar" type="button" (click)="explicar(h)">✨ Explicar y cómo corregirlo</button>
+            } @else if (e?.cargando) {
+              <p class="explicacion explicacion--cargando">✨ Pensando…</p>
+            } @else if (e?.explicacion; as x) {
+              <div class="explicacion">
+                <p><strong>Qué significa.</strong> {{ x.queSignifica }}</p>
+                <p><strong>Cómo corregirlo.</strong> {{ x.comoCorregirlo }}</p>
+                <p><strong>Si no se corrige.</strong> {{ x.impacto }}</p>
+                <p class="explicacion__pie">Generado con IA ({{ ia().modelo }}); verifícalo antes de corregir.</p>
+              </div>
+            } @else {
+              <p class="explicacion explicacion--error">{{ e?.error }} <button class="explicar" type="button" (click)="explicar(h)">Reintentar</button></p>
+            }
+          }
         </li>
       } @empty {
         <li class="sin-coincidencias">

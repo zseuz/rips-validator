@@ -2,11 +2,17 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { ESTADOS, formatearFecha } from '../core/formato';
-import { Hallazgo, ResultadoValidacion, Severidad } from '../core/modelos';
+import { Explicacion, Hallazgo, ResultadoValidacion, Severidad } from '../core/modelos';
 import { RipsApi } from '../core/rips-api';
 import { describirRuta } from '../core/ruta';
 
 type Filtro = 'TODOS' | Severidad;
+
+interface EstadoExplicacion {
+  cargando: boolean;
+  explicacion?: Explicacion;
+  error?: string;
+}
 
 /** Ordena por posición en el JSON (usuarios[2] antes que usuarios[10]); la API los agrupa por regla. */
 const comparadorRutas = new Intl.Collator('es', { numeric: true });
@@ -28,7 +34,12 @@ interface ResumenRegla {
 export class Resultado {
   readonly resultado = input.required<ResultadoValidacion>();
 
-  private readonly reglas = toSignal(inject(RipsApi).reglas$, { initialValue: [] });
+  private readonly api = inject(RipsApi);
+  private readonly reglas = toSignal(this.api.reglas$, { initialValue: [] });
+  protected readonly ia = toSignal(this.api.ia$, { initialValue: { disponible: false, modelo: null } });
+
+  /** Explicaciones pedidas, por posición del hallazgo en la respuesta de la API. */
+  protected readonly explicaciones = signal(new Map<number, EstadoExplicacion>());
 
   protected readonly filtro = signal<Filtro>('TODOS');
   protected readonly regla = signal<string | null>(null);
@@ -64,6 +75,20 @@ export class Resultado {
   });
 
   protected readonly migas = describirRuta;
+
+  protected posicion(h: Hallazgo): number {
+    return this.resultado().hallazgos.indexOf(h);
+  }
+
+  protected explicar(h: Hallazgo): void {
+    const posicion = this.posicion(h);
+    const fijar = (estado: EstadoExplicacion) => this.explicaciones.update((m) => new Map(m).set(posicion, estado));
+    fijar({ cargando: true });
+    this.api.explicar(this.resultado().id, posicion).subscribe({
+      next: (explicacion) => fijar({ cargando: false, explicacion }),
+      error: (e: Error) => fijar({ cargando: false, error: e.message }),
+    });
+  }
 
   protected alternarRegla(codigo: string): void {
     this.regla.update((actual) => (actual === codigo ? null : codigo));

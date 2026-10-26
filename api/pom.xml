@@ -39,6 +39,12 @@
 			<version>3.1.1</version>
 		</dependency>
 
+		<!-- Explicación de hallazgos con Claude: SDK oficial de la API de Anthropic -->
+		<dependency>
+			<groupId>com.anthropic</groupId>
+			<artifactId>anthropic-java</artifactId>
+			<version>2.34.0</version>
+		</dependency>
 		<!-- Esquema versionado: src/main/resources/db/migration -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

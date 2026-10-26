@@ -228,6 +228,56 @@
   color: var(--texto);
 }
 
+.explicar {
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--acento) 40%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--acento);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, var(--acento) 10%, transparent);
+  }
+}
+
+.explicacion {
+  margin-top: 0.6rem !important;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--acento) 8%, transparent);
+  font-size: 0.85rem;
+
+  p {
+    margin: 0.25rem 0 0;
+  }
+
+  &--cargando {
+    color: var(--acento);
+    animation: latir 1.2s ease-in-out infinite;
+  }
+
+  &--error {
+    color: var(--error-fuerte);
+    background: var(--error-suave);
+  }
+}
+
+.explicacion__pie {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+@keyframes latir {
+  50% {
+    opacity: 0.5;
+  }
+}
+
 .sin-coincidencias,
 .limpio {
   display: flex;

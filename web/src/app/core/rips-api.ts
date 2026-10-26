@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, shareReplay, throwError } from 'rxjs';
+import { Observable, catchError, of, shareReplay, throwError } from 'rxjs';
 
-import { Pagina, Regla, ResultadoValidacion, ResumenValidacion, TablaReferencia } from './modelos';
+import { EstadoIa, Explicacion, Pagina, Regla, ResultadoValidacion, ResumenValidacion, TablaReferencia } from './modelos';
 
 const BASE = '/api/v1';
 
@@ -14,6 +14,18 @@ export class RipsApi {
   readonly reglas$: Observable<Regla[]> = this.http.get<Regla[]>(`${BASE}/reglas`).pipe(shareReplay(1));
 
   readonly tablas$: Observable<TablaReferencia[]> = this.http.get<TablaReferencia[]>(`${BASE}/tablas`).pipe(shareReplay(1));
+
+  /** Si la API tiene clave de Claude; sin ella no se muestra el botón "Explicar". */
+  readonly ia$: Observable<EstadoIa> = this.http
+    .get<EstadoIa>(`${BASE}/ia`)
+    .pipe(catchError(() => of({ disponible: false, modelo: null })), shareReplay(1));
+
+  /** posicion: índice del hallazgo en la lista que devolvió la API (no en la lista ordenada en pantalla). */
+  explicar(validacion: number, posicion: number): Observable<Explicacion> {
+    return this.http
+      .post<Explicacion>(`${BASE}/validaciones/${validacion}/hallazgos/${posicion}/explicacion`, null)
+      .pipe(catchError(traducirError));
+  }
 
   /** Envía el archivo tal cual, sin reinterpretarlo, para que la API vea exactamente lo que se subió. */
   validar(json: string): Observable<ResultadoValidacion> {
@@ -59,6 +71,8 @@ function traducirError(error: HttpErrorResponse): Observable<never> {
         ? detalle
         : error.status === 400
         ? 'El archivo no tiene la estructura de un RIPS en JSON (Resolución 2275 de 2023).'
+        : error.status >= 500 && detalle
+          ? detalle
         : error.status === 404
           ? 'La validación no existe.'
           : error.status === 413
