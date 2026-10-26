@@ -14,17 +14,18 @@
       </div>
 
       <div class="min-w-0 flex-1">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase ring-1 {{ t.chip }}">{{ estado().sello }}</span>
-          <span class="text-sm text-slate-500 dark:text-slate-400">{{ fecha() }}</span>
-        </div>
-        <h2 class="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl {{ t.titulo }}">{{ estado().titulo }}</h2>
+        <h2 class="text-2xl font-extrabold tracking-tight sm:text-3xl {{ t.titulo }}">{{ estado().titulo }}</h2>
         <p class="mt-1 text-slate-600 dark:text-slate-300">{{ estado().detalle }}</p>
+        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">Validación n.º {{ r.id }}</p>
       </div>
 
-      <span class="self-start rounded-lg bg-white/70 px-3 py-1.5 text-sm font-medium text-slate-600 ring-1 ring-slate-200 sm:self-center dark:bg-slate-900/60 dark:text-slate-300 dark:ring-slate-700">
-        Validación n.º {{ r.id }}
-      </span>
+      <!-- Sello de radicación: el veredicto estampado, como en una ventanilla. -->
+      <p
+        class="animate-estampar grid max-w-[15rem] shrink-0 -rotate-6 justify-items-center gap-1 self-start rounded-lg border-[3px] border-double bg-white/80 px-5 py-3 text-center sm:self-center dark:bg-slate-950/60 {{ t.sello }}"
+        aria-hidden="true">
+        <span class="text-xl leading-tight font-extrabold tracking-[0.12em] uppercase sm:text-2xl">{{ estado().sello }}</span>
+        <span class="font-mono text-xs">{{ fecha() }}</span>
+      </p>
     </div>
   </section>
 

@@ -17,3 +17,6 @@ __pycache__/
 powerbi/**/.pbi/
 *.pbix
 api/data/
+
+# Playwright (corridas desde la raíz)
+/test-results/

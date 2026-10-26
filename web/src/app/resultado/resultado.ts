@@ -24,12 +24,12 @@ const enOrdenDelArchivo = (a: Hallazgo, b: Hallazgo) => comparadorRutas.compare(
  * Colores de cada estado. Las clases van completas (no armadas por partes) para que Tailwind las
  * encuentre al compilar.
  */
-const TONOS: Record<EstadoValidacion, { banner: string; icono: string; halo: string; chip: string; titulo: string; nombre: NombreIcono }> = {
+const TONOS: Record<EstadoValidacion, { banner: string; icono: string; halo: string; sello: string; titulo: string; nombre: NombreIcono }> = {
   RECHAZADO: {
     banner: 'border-rose-500/20 bg-rose-500/10 shadow-rose-500/10 dark:bg-rose-500/10',
     icono: 'bg-gradient-to-br from-rose-500 to-rose-600 shadow-rose-500/40',
     halo: 'bg-rose-500',
-    chip: 'bg-rose-500/15 text-rose-700 ring-rose-500/30 dark:text-rose-300',
+    sello: 'border-rose-600 text-rose-600 shadow-lg shadow-rose-500/20 dark:border-rose-400 dark:text-rose-400',
     titulo: 'text-rose-700 dark:text-rose-300',
     nombre: 'error',
   },
@@ -37,7 +37,7 @@ const TONOS: Record<EstadoValidacion, { banner: string; icono: string; halo: str
     banner: 'border-amber-500/20 bg-amber-500/10 shadow-amber-500/10 dark:bg-amber-500/10',
     icono: 'bg-gradient-to-br from-amber-400 to-amber-500 shadow-amber-500/40',
     halo: 'bg-amber-500',
-    chip: 'bg-amber-500/15 text-amber-700 ring-amber-500/30 dark:text-amber-300',
+    sello: 'border-amber-600 text-amber-700 shadow-lg shadow-amber-500/20 dark:border-amber-400 dark:text-amber-300',
     titulo: 'text-amber-700 dark:text-amber-300',
     nombre: 'advertencia',
   },
@@ -45,7 +45,7 @@ const TONOS: Record<EstadoValidacion, { banner: string; icono: string; halo: str
     banner: 'border-emerald-500/20 bg-emerald-500/10 shadow-emerald-500/10 dark:bg-emerald-500/10',
     icono: 'bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-emerald-500/40',
     halo: 'bg-emerald-500',
-    chip: 'bg-emerald-500/15 text-emerald-700 ring-emerald-500/30 dark:text-emerald-300',
+    sello: 'border-emerald-600 text-emerald-700 shadow-lg shadow-emerald-500/20 dark:border-emerald-400 dark:text-emerald-300',
     titulo: 'text-emerald-700 dark:text-emerald-300',
     nombre: 'ok',
   },
