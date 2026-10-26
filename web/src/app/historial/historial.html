@@ -1,0 +1,56 @@
+<header class="cabecera">
+  <h1>Historial</h1>
+  <p>Validaciones guardadas, de la más reciente a la más antigua. Haz clic en una para ver sus hallazgos.</p>
+</header>
+
+@if (error(); as mensaje) {
+  <p class="alerta" role="alert">{{ mensaje }}</p>
+} @else if (pagina(); as p) {
+  @if (p.content.length === 0) {
+    <section class="tarjeta vacio">
+      <p>Aún no hay validaciones.</p>
+      <a class="boton boton--primario" routerLink="/">Validar un archivo</a>
+    </section>
+  } @else {
+    <div class="tarjeta tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Factura</th>
+            <th>Obligado</th>
+            <th>Estado</th>
+            <th class="num">Usuarios</th>
+            <th class="num">Servicios</th>
+            <th class="num">Errores</th>
+            <th class="num">Advertencias</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (v of p.content; track v.id) {
+            <tr tabindex="0" (click)="abrir(v.id)" (keydown.enter)="abrir(v.id)">
+              <td class="suave">{{ v.id }}</td>
+              <td><strong>{{ v.numFactura ?? '—' }}</strong></td>
+              <td>{{ v.numDocumentoIdObligado ?? '—' }}</td>
+              <td><span class="insignia insignia--{{ v.estado }}">{{ estados[v.estado].etiqueta }}</span></td>
+              <td class="num">{{ v.totalUsuarios }}</td>
+              <td class="num">{{ v.totalServicios }}</td>
+              <td class="num" [class.rojo]="v.totalErrores > 0">{{ v.totalErrores }}</td>
+              <td class="num" [class.ambar]="v.totalAdvertencias > 0">{{ v.totalAdvertencias }}</td>
+              <td class="suave">{{ fecha(v.fechaValidacion) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <nav class="paginas" aria-label="Páginas">
+      <button class="boton" type="button" [disabled]="p.page.number === 0" (click)="cargar(p.page.number - 1)">← Anterior</button>
+      <span class="suave">Página {{ p.page.number + 1 }} de {{ p.page.totalPages }} · {{ p.page.totalElements }} validaciones</span>
+      <button class="boton" type="button" [disabled]="p.page.number + 1 >= p.page.totalPages" (click)="cargar(p.page.number + 1)">Siguiente →</button>
+    </nav>
+  }
+} @else {
+  <p class="suave">Cargando…</p>
+}

@@ -1,0 +1,94 @@
+@let r = resultado();
+
+<section class="estado estado--{{ r.estado }}">
+  <div class="estado__icono" aria-hidden="true">
+    @switch (r.estado) {
+      @case ('VALIDO') { ✓ }
+      @case ('VALIDO_CON_ADVERTENCIAS') { ! }
+      @default { ✕ }
+    }
+  </div>
+  <div>
+    <span class="insignia insignia--{{ r.estado }}">{{ estado().etiqueta }}</span>
+    <h2>{{ estado().titulo }}</h2>
+    <p>{{ estado().detalle }}</p>
+    <p class="estado__meta">
+      Factura <strong>{{ r.numFactura ?? 'sin número' }}</strong> · Obligado {{ r.numDocumentoIdObligado ?? '—' }} ·
+      Validación #{{ r.id }} · {{ fecha() }}
+    </p>
+  </div>
+</section>
+
+<section class="totales">
+  <div class="tarjeta total"><span>{{ r.totalUsuarios }}</span>Usuarios</div>
+  <div class="tarjeta total"><span>{{ r.totalServicios }}</span>Servicios</div>
+  <div class="tarjeta total total--error"><span>{{ r.totalErrores }}</span>Errores</div>
+  <div class="tarjeta total total--aviso"><span>{{ r.totalAdvertencias }}</span>Advertencias</div>
+</section>
+
+@if (r.hallazgos.length > 0) {
+  <section class="tarjeta hallazgos">
+    <header class="hallazgos__cabecera">
+      <h3>Hallazgos</h3>
+      <button class="boton" type="button" (click)="descargarCsv()">⬇ Descargar CSV</button>
+    </header>
+
+    <div class="reglas" aria-label="Hallazgos por regla">
+      @for (g of porRegla(); track g.codigo) {
+        <button
+          type="button"
+          class="regla regla--{{ g.severidad }}"
+          [class.regla--activa]="regla() === g.codigo"
+          [attr.aria-pressed]="regla() === g.codigo"
+          (click)="alternarRegla(g.codigo)">
+          <span class="mono">{{ g.codigo }}</span> {{ g.titulo }} <strong>×{{ g.cantidad }}</strong>
+        </button>
+      }
+    </div>
+
+    <div class="herramientas">
+      <div class="segmentos" role="group" aria-label="Severidad">
+        <button type="button" [class.activo]="filtro() === 'TODOS'" (click)="filtro.set('TODOS')">Todos</button>
+        <button type="button" [class.activo]="filtro() === 'ERROR'" (click)="filtro.set('ERROR')">Errores</button>
+        <button type="button" [class.activo]="filtro() === 'ADVERTENCIA'" (click)="filtro.set('ADVERTENCIA')">Advertencias</button>
+      </div>
+      <label class="buscar">
+        <span class="sr-only">Buscar</span>
+        <input type="search" placeholder="Buscar campo, valor o mensaje…" [value]="busqueda()" (input)="busqueda.set($any($event.target).value)" />
+      </label>
+    </div>
+
+    <ul class="lista">
+      @for (h of visibles(); track $index) {
+        <li class="hallazgo hallazgo--{{ h.severidad }}">
+          <div class="hallazgo__cabecera">
+            <span class="insignia insignia--{{ h.severidad }}">{{ h.severidad === 'ERROR' ? 'Error' : 'Advertencia' }}</span>
+            <span class="mono codigo">{{ h.codigo }}</span>
+            <ol class="migas">
+              @for (parte of migas(h.ruta); track $index) {
+                <li>{{ parte }}</li>
+              }
+            </ol>
+          </div>
+          <p class="hallazgo__mensaje">{{ h.mensaje }}</p>
+          <p class="hallazgo__detalle">
+            @if (h.valor !== null) {
+              Valor recibido: <code class="valor">{{ h.valor }}</code> ·
+            }
+            <code>{{ h.ruta }}</code>
+          </p>
+        </li>
+      } @empty {
+        <li class="sin-coincidencias">
+          Ningún hallazgo coincide con los filtros.
+          <button class="boton" type="button" (click)="limpiarFiltros()">Quitar filtros</button>
+        </li>
+      }
+    </ul>
+  </section>
+} @else {
+  <section class="tarjeta limpio">
+    <span aria-hidden="true">🎉</span>
+    <p>El archivo pasó todas las reglas.</p>
+  </section>
+}

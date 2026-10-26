@@ -44,3 +44,26 @@ jobs:
         with:
           name: reporte-lote
           path: reporte/
+
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      # El frontend sirve una copia de /ejemplos; deben ser idénticos.
+      - name: Ejemplos sincronizados
+        run: diff -r ../ejemplos public/ejemplos
+
+      - run: npm ci
+      - run: npx ng test --watch=false
+      - run: npx ng build

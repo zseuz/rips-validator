@@ -1,0 +1,69 @@
+@if (resultado(); as r) {
+  <div class="barra-archivo">
+    <span>📄 <strong>{{ archivo()?.nombre }}</strong> <span class="suave">{{ archivo()?.tamano }}</span></span>
+    <button class="boton boton--primario" type="button" (click)="reiniciar()">Validar otro archivo</button>
+  </div>
+  <app-resultado [resultado]="r" />
+} @else {
+  <section class="intro">
+    <h1>Valida tus RIPS antes de enviarlos</h1>
+    <p>
+      Sube el JSON de la factura (Resolución 2275 de 2023). Te decimos qué campo está mal, por qué y qué valor llegó,
+      antes de que el Ministerio lo rechace.
+    </p>
+  </section>
+
+  <label
+    class="zona"
+    [class.zona--activa]="arrastrando()"
+    [class.zona--ocupada]="validando()"
+    (dragover)="$event.preventDefault(); arrastrando.set(true)"
+    (dragleave)="arrastrando.set(false)"
+    (drop)="alSoltar($event)">
+    <input type="file" accept=".json,application/json" class="sr-only" [disabled]="validando()" (change)="alElegir($event)" />
+
+    @if (validando()) {
+      <span class="zona__spinner" aria-hidden="true"></span>
+      <strong>Validando {{ archivo()?.nombre }}…</strong>
+    } @else {
+      <span class="zona__icono" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
+        </svg>
+      </span>
+      <strong>Arrastra aquí el archivo .json</strong>
+      <span class="suave">o haz clic para elegirlo · máximo 25 MB</span>
+    }
+  </label>
+
+  @if (error(); as mensaje) {
+    <p class="alerta" role="alert">
+      <strong>{{ archivo()?.nombre }}:</strong> {{ mensaje }}
+    </p>
+  }
+
+  <section class="ejemplos">
+    <span class="suave">¿No tienes un archivo a mano? Prueba con un ejemplo sintético:</span>
+    <button class="boton" type="button" [disabled]="validando()" (click)="probarEjemplo('rips-valido.json')">✓ RIPS válido</button>
+    <button class="boton" type="button" [disabled]="validando()" (click)="probarEjemplo('rips-con-errores.json')">✕ RIPS con errores</button>
+  </section>
+
+  <section class="que-valida">
+    <div class="tarjeta">
+      <h3>📐 Estructura</h3>
+      <p>Campos obligatorios, formatos de CUPS, CIE-10, código REPS y DIVIPOLA, catálogos y fechas.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>👥 Usuarios</h3>
+      <p>Usuarios repetidos, consecutivos fuera de orden y documento que no corresponde a la edad.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>🩺 Coherencia clínica</h3>
+      <p>Diagnósticos incompatibles con el sexo y atenciones anteriores al nacimiento.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>💲 Valores</h3>
+      <p>Valores negativos o en cero y pagos moderadores mayores que el servicio.</p>
+    </div>
+  </section>
+}
