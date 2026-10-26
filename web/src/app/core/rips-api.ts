@@ -47,6 +47,10 @@ function traducirError(error: HttpErrorResponse): Observable<never> {
         ? 'El archivo no tiene la estructura de un RIPS en JSON (Resolución 2275 de 2023).'
         : error.status === 404
           ? 'La validación no existe.'
-          : `La API respondió con un error (${error.status}).`;
+          : error.status === 413
+            ? 'El archivo supera el tamaño máximo que acepta la API.'
+            : error.status === 429
+              ? 'Demasiadas validaciones seguidas. Espera un minuto e inténtalo de nuevo.'
+              : `La API respondió con un error (${error.status}).`;
   return throwError(() => new Error(mensaje));
 }
