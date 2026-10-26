@@ -34,6 +34,18 @@ class SincronizadorTablas implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) {
         long inicio = System.currentTimeMillis();
+        // Con la base en archivo, casi siempre ya están cargadas: recargar ~230 mil filas en cada
+        // arranque es lento. Se recarga solo si cambió la cantidad de códigos de alguna tabla.
+        Map<String, Integer> enBase = new java.util.HashMap<>();
+        jdbc.query("select tabla, count(*) as n from item_referencia group by tabla", fila -> {
+            enBase.put(fila.getString("tabla"), fila.getInt("n"));
+        });
+        Map<String, Integer> empaquetadas = new java.util.HashMap<>();
+        tablas.resumen().forEach(t -> empaquetadas.put(t.tabla(), t.registros()));
+        if (enBase.equals(empaquetadas)) {
+            log.info("Tablas de referencia de SISPRO al día en la base de datos ({} tablas)", enBase.size());
+            return;
+        }
         jdbc.update("delete from item_referencia");
         // JDBC por lotes y no JPA: son decenas de miles de filas y no se necesita el contexto de persistencia.
         List<Object[]> filas = new ArrayList<>(LOTE);

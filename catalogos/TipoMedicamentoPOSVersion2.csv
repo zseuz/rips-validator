@@ -1,0 +1,6 @@
+codigo,nombre,habilitado
+01,Medicamento con uso con registro sanitario,SI
+02,Medicamento con uso como vital no disponible definido por INVIMA,SI
+03,Preparacion magistral,SI
+04,Medicamento con uso no incluido en el registro sanitario (Listado UNIRS),SI
+05,Medicamento con autorizacion sanitaria de uso emergencia ASUE,SI

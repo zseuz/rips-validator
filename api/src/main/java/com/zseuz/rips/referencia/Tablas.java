@@ -19,6 +19,15 @@ public final class Tablas {
     public static final String CAUSA_EXTERNA = "RIPSCausaExternaVersion2";
     public static final String TIPO_DIAGNOSTICO = "RIPSTipoDiagnosticoPrincipalVersion2";
     public static final String VIA_INGRESO = "ViaIngresoUsuario";
+    /** Códigos de habilitación del REPS (prestador + sede). */
+    public static final String REPS = "IPSCodHabilitacion";
+    /** Entidades autorizadas para reportar que no están en el REPS. */
+    public static final String NO_REPS = "IPSnoREPS";
+    public static final String CONDICION_EGRESO = "CondicionyDestinoUsuarioEgreso";
+    public static final String TIPO_MEDICAMENTO = "TipoMedicamentoPOSVersion2";
+    public static final String TIPO_OTRO_SERVICIO = "TipoOtrosServicios";
+    public static final String UNIDAD_MEDIDA = "UMM";
+    public static final String FORMA_FARMACEUTICA = "FFM";
 
     private Tablas() {
     }

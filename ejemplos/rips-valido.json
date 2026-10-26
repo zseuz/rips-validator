@@ -19,7 +19,7 @@
       "servicios": {
         "consultas": [
           {
-            "codPrestador": "110010000001",
+            "codPrestador": "760010379901",
             "fechaInicioAtencion": "2026-09-15 08:30",
             "numAutorizacion": null,
             "codConsulta": "890201",
@@ -42,7 +42,7 @@
             "consecutivo": 1
           },
           {
-            "codPrestador": "110010000001",
+            "codPrestador": "760010379901",
             "fechaInicioAtencion": "2026-09-29 10:00",
             "numAutorizacion": null,
             "codConsulta": "890301",
@@ -67,7 +67,7 @@
         ],
         "procedimientos": [
           {
-            "codPrestador": "110010000001",
+            "codPrestador": "760010379901",
             "fechaInicioAtencion": "2026-09-15 09:10",
             "idMIPRES": null,
             "numAutorizacion": null,
@@ -83,6 +83,69 @@
             "codDiagnosticoRelacionado": null,
             "codComplicacion": null,
             "vrServicio": 18500,
+            "conceptoRecaudo": "05",
+            "valorPagoModerador": 0,
+            "numFEVPagoModerador": null,
+            "consecutivo": 1
+          }
+        ],
+        "urgencias": [
+          {
+            "codPrestador": "760010379901",
+            "fechaInicioAtencion": "2026-09-20 22:15",
+            "causaMotivoAtencion": "38",
+            "codDiagnosticoPrincipal": "R51X",
+            "codDiagnosticoPrincipalE": "R51X",
+            "codDiagnosticoRelacionadoE1": null,
+            "codDiagnosticoRelacionadoE2": null,
+            "codDiagnosticoRelacionadoE3": null,
+            "condicionDestinoUsuarioEgreso": "01",
+            "codDiagnosticoCausaMuerte": null,
+            "fechaEgreso": "2026-09-21 03:40",
+            "consecutivo": 1
+          }
+        ],
+        "medicamentos": [
+          {
+            "codPrestador": "760010379901",
+            "numAutorizacion": null,
+            "idMIPRES": null,
+            "fechaDispensAdmon": "2026-09-21 03:30",
+            "codDiagnosticoPrincipal": "R51X",
+            "codDiagnosticoRelacionado": null,
+            "tipoMedicamento": "01",
+            "codTecnologiaSalud": "10045-1",
+            "nomTecnologiaSalud": "IBUPROFENO 500 MG TABLETA",
+            "concentracionMedicamento": 500,
+            "unidadMedida": 168,
+            "formaFarmaceutica": "COLFF001",
+            "unidadMinDispensa": 1,
+            "cantidadMedicamento": 10,
+            "diasTratamiento": 5,
+            "tipoDocumentoIdentificacion": "CC",
+            "numDocumentoIdentificacion": "79876543",
+            "vrUnitMedicamento": 350,
+            "vrServicio": 3500,
+            "conceptoRecaudo": "05",
+            "valorPagoModerador": 0,
+            "numFEVPagoModerador": null,
+            "consecutivo": 1
+          }
+        ],
+        "otrosServicios": [
+          {
+            "codPrestador": "760010379901",
+            "numAutorizacion": null,
+            "idMIPRES": null,
+            "fechaSuministroTecnologia": "2026-09-20 22:40",
+            "tipoOS": "01",
+            "codTecnologiaSalud": "INS0001",
+            "nomTecnologiaSalud": "JERINGA DESECHABLE 5 ML",
+            "cantidadOS": 2,
+            "tipoDocumentoIdentificacion": "CC",
+            "numDocumentoIdentificacion": "79876543",
+            "vrUnitOS": 800,
+            "vrServicio": 1600,
             "conceptoRecaudo": "05",
             "valorPagoModerador": 0,
             "numFEVPagoModerador": null,
@@ -106,7 +169,7 @@
       "servicios": {
         "consultas": [
           {
-            "codPrestador": "050010000002",
+            "codPrestador": "050010608601",
             "fechaInicioAtencion": "2026-10-02 15:45",
             "numAutorizacion": null,
             "codConsulta": "890201",

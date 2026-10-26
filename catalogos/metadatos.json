@@ -63,6 +63,34 @@
     "ViaIngresoUsuario": {
       "registros": 14,
       "descargada": "2026-10-26T17:27:03+00:00"
+    },
+    "IPSCodHabilitacion": {
+      "registros": 207494,
+      "descargada": "2026-10-26T18:50:07+00:00"
+    },
+    "IPSnoREPS": {
+      "registros": 3076,
+      "descargada": "2026-10-26T18:50:13+00:00"
+    },
+    "CondicionyDestinoUsuarioEgreso": {
+      "registros": 8,
+      "descargada": "2026-10-26T18:50:15+00:00"
+    },
+    "TipoMedicamentoPOSVersion2": {
+      "registros": 5,
+      "descargada": "2026-10-26T18:50:16+00:00"
+    },
+    "TipoOtrosServicios": {
+      "registros": 6,
+      "descargada": "2026-10-26T18:50:18+00:00"
+    },
+    "UMM": {
+      "registros": 274,
+      "descargada": "2026-10-26T18:50:19+00:00"
+    },
+    "FFM": {
+      "registros": 47,
+      "descargada": "2026-10-26T18:50:21+00:00"
     }
   },
   "fuente": "https://web.sispro.gov.co/WebPublico/Consultas/ConsultarReferenciaBasica.aspx"

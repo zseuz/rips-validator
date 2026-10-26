@@ -18,7 +18,15 @@ import com.zseuz.rips.referencia.Tablas;
 record UbicacionHallazgo(Integer usuario, String tipoServicio, String campo, String tablaReferencia) {
 
     private static final Pattern USUARIO = Pattern.compile("^usuarios\\[(\\d+)]");
-    private static final Pattern SERVICIO = Pattern.compile("servicios\\.(consultas|procedimientos)\\[");
+    private static final Pattern SERVICIO = Pattern.compile("servicios\\.(\\w+)\\[");
+    private static final Map<String, String> TIPOS = Map.of(
+            "consultas", "Consulta",
+            "procedimientos", "Procedimiento",
+            "urgencias", "Urgencia",
+            "hospitalizacion", "Hospitalización",
+            "recienNacidos", "Recién nacido",
+            "medicamentos", "Medicamento",
+            "otrosServicios", "Otro servicio");
 
     private static final Map<String, String> TABLA_POR_CAMPO = Map.ofEntries(
             entry("codDiagnosticoPrincipal", Tablas.CIE10),
@@ -27,6 +35,12 @@ record UbicacionHallazgo(Integer usuario, String tipoServicio, String campo, Str
             entry("codDiagnosticoRelacionado2", Tablas.CIE10),
             entry("codDiagnosticoRelacionado3", Tablas.CIE10),
             entry("codComplicacion", Tablas.CIE10),
+            entry("codDiagnosticoPrincipalE", Tablas.CIE10),
+            entry("codDiagnosticoRelacionadoE1", Tablas.CIE10),
+            entry("codDiagnosticoRelacionadoE2", Tablas.CIE10),
+            entry("codDiagnosticoRelacionadoE3", Tablas.CIE10),
+            entry("codDiagnosticoCausaMuerte", Tablas.CIE10),
+            entry("codPrestador", Tablas.REPS),
             entry("codConsulta", Tablas.CUPS),
             entry("codProcedimiento", Tablas.CUPS),
             entry("codMunicipioResidencia", Tablas.MUNICIPIO),
@@ -38,7 +52,7 @@ record UbicacionHallazgo(Integer usuario, String tipoServicio, String campo, Str
         Integer usuario = u.find() ? Integer.parseInt(u.group(1)) + 1 : null;
         Matcher s = SERVICIO.matcher(ruta);
         String tipo = s.find()
-                ? ("consultas".equals(s.group(1)) ? "Consulta" : "Procedimiento")
+                ? TIPOS.getOrDefault(s.group(1), s.group(1))
                 : (usuario != null ? "Usuario" : "Transacción");
         String campo = ruta.substring(ruta.lastIndexOf('.') + 1).replaceAll("\\[\\d+]$", "");
         return new UbicacionHallazgo(usuario, tipo, campo, TABLA_POR_CAMPO.get(campo));

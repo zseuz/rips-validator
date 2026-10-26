@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.core.annotation.Order;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Component;
 import com.zseuz.rips.referencia.CodigoReferencia;
 import com.zseuz.rips.referencia.Tablas;
 import com.zseuz.rips.referencia.TablasReferencia;
+import com.zseuz.rips.rips.Atencion;
 import com.zseuz.rips.rips.Rips;
-import com.zseuz.rips.rips.ServicioRips;
 import com.zseuz.rips.rips.Usuario;
 
 /**
@@ -37,25 +38,28 @@ class ReglasCoherenciaClinica implements ReglaRips {
         for (int u = 0; u < usuarios.size(); u++) {
             Usuario usuario = usuarios.get(u);
             Optional<LocalDate> nacimiento = Fechas.leerFecha(usuario.fechaNacimiento());
-            String base = "usuarios[" + u + "].servicios.";
-            revisar(usuario.servicios().consultas(), base + "consultas", usuario.codSexo(), nacimiento, hallazgos);
-            revisar(usuario.servicios().procedimientos(), base + "procedimientos", usuario.codSexo(), nacimiento, hallazgos);
+            for (Map.Entry<String, List<? extends Atencion>> lista : usuario.servicios().porTipo().entrySet()) {
+                // Los diagnósticos de un recién nacido son del bebé, no de la usuaria que lo reporta.
+                if (!lista.getKey().equals("recienNacidos")) {
+                    revisar(lista.getValue(), "usuarios[" + u + "].servicios." + lista.getKey(), usuario.codSexo(), nacimiento, hallazgos);
+                }
+            }
         }
     }
 
-    private void revisar(List<? extends ServicioRips> servicios, String rutaLista, String sexo, Optional<LocalDate> nacimiento,
+    private void revisar(List<? extends Atencion> atenciones, String rutaLista, String sexo, Optional<LocalDate> nacimiento,
             Hallazgos hallazgos) {
-        for (int i = 0; i < servicios.size(); i++) {
-            ServicioRips servicio = servicios.get(i);
+        for (int i = 0; i < atenciones.size(); i++) {
+            Atencion atencion = atenciones.get(i);
             // Edad en años cumplidos el día de la atención, que es como la mide la CIE-10 de SISPRO.
-            Optional<Integer> edad = nacimiento.flatMap(n -> Fechas.leerFechaHora(servicio.fechaInicioAtencion())
-                    .map(atencion -> Period.between(n, atencion.toLocalDate()).getYears()))
+            Optional<Integer> edad = nacimiento.flatMap(n -> Fechas.leerFechaHora(atencion.fechaAtencion())
+                    .map(fecha -> Period.between(n, fecha.toLocalDate()).getYears()))
                     .filter(cumplidos -> cumplidos >= 0);
 
-            List<ServicioRips.Campo> diagnosticos = new ArrayList<>();
-            diagnosticos.add(new ServicioRips.Campo("codDiagnosticoPrincipal", servicio.codDiagnosticoPrincipal()));
-            diagnosticos.addAll(servicio.diagnosticosRelacionados());
-            for (ServicioRips.Campo campo : diagnosticos) {
+            List<Atencion.Campo> diagnosticos = new ArrayList<>();
+            diagnosticos.add(new Atencion.Campo("codDiagnosticoPrincipal", atencion.codDiagnosticoPrincipal()));
+            diagnosticos.addAll(atencion.diagnosticosRelacionados());
+            for (Atencion.Campo campo : diagnosticos) {
                 if (campo.valor() == null) {
                     continue;
                 }

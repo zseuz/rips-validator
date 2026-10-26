@@ -1,0 +1,275 @@
+codigo,nombre,habilitado
+1,EID50,SI
+10,Bq,SI
+100,l,SI
+101,log10 EID50,SI
+102,log10 EID51/dosis,NO
+103,log10 CCID50,SI
+104,log10 CCID50/dosis,NO
+105,log10 unidades ELISA,SI
+106,log10 unidades ELISA/dosis,NO
+107,log10 FAI50,SI
+108,log10 FAI50/dosis,NO
+109,log10 PFU,SI
+11,Bq/g,NO
+110,log10 PFU/dosis,NO
+111,log10 TCID50,SI
+112,log10 TCID50/dosis,NO
+113,log10/ml,NO
+114,LU,SI
+115,LU/g,NO
+116,LU/ml,NO
+117,lm,SI
+118,lx,SI
+119,unidades MUSP,SI
+12,Bq/kg,NO
+120,MBq,SI
+121,MBq/g,NO
+122,MBq/kg,NO
+123,MBq/l,NO
+124,MBq/µg,NO
+125,MBq/µl,NO
+126,MBq/mg,NO
+127,MBq/ml,NO
+128,m,SI
+129,µCi,SI
+13,Bq/l,NO
+130,µCi/g,NO
+131,µCi/kg,NO
+132,µCi/l,NO
+133,µCi/µg,NO
+134,µCi/µl,NO
+135,µCi/mg,NO
+136,µCi/ml,NO
+137,µg,SI
+138,µg/m3,NO
+139,µg/kg,NO
+14,Bq/µg,NO
+140,µg/l,NO
+141,µg/µl,NO
+142,µg/ml,NO
+143,µg/m2,NO
+144,µkat,SI
+145,µkat,SI
+146,µl,SI
+147,µl/ml,NO
+148,µmol,SI
+149,µmol/l,NO
+15,Bq/µl,NO
+150,µmol/ml,NO
+151,mCi,SI
+152,mCi/g,NO
+153,mCi/kg,NO
+154,mCi/l,NO
+155,mCi/µg,NO
+156,mCi/µl,NO
+157,mCi/mg,NO
+158,mCi/ml,NO
+159,mEq,SI
+16,Bq/mg,NO
+160,mEq/g,NO
+161,mEq/kg,NO
+162,mEq/l,NO
+163,mEq/µg,NO
+164,mEq/µl,NO
+165,mEq/mg,NO
+166,mEq/ml,NO
+167,mg (titer),SI
+168,mg,SI
+169,mg/m3,NO
+17,Bq/ml,NO
+170,mg/g,NO
+171,mg/kg,NO
+172,mg/l,NO
+173,mg/ml,NO
+174,mg/m2,NO
+175,mkatal,SI
+176,ml,SI
+177,ml/cm2,NO
+178,mm,SI
+179,mmol,SI
+18,billon CFU,SI
+180,mmol/g,NO
+181,mmol/kg,NO
+182,mmol/l,NO
+183,mmol/ml,NO
+184,millon UFC,SI
+185,millon UFC/g,NO
+186,millon UFC/ml,NO
+187,millon UI,SI
+188,millon de organismos,SI
+189,millon de organismos/g,NO
+19,billon CFU/g,NO
+190,millon de organismos/mg,NO
+191,millon de organismos/ml,NO
+192,millon de unidades USP,SI
+193,millon de unidades,SI
+194,mOsm/kg,NO
+195,min,SI
+196,mol,SI
+197,mol/g,NO
+198,mol/kg,NO
+199,mol/l,NO
+2,EID50/dosis,NO
+20,billon CFU/ml,NO
+200,mol/mg,NO
+201,mol/ml,NO
+202,nCi,SI
+203,ng,SI
+204,nkat,SI
+205,nl,SI
+206,nmol,SI
+207,nmol/ml,NO
+208,N,SI
+209,unidades NIH/cm2,NO
+21,billon de organismos,SI
+210,?,SI
+211,OZ,SI
+212,PPM,SI
+213,PPM,SI
+214,%,SI
+215,% (v/v),NO
+216,% (p/v),NO
+217,% (p/p),NO
+218,pg,SI
+219,pkat,SI
+22,billon de organismos/g,NO
+220,PFU,SI
+221,PFU e. 1000 LD50 en ratón,SI
+222,PFU/dosis,NO
+223,PFU/ml,NO
+224,unidad formadora de viruela,SI
+225,LB,SI
+226,unidades de presión/ml,NO
+227,PNU/ml,NO
+228,QS,SI
+229,r/min,NO
+23,billon de organismos/mg,NO
+230,s,SI
+231,S,SI
+232,Sv,SI
+233,cm2,SI
+234,m2,SI
+235,T,SI
+236,miles CFU,SI
+237,miles CFU/g,NO
+238,miles CFU/ml,NO
+239,miles de organismos,SI
+24,billon de organismos/ml,NO
+240,miles de organismos/g,NO
+241,miles de organismos/ml,NO
+242,TCID50/dosis,NO
+243,titre,SI
+244,t,SI
+245,unidad de tuberculina,SI
+246,unidad de tuberculina/ml,NO
+247,U,SI
+248,U/g,NO
+249,U/ml,NO
+25,cd,SI
+250,unidades USP,SI
+251,V,SI
+252,W,SI
+253,Wb,SI
+254,vp,SI
+255,DLmin,SI
+256,DMN,SI
+257,vg,SI
+258,RC,SI
+26,CCID50,SI
+27,CCID50/dosis,NO
+28,°C,SI
+29,CFU/g,NO
+3,AU/ml,NO
+30,CFU/ml,NO
+31,Co,SI
+32,m3,SI
+33,Ci,SI
+34,Ci/g,NO
+35,Ci/kg,NO
+36,Ci/litro,NO
+37,Ci/µg,NO
+38,Ci/µl,NO
+39,Ci/mg,NO
+4,A,SI
+40,Ci/ml,NO
+41,DAgU,SI
+42,DAgU/ml,NO
+43,d,SI
+44,°,SI
+45,DF,SI
+46,Gtt,SI
+47,unidades ELISA,SI
+48,unidades ELISA/dosis,NO
+49,unidades ELISA/ml,NO
+5,AgU,SI
+50,F,SI
+51,FAI50,SI
+52,FAI50/dosis,NO
+53,GBq,SI
+54,GBq/g,NO
+55,GBq/kg,NO
+56,GBq/l,NO
+57,GBq/µg,NO
+58,GBq/µl,NO
+59,GBq/mg,NO
+6,AgU/ml,NO
+60,GBq/ml,NO
+61,g (titre),SI
+62,g,SI
+63,g/m3,NO
+64,g/l,NO
+65,g/ml,NO
+66,g/m2,NO
+67,Gy,SI
+68,H,SI
+69,Hz,SI
+7,ATU,SI
+70,h,SI
+71,IOU,SI
+72,UI,SI
+73,UI/g,NO
+74,UI/kg,NO
+75,UI/l,NO
+76,UI/mg,NO
+77,UI/ml,NO
+78,J,SI
+79,KIU/ml,NO
+8,anti-Xa IU,SI
+80,kat,SI
+81,K,SI
+82,kUI,SI
+83,unidades Kusp,SI
+84,unidades k,SI
+85,kBq,SI
+86,kBq/g,NO
+87,kBq/kg,NO
+88,kBq/l,NO
+89,kBq/µg,NO
+9,anti-Xa IU/ml,NO
+90,kBq/µl,NO
+9000,Dosis,SI
+9001,TPU,SI
+9002,TSU,SI
+9003,DBU,SI
+9004,SU,SI
+9005,IR,SI
+9006,DPP,SI
+9007,HEP,SI
+9008,UT,SI
+9009,SQ,SI
+9010,UB,SI
+9011,DL50,SI
+9012,AU,SI
+9013,BAU,SI
+9014,PNU,SI
+9015,DPU,SI
+91,kBq/mg,NO
+92,kBq/ml,NO
+93,kg,SI
+94,kg/m3,NO
+95,kg/l,NO
+96,kg/m2,NO
+97,LacU,SI
+98,LfU,SI
+99,LfU/ml,NO

@@ -48,6 +48,15 @@ TABLAS: dict[str, list[str]] = {
     "RIPSCausaExternaVersion2": [],
     "RIPSTipoDiagnosticoPrincipalVersion2": [],
     "ViaIngresoUsuario": [],
+    # Prestadores: códigos de habilitación del REPS y entidades autorizadas que no están en el REPS.
+    "IPSCodHabilitacion": [],
+    "IPSnoREPS": [],
+    # Urgencias, hospitalización, recién nacidos, medicamentos y otros servicios.
+    "CondicionyDestinoUsuarioEgreso": [],
+    "TipoMedicamentoPOSVersion2": [],
+    "TipoOtrosServicios": [],
+    "UMM": [],
+    "FFM": [],
 }
 
 

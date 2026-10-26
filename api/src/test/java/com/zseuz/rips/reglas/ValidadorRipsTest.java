@@ -33,7 +33,7 @@ class ValidadorRipsTest {
     private final ValidadorRips validador = new ValidadorRips(List.of(
             new ReglasTransaccion(),
             new ReglasUsuario(Ejemplos.RELOJ),
-            new ReglasServicios(Ejemplos.RELOJ),
+            new ReglasServicios(Ejemplos.RELOJ, TABLAS),
             new ReglasCoherenciaClinica(TABLAS)), TABLAS);
 
     @Test
@@ -208,6 +208,51 @@ class ValidadorRipsTest {
     }
 
     @Test
+    void prestadorQueNoEstaEnElReps() {
+        assertThat(validar(rips -> consulta(rips, 0, 0).put("codPrestador", "110010000001")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV007", "usuarios[0].servicios.consultas[0].codPrestador"));
+    }
+
+    @Test
+    void egresoAnteriorAlIngreso() {
+        assertThat(validar(rips -> servicio(rips, "urgencias").put("fechaEgreso", "2026-09-20 21:00")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV022", "usuarios[0].servicios.urgencias[0].fechaEgreso"));
+    }
+
+    @Test
+    void egresoMuertoExigeCausaDeMuerte() {
+        assertThat(validar(rips -> servicio(rips, "urgencias").put("condicionDestinoUsuarioEgreso", "02")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV001", "usuarios[0].servicios.urgencias[0].codDiagnosticoCausaMuerte"));
+    }
+
+    @Test
+    void relacionadoDeEgresoQueRepiteElPrincipalDeEgreso() {
+        // codDiagnosticoPrincipalE igual al de ingreso es normal; un relacionado de egreso que lo repite, no.
+        assertThat(validar(rips -> servicio(rips, "urgencias").put("codDiagnosticoRelacionadoE1", "R51X")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV031", "usuarios[0].servicios.urgencias[0].codDiagnosticoRelacionadoE1"));
+    }
+
+    @Test
+    void medicamentoConCantidadCeroYUnidadInexistente() {
+        assertThat(validar(rips -> servicio(rips, "medicamentos").put("cantidadMedicamento", 0).put("unidadMedida", 99999)))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactlyInAnyOrder(
+                        tuple("RV043", "usuarios[0].servicios.medicamentos[0].cantidadMedicamento"),
+                        tuple("RV003", "usuarios[0].servicios.medicamentos[0].unidadMedida"));
+    }
+
+    @Test
+    void otroServicioDeTipoInexistente() {
+        assertThat(validar(rips -> servicio(rips, "otrosServicios").put("tipoOS", "99")))
+                .extracting(Hallazgo::codigo, Hallazgo::ruta)
+                .containsExactly(tuple("RV003", "usuarios[0].servicios.otrosServicios[0].tipoOS"));
+    }
+
+    @Test
     void elEjemploConErroresReportaCadaProblema() {
         List<Hallazgo> hallazgos = validador.validar(leer(Ejemplos.leer("rips-con-errores.json")));
         assertThat(hallazgos).extracting(Hallazgo::codigo)
@@ -230,6 +275,11 @@ class ValidadorRipsTest {
 
     private static ObjectNode consulta(ObjectNode rips, int usuario, int indice) {
         return (ObjectNode) usuario(rips, usuario).get("servicios").get("consultas").get(indice);
+    }
+
+    /** El primer registro de un tipo de servicio de la usuaria 1 (urgencias, medicamentos, otrosServicios). */
+    private static ObjectNode servicio(ObjectNode rips, String tipo) {
+        return (ObjectNode) usuario(rips, 0).get("servicios").get(tipo).get(0);
     }
 
     private static ObjectNode procedimiento(ObjectNode rips, int usuario, int indice) {

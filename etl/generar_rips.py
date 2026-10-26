@@ -21,7 +21,8 @@ CUPS_CONSULTA = ["890201", "890301", "890701", "890202"]
 CUPS_PROCEDIMIENTO = ["902210", "903841", "907106", "871121", "903895"]
 CIE10_GENERALES = ["J069", "A09X", "I10X", "E119", "K297", "M545", "N390", "R51X", "Z000", "J00X"]
 MUNICIPIOS = ["11001", "05001", "76001", "08001", "68001", "13001"]
-PRESTADORES = ["110010000001", "050010000002", "760010000003", "080010000004"]
+# Códigos reales del REPS de hospitales públicos (E.S.E.), para que los datos sintéticos pasen la regla RV007.
+PRESTADORES = ["050010608601", "760010379901", "760010252301", "760010395401"]
 
 
 def documento_segun_edad(edad: int) -> str:
@@ -90,6 +91,53 @@ def generar_usuario(rng: random.Random, consecutivo: int, hoy: date) -> dict:
         })
         procedimientos.append(procedimiento)
 
+    urgencias, medicamentos = [], []
+    if rng.random() < 0.25:
+        diagnostico = rng.choice(CIE10_GENERALES)
+        ingreso = datetime.strptime(fecha_atencion(rng, nacimiento, hoy), "%Y-%m-%d %H:%M")
+        egreso = min(ingreso + timedelta(hours=rng.randint(2, 20)), datetime(hoy.year, hoy.month, hoy.day))
+        urgencias.append({
+            "codPrestador": rng.choice(PRESTADORES),
+            "fechaInicioAtencion": ingreso.strftime("%Y-%m-%d %H:%M"),
+            "causaMotivoAtencion": "38",
+            "codDiagnosticoPrincipal": diagnostico,
+            "codDiagnosticoPrincipalE": diagnostico,
+            "codDiagnosticoRelacionadoE1": None,
+            "codDiagnosticoRelacionadoE2": None,
+            "codDiagnosticoRelacionadoE3": None,
+            "condicionDestinoUsuarioEgreso": "01",
+            "codDiagnosticoCausaMuerte": None,
+            "fechaEgreso": max(egreso, ingreso).strftime("%Y-%m-%d %H:%M"),
+            "consecutivo": 1,
+        })
+    if rng.random() < 0.3:
+        cantidad = rng.choice([10, 20, 30])
+        medicamentos.append({
+            "codPrestador": rng.choice(PRESTADORES),
+            "numAutorizacion": None,
+            "idMIPRES": None,
+            "fechaDispensAdmon": fecha_atencion(rng, nacimiento, hoy),
+            "codDiagnosticoPrincipal": rng.choice(CIE10_GENERALES),
+            "codDiagnosticoRelacionado": None,
+            "tipoMedicamento": "01",
+            "codTecnologiaSalud": "10045-1",
+            "nomTecnologiaSalud": "IBUPROFENO 500 MG TABLETA",
+            "concentracionMedicamento": 500,
+            "unidadMedida": 168,               # mg en la tabla UMM
+            "formaFarmaceutica": "COLFF001",   # tabletas de liberación no modificada (FFM)
+            "unidadMinDispensa": 1,
+            "cantidadMedicamento": cantidad,
+            "diasTratamiento": cantidad // 3,
+            "tipoDocumentoIdentificacion": "CC",
+            "numDocumentoIdentificacion": str(rng.randint(10_000_000, 99_999_999)),
+            "vrUnitMedicamento": 350,
+            "vrServicio": 350 * cantidad,
+            "conceptoRecaudo": "05",
+            "valorPagoModerador": 0,
+            "numFEVPagoModerador": None,
+            "consecutivo": 1,
+        })
+
     return {
         "tipoDocumentoIdentificacion": documento_segun_edad(edad),
         "numDocumentoIdentificacion": str(rng.randint(1_000_000_000, 1_199_999_999)),
@@ -102,7 +150,8 @@ def generar_usuario(rng: random.Random, consecutivo: int, hoy: date) -> dict:
         "incapacidad": "NO",
         "consecutivo": consecutivo,
         "codPaisOrigen": "170",
-        "servicios": {"consultas": consultas, "procedimientos": procedimientos},
+        "servicios": {"consultas": consultas, "procedimientos": procedimientos, "urgencias": urgencias,
+                      "medicamentos": medicamentos},
     }
 
 
@@ -149,7 +198,25 @@ def error_cedula_en_menor(rng, rips, hoy):
         servicio["fechaInicioAtencion"] = fecha_atencion(rng, hoy - timedelta(days=60), hoy)
 
 
+def error_prestador_fuera_del_reps(rng, rips, hoy):
+    rng.choice(rips["usuarios"])["servicios"]["consultas"][0]["codPrestador"] = "110019999901"
+
+
+def error_egreso_antes_del_ingreso(rng, rips, hoy):
+    usuario = rng.choice(rips["usuarios"])
+    consulta = usuario["servicios"]["consultas"][0]
+    ingreso = datetime.strptime(consulta["fechaInicioAtencion"], "%Y-%m-%d %H:%M")
+    usuario["servicios"]["urgencias"] = [{
+        "codPrestador": consulta["codPrestador"], "fechaInicioAtencion": consulta["fechaInicioAtencion"],
+        "causaMotivoAtencion": "38", "codDiagnosticoPrincipal": "R51X", "codDiagnosticoPrincipalE": "R51X",
+        "codDiagnosticoRelacionadoE1": None, "codDiagnosticoRelacionadoE2": None, "codDiagnosticoRelacionadoE3": None,
+        "condicionDestinoUsuarioEgreso": "01", "codDiagnosticoCausaMuerte": None,
+        "fechaEgreso": (ingreso - timedelta(hours=3)).strftime("%Y-%m-%d %H:%M"), "consecutivo": 1}]
+
+
 ERRORES = [
+    error_prestador_fuera_del_reps,
+    error_egreso_antes_del_ingreso,
     error_embarazo_en_hombre,
     error_moderador_mayor,
     error_cups_incompleto,

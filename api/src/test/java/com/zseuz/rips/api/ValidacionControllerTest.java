@@ -48,7 +48,7 @@ class ValidacionControllerTest {
                 .andExpect(jsonPath("$.estado").value("VALIDO"))
                 .andExpect(jsonPath("$.numFactura").value("FEV1001"))
                 .andExpect(jsonPath("$.totalUsuarios").value(2))
-                .andExpect(jsonPath("$.totalServicios").value(4))
+                .andExpect(jsonPath("$.totalServicios").value(7))
                 .andExpect(jsonPath("$.hallazgos").isEmpty())
                 .andReturn().getResponse().getHeader("Location");
 

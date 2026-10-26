@@ -1,15 +1,10 @@
 package com.zseuz.rips.rips;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 /**
- * Campos que comparten todos los tipos de servicio. Permite validar consultas y procedimientos
- * con las mismas reglas sin duplicarlas.
+ * Consultas y procedimientos: servicios identificados con un código CUPS. Comparten las reglas de
+ * CUPS, modalidad, grupo de servicios y finalidad.
  */
-public interface ServicioRips {
-
-    String codPrestador();
+public interface ServicioRips extends Cobrable {
 
     String fechaInicioAtencion();
 
@@ -19,29 +14,19 @@ public interface ServicioRips {
 
     String finalidadTecnologiaSalud();
 
-    String codDiagnosticoPrincipal();
-
-    String tipoDocumentoIdentificacion();
-
-    String numDocumentoIdentificacion();
-
-    BigDecimal vrServicio();
-
-    String conceptoRecaudo();
-
-    BigDecimal valorPagoModerador();
-
-    Integer consecutivo();
-
     /** Código CUPS de la consulta o del procedimiento. */
     String codigoTecnologia();
 
     /** Nombre del campo JSON que trae el código CUPS, para armar la ruta del hallazgo. */
     String campoCodigoTecnologia();
 
-    /** Diagnósticos CIE-10 además del principal (relacionados y complicación), con su nombre de campo. */
-    List<Campo> diagnosticosRelacionados();
+    @Override
+    default String fechaAtencion() {
+        return fechaInicioAtencion();
+    }
 
-    record Campo(String nombre, String valor) {
+    @Override
+    default String campoFechaAtencion() {
+        return "fechaInicioAtencion";
     }
 }

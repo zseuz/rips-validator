@@ -22,6 +22,7 @@ public enum CodigoRegla {
     RV004(ERROR, "Fecha inválida o posterior a hoy"),
     RV005(ERROR, "Código deshabilitado en SISPRO"),
     RV006(ERROR, "CUPS que no corresponde al tipo de servicio"),
+    RV007(ERROR, "Prestador que no está habilitado en el REPS"),
 
     RV010(ERROR, "Transacción sin usuarios"),
     RV011(ERROR, "Usuario repetido en la transacción"),
@@ -30,6 +31,7 @@ public enum CodigoRegla {
 
     RV020(ADVERTENCIA, "Tipo de documento no corresponde a la edad"),
     RV021(ERROR, "Atención anterior a la fecha de nacimiento"),
+    RV022(ERROR, "Egreso anterior al ingreso"),
 
     RV030(ERROR, "Diagnóstico que no aplica al sexo del usuario"),
     RV031(ADVERTENCIA, "Diagnóstico relacionado igual al principal"),
@@ -37,7 +39,8 @@ public enum CodigoRegla {
 
     RV040(ERROR, "Valor monetario negativo"),
     RV041(ERROR, "Pago moderador mayor que el valor del servicio"),
-    RV042(ADVERTENCIA, "Servicio con valor cero");
+    RV042(ADVERTENCIA, "Servicio con valor cero"),
+    RV043(ERROR, "Cantidad o peso que debe ser mayor que cero");
 
     private final Severidad severidad;
     private final String titulo;

@@ -1,25 +1,45 @@
 package com.zseuz.rips.rips;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-/**
- * Servicios prestados a un usuario. Por ahora se validan consultas y procedimientos; el resto de
- * tipos del estándar (urgencias, hospitalización, recién nacidos, medicamentos y otros servicios)
- * se ignoran al leer el JSON.
- */
-public record Servicios(List<Consulta> consultas, List<Procedimiento> procedimientos) {
+/** Servicios prestados a un usuario, por tipo, tal como los agrupa el JSON de la Resolución 2275. */
+public record Servicios(
+        List<Consulta> consultas,
+        List<Procedimiento> procedimientos,
+        List<Urgencia> urgencias,
+        List<Hospitalizacion> hospitalizacion,
+        List<RecienNacido> recienNacidos,
+        List<Medicamento> medicamentos,
+        List<OtroServicio> otrosServicios) {
 
-    static final Servicios VACIOS = new Servicios(List.of(), List.of());
+    static final Servicios VACIOS = new Servicios(null, null, null, null, null, null, null);
 
-    public List<Consulta> consultas() {
-        return consultas == null ? List.of() : consultas;
+    public Servicios {
+        consultas = consultas == null ? List.of() : consultas;
+        procedimientos = procedimientos == null ? List.of() : procedimientos;
+        urgencias = urgencias == null ? List.of() : urgencias;
+        hospitalizacion = hospitalizacion == null ? List.of() : hospitalizacion;
+        recienNacidos = recienNacidos == null ? List.of() : recienNacidos;
+        medicamentos = medicamentos == null ? List.of() : medicamentos;
+        otrosServicios = otrosServicios == null ? List.of() : otrosServicios;
     }
 
-    public List<Procedimiento> procedimientos() {
-        return procedimientos == null ? List.of() : procedimientos;
+    /** Cada lista con el nombre de su campo en el JSON, en el orden del estándar. */
+    public Map<String, List<? extends Atencion>> porTipo() {
+        Map<String, List<? extends Atencion>> listas = new LinkedHashMap<>();
+        listas.put("consultas", consultas);
+        listas.put("procedimientos", procedimientos);
+        listas.put("urgencias", urgencias);
+        listas.put("hospitalizacion", hospitalizacion);
+        listas.put("recienNacidos", recienNacidos);
+        listas.put("medicamentos", medicamentos);
+        listas.put("otrosServicios", otrosServicios);
+        return listas;
     }
 
     public int total() {
-        return consultas().size() + procedimientos().size();
+        return porTipo().values().stream().mapToInt(List::size).sum();
     }
 }

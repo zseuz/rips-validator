@@ -54,7 +54,7 @@ class ExportacionControllerTest {
 
         assertThat(texto(descargar(get("/api/v1/exportaciones/validaciones.csv"))))
                 .startsWith("IdValidacion,Factura,Obligado,Estado,FechaValidacion,Usuarios,Servicios,Errores,Advertencias")
-                .containsPattern(",FEV1001,900123456,Válido,\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},2,4,0,0");
+                .containsPattern(",FEV1001,900123456,Válido,\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},2,7,0,0");
         assertThat(texto(descargar(get("/api/v1/exportaciones/reglas.csv"))))
                 .contains("RV032,ADVERTENCIA,Diagnóstico fuera del rango de edad de la CIE-10,Coherencia clínica");
     }

@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -21,15 +22,24 @@ from pathlib import Path
 import pandas as pd
 
 
-def validar(api: str, archivo: Path) -> dict:
+def validar(api: str, archivo: Path, intentos: int = 5) -> dict:
     peticion = urllib.request.Request(
         f"{api}/api/v1/validaciones",
         data=archivo.read_bytes(),
         headers={"Content-Type": "application/json"},
         method="POST",
     )
-    with urllib.request.urlopen(peticion, timeout=30) as respuesta:
-        return json.load(respuesta)
+    try:
+        with urllib.request.urlopen(peticion, timeout=30) as respuesta:
+            return json.load(respuesta)
+    except urllib.error.HTTPError as e:
+        # La API limita las validaciones por minuto (429): se espera lo que indique y se reintenta.
+        if e.code != 429 or intentos == 0:
+            raise
+        espera = int(e.headers.get("Retry-After", "10"))
+        print(f"  Límite de la API alcanzado; esperando {espera} s…", flush=True)
+        time.sleep(espera + 1)
+        return validar(api, archivo, intentos - 1)
 
 
 def main() -> None:
