@@ -2,6 +2,7 @@ import { Component, ElementRef, effect, inject, input } from '@angular/core';
 import {
   Building2,
   ChartColumn,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   CircleCheck,
@@ -28,6 +29,7 @@ import {
 const ICONOS = {
   'archivo-codigo': FileCode2,
   'archivo-texto': FileText,
+  'abajo': ChevronDown,
   'atras': ChevronLeft,
   'buscar': Search,
   'cerrar': X,

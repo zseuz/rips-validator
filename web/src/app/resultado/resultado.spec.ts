@@ -39,7 +39,7 @@ describe('Resultado', () => {
   });
 
   const codigosVisibles = () =>
-    [...(fixture.nativeElement as HTMLElement).querySelectorAll('.hallazgo')].map((li) => li.querySelector('code:last-child')?.textContent);
+    [...(fixture.nativeElement as HTMLElement).querySelectorAll('.hallazgo')].map((li) => li.querySelector('.ruta')?.textContent);
 
   it('muestra los hallazgos en el orden del archivo', () => {
     expect(codigosVisibles()).toEqual([
@@ -59,5 +59,23 @@ describe('Resultado', () => {
     botones[2].click();
     await fixture.whenStable();
     expect(codigosVisibles()).toEqual(['usuarios[10].servicios']);
+  });
+
+  it('busca también por el título de la regla', async () => {
+    const campo = (fixture.nativeElement as HTMLElement).querySelector<HTMLInputElement>('input[type=search]')!;
+    campo.value = 'pago moderador';
+    campo.dispatchEvent(new Event('input'));
+    await fixture.whenStable();
+    expect(codigosVisibles()).toHaveLength(2);
+  });
+
+  it('despliega el detalle del registro al tocar el hallazgo', async () => {
+    const boton = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>('.hallazgo button[aria-expanded]')!;
+    const detalle = () => (fixture.nativeElement as HTMLElement).querySelector(`#${boton.getAttribute('aria-controls')}`)!;
+    expect(detalle().hasAttribute('inert')).toBe(true);
+    boton.click();
+    await fixture.whenStable();
+    expect(boton.getAttribute('aria-expanded')).toBe('true');
+    expect(detalle().hasAttribute('inert')).toBe(false);
   });
 });

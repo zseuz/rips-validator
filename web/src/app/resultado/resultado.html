@@ -6,45 +6,44 @@
   <section
     class="animate-asentar relative overflow-hidden rounded-2xl border p-6 shadow-xl backdrop-blur-md sm:p-8 {{ t.banner }}">
     <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
-      <div class="relative grid h-16 w-16 shrink-0 place-items-center">
-        <span class="animate-halo absolute inset-0 rounded-2xl {{ t.halo }}"></span>
-        <span class="relative grid h-16 w-16 place-items-center rounded-2xl text-white shadow-lg {{ t.icono }}">
-          <app-icono [nombre]="t.nombre" [tamano]="32" [trazo]="2" />
-        </span>
-      </div>
+      <span class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl text-white shadow-lg {{ t.icono }}">
+        <app-icono [nombre]="t.nombre" [tamano]="32" [trazo]="2" />
+      </span>
 
       <div class="min-w-0 flex-1">
-        <h2 class="text-2xl font-extrabold tracking-tight sm:text-3xl {{ t.titulo }}">{{ estado().titulo }}</h2>
-        <p class="mt-1 text-slate-600 dark:text-slate-300">{{ estado().detalle }}</p>
-        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">Validación n.º {{ r.id }}</p>
+        <span
+          class="insignia inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold shadow-lg ring-1 ring-white/50 backdrop-blur-xl dark:ring-white/5 {{ t.insignia }}">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 {{ t.punto }}"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full {{ t.punto }}"></span>
+          </span>
+          {{ estado().insignia }}
+        </span>
+        <h2 class="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl dark:text-white">{{ estado().titulo }}</h2>
+        <p class="mt-1.5 max-w-2xl text-slate-600 dark:text-slate-300">{{ estado().detalle }}</p>
+        <p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500 dark:text-slate-400">
+          <span>Validación n.º {{ r.id }}</span>
+          <span>{{ fecha() }}</span>
+        </p>
       </div>
-
-      <!-- Sello de radicación: el veredicto estampado, como en una ventanilla. -->
-      <p
-        class="animate-estampar grid max-w-[15rem] shrink-0 -rotate-6 justify-items-center gap-1 self-start rounded-lg border-[3px] border-double bg-white/80 px-5 py-3 text-center sm:self-center dark:bg-slate-950/60 {{ t.sello }}"
-        aria-hidden="true">
-        <span class="text-xl leading-tight font-extrabold tracking-[0.12em] uppercase sm:text-2xl">{{ estado().sello }}</span>
-        <span class="font-mono text-xs">{{ fecha() }}</span>
-      </p>
     </div>
   </section>
 
-  <!-- Métricas -->
+  <!-- Métricas: las neutras quedan discretas; errores y advertencias piden acción. -->
   <dl class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
     @for (k of kpis(); track k.etiqueta; let i = $index) {
       <div
-        class="animate-entrar group rounded-2xl border p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl {{ k.tarjeta }}"
+        class="animate-entrar rounded-2xl border p-4 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 {{ k.tarjeta }}"
         [style.animation-delay.ms]="120 + i * 70">
-        <dt class="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
-          <span class="grid h-9 w-9 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110 {{ k.tono }}">
-            <app-icono [nombre]="k.icono" [tamano]="18" />
-          </span>
+        <dt class="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400" [class.font-semibold]="k.prioritaria">
+          <app-icono [nombre]="k.icono" [tamano]="k.prioritaria ? 18 : 15" class="{{ k.icon }}" />
           {{ k.etiqueta }}
         </dt>
-        <dd class="mt-3 truncate font-bold tracking-tight text-slate-900 dark:text-white"
-            [class.text-3xl]="k.numero !== undefined"
+        <dd class="mt-2 truncate font-bold tracking-tight {{ k.cifra }}"
+            [class.text-4xl]="k.prioritaria"
+            [class.text-2xl]="!k.prioritaria && k.numero !== undefined"
             [class.font-mono]="k.texto !== undefined"
-            [class.text-lg]="k.texto !== undefined">
+            [class.text-base]="k.texto !== undefined">
           @if (k.numero !== undefined) {
             <app-contador [valor]="k.numero" />
           } @else {
@@ -61,22 +60,51 @@
       class="animate-entrar rounded-2xl border border-slate-200/80 bg-white/70 p-5 shadow-xl shadow-slate-900/5 backdrop-blur-md sm:p-6 dark:border-slate-800 dark:bg-slate-900/60"
       style="animation-delay: 450ms"
       aria-labelledby="titulo-hallazgos">
-      <header class="flex flex-wrap items-center justify-between gap-3">
+      <header class="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div class="flex items-center gap-3">
           <h3 id="titulo-hallazgos" class="text-lg font-bold text-slate-900 dark:text-white">Qué corregir</h3>
           <span class="rounded-full bg-slate-900 px-2.5 py-0.5 text-xs font-bold text-white dark:bg-white dark:text-slate-900">{{ r.hallazgos.length }}</span>
         </div>
-        <button
-          type="button"
-          class="inline-flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5 px-3.5 py-2 text-sm font-semibold text-indigo-600 transition-all hover:-translate-y-0.5 hover:bg-indigo-500/10 hover:shadow-md active:scale-95 dark:text-indigo-300"
-          (click)="descargarCsv()">
-          <app-icono nombre="descargar" [tamano]="16" />
-          Descargar CSV
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <label class="relative w-full sm:w-[22rem]">
+            <span class="sr-only">Filtrar hallazgos</span>
+            <app-icono nombre="buscar" [tamano]="16" class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-slate-400" />
+            <input
+              type="search"
+              placeholder="Filtrar error por código o descripción..."
+              class="w-full rounded-xl border border-slate-200 bg-white/80 py-2 pr-3 pl-9 text-sm text-slate-800 placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 focus:outline-none dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-100"
+              [value]="busqueda()"
+              (input)="busqueda.set($any($event.target).value)" />
+          </label>
+          <div class="segmentos inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800/80" role="group" aria-label="Severidad">
+            @for (opcion of filtros; track opcion.valor) {
+              @let activo = filtro() === opcion.valor;
+              <button
+                type="button"
+                class="rounded-lg px-3 py-1.5 text-sm font-semibold transition-all"
+                [class]="activo
+                  ? (opcion.valor === 'ERROR' ? 'bg-rose-500 text-white shadow-sm shadow-rose-500/40'
+                    : opcion.valor === 'ADVERTENCIA' ? 'bg-amber-400 text-amber-950 shadow-sm shadow-amber-500/40'
+                    : 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white')
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'"
+                [attr.aria-pressed]="activo"
+                (click)="filtro.set(opcion.valor)">
+                {{ opcion.etiqueta }}
+              </button>
+            }
+          </div>
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5 px-3.5 py-2 text-sm font-semibold text-indigo-600 transition-all hover:-translate-y-0.5 hover:bg-indigo-500/10 hover:shadow-md active:scale-95 dark:text-indigo-300"
+            (click)="descargarCsv()">
+            <app-icono nombre="descargar" [tamano]="16" />
+            Descargar CSV
+          </button>
+        </div>
       </header>
 
       <!-- Por regla: chips que filtran la lista -->
-      <div class="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" aria-label="Hallazgos por regla">
+      <div class="mt-5 grid gap-2 border-b border-slate-200/80 pb-5 sm:grid-cols-2 lg:grid-cols-3 dark:border-slate-800" aria-label="Hallazgos por regla">
         @for (g of porRegla(); track g.codigo) {
           @let activa = regla() === g.codigo;
           <button
@@ -89,8 +117,8 @@
             [attr.aria-label]="g.codigo + ', ' + g.titulo + ': ' + g.cantidad + (g.cantidad === 1 ? ' hallazgo' : ' hallazgos')"
             (click)="alternarRegla(g.codigo)">
             <span
-              class="rounded-md px-2 py-0.5 font-mono text-xs font-semibold"
-              [class]="g.severidad === 'ERROR' ? 'bg-rose-500/10 text-rose-600 dark:text-rose-300' : 'bg-amber-500/10 text-amber-700 dark:text-amber-300'">
+              class="rounded-md px-2 py-0.5 font-mono text-xs font-semibold ring-1 ring-inset"
+              [class]="g.severidad === 'ERROR' ? 'bg-rose-500/10 text-rose-700 ring-rose-500/30 dark:text-rose-300' : 'bg-amber-400/15 text-amber-700 ring-amber-500/30 dark:text-amber-300'">
               {{ g.codigo }}
             </span>
             <span class="min-w-0 flex-1 text-slate-700 dark:text-slate-200">{{ g.titulo }}</span>
@@ -99,102 +127,118 @@
         }
       </div>
 
-      <!-- Filtros -->
-      <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200/80 pt-5 dark:border-slate-800">
-        <div class="segmentos inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800/80" role="group" aria-label="Severidad">
-          @for (opcion of filtros; track opcion.valor) {
-            <button
-              type="button"
-              class="rounded-lg px-3.5 py-1.5 text-sm font-semibold transition-all"
-              [class]="filtro() === opcion.valor
-                ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white'
-                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'"
-              [attr.aria-pressed]="filtro() === opcion.valor"
-              (click)="filtro.set(opcion.valor)">
-              {{ opcion.etiqueta }}
-            </button>
-          }
-        </div>
-        <label class="relative w-full sm:w-80">
-          <span class="sr-only">Buscar</span>
-          <app-icono nombre="buscar" [tamano]="16" class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-slate-400" />
-          <input
-            type="search"
-            placeholder="Buscar por campo, valor o mensaje"
-            class="w-full rounded-xl border border-slate-200 bg-white/80 py-2 pr-3 pl-9 text-sm text-slate-800 placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 focus:outline-none dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-100"
-            [value]="busqueda()"
-            (input)="busqueda.set($any($event.target).value)" />
-        </label>
-      </div>
-
-      <!-- Lista de hallazgos -->
-      <ol class="mt-4 grid gap-3">
+      <!-- Lista de hallazgos: cada uno se despliega para ver el registro afectado. -->
+      <ol class="mt-5 grid gap-3">
         @for (h of visibles(); track h; let i = $index) {
           @let esError = h.severidad === 'ERROR';
+          @let p = posicion(h);
+          @let abierto = abiertos().has(p);
           <li
-            class="hallazgo animate-entrar relative overflow-hidden rounded-xl border border-slate-200/80 bg-white/80 p-4 pl-5 transition-all duration-200 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900/70"
+            class="hallazgo animate-entrar relative overflow-hidden rounded-xl border bg-white/80 transition-all duration-200 hover:shadow-lg dark:bg-slate-900/70"
+            [class]="abierto
+              ? (esError ? 'border-rose-300 shadow-lg shadow-rose-500/10 dark:border-rose-500/40' : 'border-amber-300 shadow-lg shadow-amber-500/10 dark:border-amber-500/40')
+              : 'border-slate-200/80 dark:border-slate-800'"
             [style.animation-delay.ms]="i < 12 ? i * 35 : 0">
             <span class="absolute inset-y-0 left-0 w-1" [class]="esError ? 'bg-rose-500' : 'bg-amber-400'"></span>
 
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200">{{ h.codigo }}</span>
-              <span
-                class="estado inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold"
-                [class]="esError ? 'bg-rose-500/10 text-rose-600 dark:text-rose-300' : 'bg-amber-500/10 text-amber-700 dark:text-amber-300'">{{ esError ? 'Error' : 'Advertencia' }}</span>
-              <span class="flex flex-wrap items-center gap-1 text-sm font-semibold text-slate-900 dark:text-white">
-                @for (parte of migas(h.ruta); track $index; let ultima = $last) {
-                  <span>{{ parte }}</span>
-                  @if (!ultima) {
-                    <app-icono nombre="siguiente" [tamano]="14" class="text-slate-400" />
-                  }
-                }
+            <button
+              type="button"
+              class="flex w-full items-start gap-3 p-4 pl-5 text-left"
+              [attr.aria-expanded]="abierto"
+              [attr.aria-controls]="'detalle-' + p"
+              (click)="alternar(h)">
+              <span class="min-w-0 flex-1">
+                <span class="flex flex-wrap items-center gap-2">
+                  <span
+                    class="rounded-md px-2 py-0.5 font-mono text-xs font-semibold ring-1 ring-inset"
+                    [class]="esError ? 'bg-rose-500/10 text-rose-700 ring-rose-500/30 dark:text-rose-300' : 'bg-amber-400/15 text-amber-700 ring-amber-500/30 dark:text-amber-300'">{{ h.codigo }}</span>
+                  <span
+                    class="estado text-xs font-semibold"
+                    [class]="esError ? 'text-rose-600 dark:text-rose-300' : 'text-amber-700 dark:text-amber-300'">{{ esError ? 'Error' : 'Advertencia' }}</span>
+                  <span class="flex flex-wrap items-center gap-1 text-sm font-semibold text-slate-900 dark:text-white">
+                    @for (parte of migas(h.ruta); track $index; let ultima = $last) {
+                      <span>{{ parte }}</span>
+                      @if (!ultima) {
+                        <app-icono nombre="siguiente" [tamano]="14" class="text-slate-400" />
+                      }
+                    }
+                  </span>
+                </span>
+                <span class="mt-2 block text-slate-700 dark:text-slate-300">{{ h.mensaje }}</span>
               </span>
-            </div>
+              <span
+                class="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-slate-400 transition-all duration-300"
+                [class]="abierto ? 'rotate-180 bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200' : ''">
+                <app-icono nombre="abajo" [tamano]="18" />
+              </span>
+            </button>
 
-            <p class="mt-2 text-slate-700 dark:text-slate-300">{{ h.mensaje }}</p>
-            <p class="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-              @if (h.valor !== null) {
-                <span>Valor recibido</span>
-                <code class="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-slate-800 dark:bg-slate-800 dark:text-slate-100">{{ h.valor }}</code>
-                <span>en</span>
-              }
-              <code class="font-mono break-all">{{ h.ruta }}</code>
-            </p>
-
-            @if (ia().disponible) {
-              @let e = explicaciones().get(posicion(h));
-              @if (!e) {
-                <button
-                  type="button"
-                  class="mt-3 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-semibold text-indigo-600 transition-all hover:bg-indigo-500/10 active:scale-95 dark:text-indigo-300"
-                  (click)="explicar(h)">
-                  <app-icono nombre="chispas" [tamano]="16" />
-                  Explicar y cómo corregirlo
-                </button>
-              } @else if (e?.cargando) {
-                <div
-                  class="animate-brillo mt-3 rounded-xl bg-gradient-to-r from-indigo-500/5 via-violet-500/15 to-indigo-500/5 bg-[length:200%_100%] px-4 py-3 text-sm font-medium text-indigo-700 dark:text-indigo-300">
-                  Consultando a {{ ia().modelo }}…
-                </div>
-              } @else if (e?.explicacion; as x) {
-                <div class="animate-entrar mt-3 rounded-xl border border-indigo-500/20 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-4 text-sm">
-                  <p class="mb-2 inline-flex items-center gap-1.5 font-semibold text-indigo-700 dark:text-indigo-300">
-                    <app-icono nombre="chispas" [tamano]="16" /> Explicación de {{ ia().modelo }}
-                  </p>
-                  <dl class="grid gap-2 text-slate-700 dark:text-slate-300">
-                    <div><dt class="font-semibold text-slate-900 dark:text-white">Qué significa</dt><dd>{{ x.queSignifica }}</dd></div>
-                    <div><dt class="font-semibold text-slate-900 dark:text-white">Cómo corregirlo</dt><dd>{{ x.comoCorregirlo }}</dd></div>
-                    <div><dt class="font-semibold text-slate-900 dark:text-white">Si no se corrige</dt><dd>{{ x.impacto }}</dd></div>
+            <!-- Detalle del registro: se despliega animando la altura (grid de 0fr a 1fr). -->
+            <div
+              [id]="'detalle-' + p"
+              class="grid transition-all duration-300 ease-out"
+              [class]="abierto ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'"
+              [attr.inert]="abierto ? null : ''">
+              <div class="overflow-hidden">
+                <div class="mr-4 ml-5 border-t border-slate-200/80 py-4 dark:border-slate-800">
+                  <dl class="grid gap-3 text-sm sm:grid-cols-2">
+                    <div>
+                      <dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Regla</dt>
+                      <dd class="mt-0.5 text-slate-800 dark:text-slate-100">{{ tituloRegla(h.codigo) }}</dd>
+                    </div>
+                    <div>
+                      <dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Valor recibido</dt>
+                      <dd class="mt-0.5">
+                        @if (h.valor !== null) {
+                          <code class="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-slate-800 dark:bg-slate-800 dark:text-slate-100">{{ h.valor }}</code>
+                        } @else {
+                          <span class="text-slate-500 dark:text-slate-400">Sin valor</span>
+                        }
+                      </dd>
+                    </div>
+                    <div class="sm:col-span-2">
+                      <dt class="text-xs font-medium text-slate-500 dark:text-slate-400">Ubicación en el RIPS</dt>
+                      <dd class="mt-0.5"><code class="ruta font-mono text-xs break-all text-slate-600 dark:text-slate-300">{{ h.ruta }}</code></dd>
+                    </div>
                   </dl>
-                  <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Generada con IA: verifícala antes de corregir.</p>
+
+                  @if (ia().disponible) {
+                    @let e = explicaciones().get(p);
+                    @if (!e) {
+                      <button
+                        type="button"
+                        class="mt-4 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-semibold text-indigo-600 transition-all hover:bg-indigo-500/10 active:scale-95 dark:text-indigo-300"
+                        (click)="explicar(h)">
+                        <app-icono nombre="chispas" [tamano]="16" />
+                        Explicar y cómo corregirlo
+                      </button>
+                    } @else if (e?.cargando) {
+                      <div
+                        class="animate-brillo mt-4 rounded-xl bg-gradient-to-r from-indigo-500/5 via-violet-500/15 to-indigo-500/5 bg-[length:200%_100%] px-4 py-3 text-sm font-medium text-indigo-700 dark:text-indigo-300">
+                        Consultando a {{ ia().modelo }}…
+                      </div>
+                    } @else if (e?.explicacion; as x) {
+                      <div class="animate-entrar mt-4 rounded-xl border border-indigo-500/20 bg-gradient-to-br from-indigo-500/10 via-violet-500/5 to-transparent p-4 text-sm">
+                        <p class="mb-2 inline-flex items-center gap-1.5 font-semibold text-indigo-700 dark:text-indigo-300">
+                          <app-icono nombre="chispas" [tamano]="16" /> Explicación de {{ ia().modelo }}
+                        </p>
+                        <dl class="grid gap-2 text-slate-700 dark:text-slate-300">
+                          <div><dt class="font-semibold text-slate-900 dark:text-white">Qué significa</dt><dd>{{ x.queSignifica }}</dd></div>
+                          <div><dt class="font-semibold text-slate-900 dark:text-white">Cómo corregirlo</dt><dd>{{ x.comoCorregirlo }}</dd></div>
+                          <div><dt class="font-semibold text-slate-900 dark:text-white">Si no se corrige</dt><dd>{{ x.impacto }}</dd></div>
+                        </dl>
+                        <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Generada con IA: verifícala antes de corregir.</p>
+                      </div>
+                    } @else {
+                      <p class="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">
+                        {{ e?.error }}
+                        <button type="button" class="font-semibold underline" (click)="explicar(h)">Intentar de nuevo</button>
+                      </p>
+                    }
+                  }
                 </div>
-              } @else {
-                <p class="mt-3 flex flex-wrap items-center gap-2 rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-300">
-                  {{ e?.error }}
-                  <button type="button" class="font-semibold underline" (click)="explicar(h)">Intentar de nuevo</button>
-                </p>
-              }
-            }
+              </div>
+            </div>
           </li>
         } @empty {
           <li class="rounded-xl border border-dashed border-slate-300 p-6 text-center text-slate-500 dark:border-slate-700 dark:text-slate-400">
