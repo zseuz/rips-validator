@@ -50,8 +50,8 @@ describe('Resultado', () => {
   });
 
   it('agrupa por regla con el título del catálogo', () => {
-    const chips = [...(fixture.nativeElement as HTMLElement).querySelectorAll('.regla')].map((b) => b.textContent?.replace(/\s+/g, ' ').trim());
-    expect(chips[0]).toBe('RV041 Pago moderador mayor que el valor del servicio ×2');
+    const chips = [...(fixture.nativeElement as HTMLElement).querySelectorAll('.regla')].map((b) => b.getAttribute('aria-label'));
+    expect(chips[0]).toBe('RV041, Pago moderador mayor que el valor del servicio: 2 hallazgos');
   });
 
   it('filtra por severidad', async () => {

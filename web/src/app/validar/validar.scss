@@ -1,163 +1,167 @@
 :host {
-  display: grid;
-  gap: 1.25rem;
+  display: block;
 }
 
-.suave {
-  color: var(--texto-suave);
-}
-
-.intro {
-  text-align: center;
+.encabezado {
+  max-width: 44rem;
+  margin-bottom: 2rem;
 
   h1 {
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    background: linear-gradient(90deg, var(--primario), var(--acento));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    letter-spacing: -0.02em;
   }
 
   p {
-    max-width: 620px;
-    margin: 0.6rem auto 0;
-    color: var(--texto-suave);
+    margin-top: 0.75rem;
+    font-size: 1.05rem;
+    color: var(--tinta-suave);
   }
+}
+
+// El formulario es una hoja sobre el papel: un solo plano, con renglones, sin sombras.
+.formulario {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1.5px solid var(--tinta);
+  border-radius: 3px;
+  background: var(--hoja);
+}
+
+.campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.campo {
+  display: grid;
+  gap: 0.25rem;
+  align-content: start;
+}
+
+.campo__nombre {
+  font-weight: 700;
+}
+
+.campo__ayuda {
+  font-size: 0.875rem;
+  color: var(--tinta-suave);
+  margin-bottom: 0.5rem;
 }
 
 .zona {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 3rem 1rem;
-  border: 2px dashed var(--borde);
-  border-radius: var(--radio);
-  background: var(--superficie);
+  display: block;
+  padding: 1.75rem 1rem;
+  border: 1.5px dashed var(--renglon);
+  border-radius: 3px;
+  color: var(--tinta-suave);
   text-align: center;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s, transform 0.2s;
 
   &:hover,
   &:focus-within,
-  &--activa {
-    border-color: var(--primario);
-    background: var(--primario-suave);
+  &--encima {
+    border-color: var(--sello);
+    background: var(--sello-fondo);
+    color: var(--tinta);
   }
 
-  &--activa {
-    transform: scale(1.01);
-  }
-
-  &--ocupada {
-    cursor: progress;
+  &:focus-within {
+    outline: 2px solid var(--sello);
+    outline-offset: 2px;
   }
 }
 
-.zona__icono {
-  display: grid;
-  place-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  color: var(--primario);
-  background: var(--primario-suave);
+.zona__elegir {
+  color: var(--sello);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.zona__spinner {
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 3px solid var(--primario-suave);
-  border-top-color: var(--primario);
-  border-radius: 50%;
-  animation: girar 0.8s linear infinite;
+.archivo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  padding: 1rem;
+  border: 1.5px solid var(--listo);
+  border-radius: 3px;
+  background: var(--listo-fondo);
 }
 
-.factura {
+.archivo__nombre {
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.acciones {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  font-size: 0.85rem;
-}
-
-.factura__adjuntar {
-  color: var(--primario);
-  font-weight: 500;
-  cursor: pointer;
-
-  &:hover,
-  &:focus-within {
-    text-decoration: underline;
-  }
-}
-
-.factura__chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.25rem 0.4rem 0.25rem 0.7rem;
-  border-radius: 999px;
-  background: var(--primario-suave);
-  color: var(--primario);
-  font-weight: 500;
-
-  button {
-    border: 0;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-  }
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--renglon-suave);
 }
 
 .ejemplos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
   font-size: 0.9rem;
+  color: var(--tinta-suave);
 }
 
-.que-valida {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.75rem;
-  margin-top: 0.75rem;
+.revisiones {
+  margin-top: 3rem;
 
-  .tarjeta {
-    padding: 1rem 1.1rem;
+  h2 {
+    font-size: 1.15rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1.5px solid var(--tinta);
   }
 
-  h3 {
-    font-size: 0.95rem;
+  dl {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0;
+
+    @media (max-width: 720px) {
+      grid-template-columns: 1fr;
+    }
+
+    div {
+      padding: 1rem 1.5rem 1rem 0;
+      border-bottom: 1px solid var(--renglon);
+    }
   }
 
-  p {
-    margin: 0.4rem 0 0;
-    font-size: 0.85rem;
-    color: var(--texto-suave);
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0.25rem 0 0;
+    color: var(--tinta-suave);
+    max-width: 30rem;
   }
 }
 
 .fuente {
-  margin: 0;
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--texto-suave);
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
 }
 
-.barra-archivo {
+.radicado {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-}
-
-@keyframes girar {
-  to {
-    transform: rotate(360deg);
-  }
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--renglon);
 }

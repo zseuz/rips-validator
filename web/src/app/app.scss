@@ -5,18 +5,14 @@
 }
 
 .barra {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: color-mix(in srgb, var(--fondo) 85%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--borde);
+  border-bottom: 1.5px solid var(--tinta);
+  background: var(--papel);
 }
 
 .barra__contenido {
   max-width: var(--ancho);
   margin: 0 auto;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,48 +21,47 @@
 
 .marca {
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  color: var(--texto);
+  flex-direction: column;
+  color: var(--tinta);
   text-decoration: none;
-  font-size: 1.05rem;
-}
+  line-height: 1.2;
 
-.marca__icono {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.6rem;
-  color: #fff;
-  background: linear-gradient(135deg, var(--primario), var(--acento));
-}
+  strong {
+    font-size: 1.15rem;
+  }
 
-nav {
-  display: flex;
-  gap: 0.25rem;
-
-  a {
-    padding: 0.45rem 0.85rem;
-    border-radius: 999px;
-    color: var(--texto-suave);
-    text-decoration: none;
-    font-weight: 500;
-
-    &:hover {
-      color: var(--texto);
-      background: var(--superficie-2);
-    }
-
-    &.activo {
-      color: var(--primario);
-      background: var(--primario-suave);
-    }
+  span {
+    font-size: 0.8rem;
+    color: var(--tinta-suave);
   }
 }
 
 nav {
+  display: flex;
   align-items: center;
+  gap: 1.5rem;
+
+  @media (max-width: 480px) {
+    gap: 0.9rem;
+  }
+
+  a {
+    color: var(--tinta-suave);
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      color: var(--tinta);
+    }
+
+    &.activo {
+      color: var(--tinta);
+      font-weight: 700;
+      border-bottom-color: var(--sello);
+    }
+  }
 }
 
 .tema {
@@ -74,18 +69,15 @@ nav {
   place-items: center;
   width: 2.25rem;
   height: 2.25rem;
-  margin-left: 0.35rem;
-  border: 1px solid var(--borde);
-  border-radius: 50%;
-  background: var(--superficie);
-  color: var(--texto-suave);
+  border: 1.5px solid var(--renglon);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--tinta-suave);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s, transform 0.3s;
 
   &:hover {
-    color: var(--primario);
-    border-color: var(--primario);
-    transform: rotate(20deg);
+    color: var(--tinta);
+    border-color: var(--tinta);
   }
 }
 
@@ -94,17 +86,19 @@ main {
   width: 100%;
   max-width: var(--ancho);
   margin: 0 auto;
-  padding: 2rem 1rem 3rem;
+  padding: 2.5rem 1.25rem 4rem;
 }
 
 footer {
-  padding: 1.25rem 1rem;
-  text-align: center;
-  font-size: 0.8rem;
-  color: var(--texto-suave);
-  border-top: 1px solid var(--borde);
+  border-top: 1px solid var(--renglon);
+  padding: 1.25rem 0;
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
 
-  a {
-    color: inherit;
+  // Mismo ancho y margen interior que <main>, para que el texto quede alineado con el contenido.
+  p {
+    max-width: var(--ancho);
+    margin: 0 auto;
+    padding: 0 1.25rem;
   }
 }

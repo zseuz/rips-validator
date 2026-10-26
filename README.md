@@ -109,7 +109,7 @@ cd api && ./mvnw spring-boot:run
 cd web && npm install && npm start
 ```
 
-Abre http://localhost:4200, arrastra un `.json` o usa los botones de ejemplo. En desarrollo, Angular
+Abre http://localhost:4200 y sube los dos archivos, que son obligatorios: el RIPS (`.json`) y el XML de su factura electrónica; o usa uno de los ejemplos sintéticos. La API sigue aceptando el RIPS solo en `POST /api/v1/validaciones`, que es lo que usa el validador por lotes. En desarrollo, Angular
 reenvía `/api` a la API en el puerto 8080 ([`proxy.conf.json`](web/proxy.conf.json)).
 
 La documentación interactiva de la API está en http://localhost:8080/swagger-ui.html. También puedes validar desde la terminal:
@@ -272,7 +272,7 @@ cd web && npm run e2e
 - **API:** 55 pruebas (las reglas una por una contra las tablas reales de SISPRO, la factura XML, las
   exportaciones, los límites y la API completa con MockMvc).
 - **Frontend:** 8 pruebas unitarias con Vitest.
-- **Punta a punta:** 5 pruebas con Playwright que manejan el frontend real contra la API real (subir
+- **Punta a punta:** 6 pruebas con Playwright que manejan el frontend real contra la API real (subir
   archivos, filtros, factura XML, historial, tema). Necesitan el jar: `cd api && ./mvnw -DskipTests package`.
 
 En cada push, el [CI](.github/workflows/ci.yml) corre todo eso y además valida un lote sintético contra la

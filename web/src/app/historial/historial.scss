@@ -1,35 +1,37 @@
 :host {
   display: grid;
-  gap: 1.25rem;
+  gap: 2rem;
 }
 
-.cabecera p,
-.suave {
-  color: var(--texto-suave);
-}
+.cabecera {
+  h1 {
+    font-size: clamp(1.9rem, 4.5vw, 2.4rem);
+    letter-spacing: -0.02em;
+  }
 
-.cabecera p {
-  margin: 0.4rem 0 0;
+  p {
+    margin-top: 0.5rem;
+    color: var(--tinta-suave);
+  }
 }
 
 .powerbi {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  border-top: 1.5px solid var(--tinta);
+  border-bottom: 1px solid var(--renglon);
 
   h2 {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   p {
-    margin: 0.3rem 0 0;
-    font-size: 0.85rem;
-    color: var(--texto-suave);
-  }
-
-  a:not(.boton) {
-    color: var(--primario);
+    margin-top: 0.35rem;
+    max-width: 44rem;
+    color: var(--tinta-suave);
   }
 
   .boton {
@@ -42,19 +44,8 @@
   }
 }
 
-.powerbi__icono {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 12px;
-  color: #f2c811;
-  background: color-mix(in srgb, #f2c811 14%, transparent);
-}
-
-.powerbi__texto {
-  flex: 1;
+.datos {
+  font-size: 0.9rem;
 }
 
 .tabla-contenedor {
@@ -64,51 +55,48 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
 }
 
 th,
 td {
-  padding: 0.7rem 0.9rem;
+  padding: 0.65rem 0.75rem;
   text-align: left;
   white-space: nowrap;
 }
 
 th {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--texto-suave);
-  border-bottom: 1px solid var(--borde);
+  font-weight: 700;
+  border-bottom: 1.5px solid var(--tinta);
 }
 
 tbody tr {
   cursor: pointer;
-  transition: background 0.15s;
+
+  td {
+    border-bottom: 1px solid var(--renglon);
+  }
 
   &:hover,
   &:focus-visible {
-    background: var(--superficie-2);
+    background: var(--sello-fondo);
     outline: none;
-  }
-
-  & + tr td {
-    border-top: 1px solid var(--borde);
   }
 }
 
 .num {
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .rojo {
-  color: var(--error-fuerte);
-  font-weight: 600;
+  color: var(--devuelto);
+  font-weight: 700;
 }
 
-.ambar {
-  color: var(--aviso);
-  font-weight: 600;
+.ocre {
+  color: var(--glosa);
+  font-weight: 700;
 }
 
 .paginas {
@@ -116,14 +104,10 @@ tbody tr {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .vacio {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 2rem;
-  color: var(--texto-suave);
+  padding: 2rem 0;
+  color: var(--tinta-suave);
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Factura electrónica SINTÉTICA para probar el cruce con ejemplos/rips-con-errores.json.
+  Reducida a los campos que usa el validador (UBL 2.1 de la DIAN); no es una factura real ni válida ante la DIAN.
+-->
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+         xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+         xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+  <cbc:UBLVersionID>UBL 2.1</cbc:UBLVersionID>
+  <cbc:ID>FEV1002</cbc:ID>
+  <cbc:IssueDate>2026-10-10</cbc:IssueDate>
+  <cbc:IssueTime>10:15:00-05:00</cbc:IssueTime>
+  <cbc:InvoiceTypeCode>01</cbc:InvoiceTypeCode>
+  <cbc:DocumentCurrencyCode>COP</cbc:DocumentCurrencyCode>
+  <cac:AccountingSupplierParty>
+    <cac:Party>
+      <cac:PartyTaxScheme>
+        <cbc:RegistrationName>IPS SINTETICA DE PRUEBA S.A.S.</cbc:RegistrationName>
+        <cbc:CompanyID schemeName="31">900123456</cbc:CompanyID>
+      </cac:PartyTaxScheme>
+    </cac:Party>
+  </cac:AccountingSupplierParty>
+  <cac:LegalMonetaryTotal>
+    <cbc:LineExtensionAmount currencyID="COP">26500.00</cbc:LineExtensionAmount>
+    <cbc:TaxExclusiveAmount currencyID="COP">0.00</cbc:TaxExclusiveAmount>
+    <cbc:TaxInclusiveAmount currencyID="COP">26500.00</cbc:TaxInclusiveAmount>
+    <cbc:PayableAmount currencyID="COP">26500.00</cbc:PayableAmount>
+  </cac:LegalMonetaryTotal>
+</Invoice>

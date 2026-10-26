@@ -14,7 +14,7 @@ type Estado = { cargando: true } | { cargando: false; resultado?: ResultadoValid
   selector: 'app-detalle',
   imports: [Resultado, RouterLink],
   template: `
-    <a class="volver" routerLink="/historial">← Volver al historial</a>
+    <a class="volver" routerLink="/historial">Volver al historial</a>
     @let e = estado();
     @if (e.cargando) {
       <p class="suave">Cargando…</p>
@@ -26,9 +26,9 @@ type Estado = { cargando: true } | { cargando: false; resultado?: ResultadoValid
   `,
   styles: `
     :host { display: grid; gap: 1.25rem; }
-    .volver { color: var(--texto-suave); text-decoration: none; font-weight: 500; }
-    .volver:hover { color: var(--primario); }
-    .suave { color: var(--texto-suave); }
+    .volver { justify-self: start; color: var(--sello); font-weight: 500; }
+    
+    
   `,
 })
 export class Detalle {

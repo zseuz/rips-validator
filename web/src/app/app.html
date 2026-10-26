@@ -1,12 +1,10 @@
 <header class="barra">
   <div class="barra__contenido">
     <a routerLink="/" class="marca">
-      <span class="marca__icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="currentColor" /></svg>
-      </span>
-      <span>RIPS <strong>Validator</strong></span>
+      <strong>Validador RIPS</strong>
+      <span>Resolución 2275 de 2023</span>
     </a>
-    <nav>
+    <nav aria-label="Secciones">
       <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Validar</a>
       <a routerLink="/historial" routerLinkActive="activo">Historial</a>
       @let oscuro = tema.tema() === 'oscuro';
@@ -36,6 +34,8 @@
 </main>
 
 <footer>
-  Proyecto de portafolio, no oficial · No reemplaza la validación del Ministerio de Salud ·
-  <a href="https://github.com/zseuz/rips-validator" target="_blank" rel="noopener">Código en GitHub</a>
+  <p>
+    Proyecto de portafolio, no oficial: no reemplaza la validación del Ministerio de Salud.
+    <a href="https://github.com/zseuz/rips-validator" target="_blank" rel="noopener">Ver el código en GitHub</a>
+  </p>
 </footer>

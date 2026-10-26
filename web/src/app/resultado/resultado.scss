@@ -1,300 +1,301 @@
 :host {
   display: grid;
-  gap: 1.25rem;
+  gap: 2rem;
 }
 
-.estado {
-  --color: var(--error-fuerte);
-  --suave: var(--error-suave);
-  display: flex;
-  gap: 1.1rem;
-  align-items: flex-start;
-  padding: 1.25rem 1.4rem;
-  border-radius: var(--radio);
-  border: 1px solid color-mix(in srgb, var(--color) 35%, transparent);
-  background: var(--suave);
-  animation: aparecer 0.35s ease-out;
+// --- Veredicto: el sello es lo único llamativo de la página ------------------------------
+
+.veredicto {
+  --tinta-sello: var(--devuelto);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 2rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
 
   &--VALIDO {
-    --color: var(--exito);
-    --suave: var(--exito-suave);
+    --tinta-sello: var(--listo);
   }
 
   &--VALIDO_CON_ADVERTENCIAS {
-    --color: var(--aviso);
-    --suave: var(--aviso-suave);
+    --tinta-sello: var(--glosa);
   }
 
   h2 {
-    margin: 0.4rem 0 0.2rem;
-    font-size: 1.35rem;
+    font-size: 1.6rem;
   }
+}
+
+.sello {
+  display: grid;
+  justify-items: center;
+  gap: 0.2rem;
+  max-width: 15rem;
+  padding: 0.85rem 1.1rem;
+  border: 3px double var(--tinta-sello);
+  border-radius: 6px;
+  color: var(--tinta-sello);
+  text-align: center;
+  transform: rotate(-4deg);
+  // Tinta de sello: un poco gastada, no un bloque sólido.
+  opacity: 0.92;
+  animation: estampar 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.sello__texto {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sello__fecha {
+  font-family: var(--codigo);
+  font-size: 0.8rem;
+}
+
+@keyframes estampar {
+  from {
+    opacity: 0;
+    transform: rotate(-4deg) scale(1.35);
+  }
+}
+
+.veredicto__texto {
+  display: grid;
+  gap: 0.4rem;
 
   p {
-    margin: 0;
-    color: var(--texto-suave);
+    color: var(--tinta-suave);
+    max-width: 40rem;
   }
 }
 
-.estado__icono {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  color: #fff;
-  background: var(--color);
-  font-size: 1.5rem;
-  font-weight: 700;
+.resumen {
+  margin-top: 0.4rem;
+  color: var(--tinta) !important;
 }
 
-.estado__meta {
-  margin-top: 0.5rem !important;
-  font-size: 0.85rem;
+.cuenta-error {
+  color: var(--devuelto);
 }
 
-.totales {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-
-  @media (max-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.cuenta-aviso {
+  color: var(--glosa);
 }
 
-.total {
-  padding: 0.9rem 1rem;
-  color: var(--texto-suave);
-  font-size: 0.85rem;
-
-  span {
-    display: block;
-    color: var(--texto);
-    font-size: 1.7rem;
-    font-weight: 700;
-  }
-
-  &--error span {
-    color: var(--error-fuerte);
-  }
-
-  &--aviso span {
-    color: var(--aviso);
-  }
-}
+// --- Hallazgos: un listado tipo planilla de auditoría --------------------------------------
 
 .hallazgos {
-  padding: 1.25rem;
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .hallazgos__cabecera {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1.5px solid var(--tinta);
+
+  h3 {
+    font-size: 1.25rem;
+  }
 }
 
 .reglas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  border-top: 1px solid var(--renglon);
 }
 
 .regla {
-  --color: var(--error-fuerte);
-  padding: 0.3rem 0.7rem;
-  border: 1px solid var(--borde);
-  border-left: 3px solid var(--color);
-  border-radius: 8px;
-  background: var(--superficie-2);
-  color: var(--texto);
+  --marca: var(--devuelto);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem 0.6rem 0.6rem;
+  border: 0;
+  border-bottom: 1px solid var(--renglon);
+  border-left: 3px solid var(--marca);
+  background: transparent;
+  color: var(--tinta);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  text-align: left;
   cursor: pointer;
 
   &--ADVERTENCIA {
-    --color: var(--aviso);
+    --marca: var(--glosa);
+  }
+
+  &:hover {
+    background: var(--renglon-suave);
   }
 
   &--activa {
-    border-color: var(--color);
-    background: color-mix(in srgb, var(--color) 14%, transparent);
+    background: var(--sello-fondo);
+    font-weight: 700;
   }
+}
+
+.regla__cantidad {
+  font-family: var(--codigo);
+  font-weight: 600;
 }
 
 .herramientas {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  align-items: center;
   justify-content: space-between;
+  gap: 1rem;
 }
 
 .segmentos {
   display: inline-flex;
-  padding: 3px;
-  border-radius: 10px;
-  background: var(--superficie-2);
+  border: 1.5px solid var(--tinta);
+  border-radius: 3px;
 
   button {
-    padding: 0.35rem 0.85rem;
+    padding: 0.4rem 0.9rem;
     border: 0;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--texto-suave);
+    background: var(--hoja);
+    color: var(--tinta);
     font: inherit;
-    font-weight: 500;
     cursor: pointer;
 
-    &.activo {
-      background: var(--superficie);
-      color: var(--texto);
-      box-shadow: var(--sombra);
+    & + button {
+      border-left: 1.5px solid var(--tinta);
+    }
+
+    &[aria-pressed='true'] {
+      background: var(--tinta);
+      color: var(--hoja);
+      font-weight: 700;
     }
   }
 }
 
 .buscar input {
-  width: min(320px, 100%);
-  padding: 0.5rem 0.8rem;
-  border: 1px solid var(--borde);
-  border-radius: 10px;
-  background: var(--superficie);
-  color: var(--texto);
+  width: min(22rem, 100%);
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-bottom: 1.5px solid var(--tinta-suave);
+  background: transparent;
+  color: var(--tinta);
   font: inherit;
+
+  &:focus {
+    outline: none;
+    border-bottom-color: var(--sello);
+  }
 }
 
 .lista {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 0.6rem;
+  border-top: 1.5px solid var(--tinta);
 }
 
 .hallazgo {
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--borde);
-  border-left: 4px solid var(--error-fuerte);
-  border-radius: 10px;
-  animation: aparecer 0.25s ease-out;
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--renglon);
 
-  &--ADVERTENCIA {
-    border-left-color: var(--aviso);
-  }
-
-  p {
-    margin: 0.35rem 0 0;
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
 }
 
-.hallazgo__cabecera {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
+.hallazgo__marca {
+  display: grid;
+  gap: 0.25rem;
+  align-content: start;
+
+  .codigo {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .estado {
+    font-size: 0.85rem;
+  }
 }
 
-.codigo {
-  color: var(--texto-suave);
+.hallazgo__cuerpo {
+  display: grid;
+  gap: 0.3rem;
+  max-width: 46rem;
 }
 
 .migas {
   display: flex;
   flex-wrap: wrap;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-weight: 600;
+  font-weight: 700;
 
-  li + li::before {
-    content: '›';
-    margin: 0 0.4rem;
-    color: var(--texto-suave);
+  span + span::before {
+    content: '/';
+    margin: 0 0.45rem;
+    color: var(--renglon);
+    font-weight: 400;
   }
 }
 
 .hallazgo__detalle {
-  color: var(--texto-suave);
   font-size: 0.85rem;
+  color: var(--tinta-suave);
+  overflow-wrap: anywhere;
 }
 
 .valor {
-  padding: 0.05rem 0.35rem;
-  border-radius: 5px;
-  background: var(--superficie-2);
-  color: var(--texto);
+  padding: 0 0.3rem;
+  background: var(--renglon-suave);
+  color: var(--tinta);
 }
 
 .explicar {
-  margin-top: 0.5rem;
-  padding: 0.25rem 0.7rem;
-  border: 1px solid color-mix(in srgb, var(--acento) 40%, transparent);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--acento);
-  font: inherit;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:hover {
-    background: color-mix(in srgb, var(--acento) 10%, transparent);
-  }
+  justify-self: start;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
 }
 
 .explicacion {
-  margin-top: 0.6rem !important;
-  padding: 0.7rem 0.9rem;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--acento) 8%, transparent);
-  font-size: 0.85rem;
-
-  p {
-    margin: 0.25rem 0 0;
-  }
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--sello);
+  background: var(--sello-fondo);
+  font-size: 0.92rem;
 
   &--cargando {
-    color: var(--acento);
-    animation: latir 1.2s ease-in-out infinite;
+    color: var(--sello);
   }
 
   &--error {
-    color: var(--error-fuerte);
-    background: var(--error-suave);
+    border-left-color: var(--devuelto);
+    background: var(--devuelto-fondo);
   }
 }
 
 .explicacion__pie {
-  font-size: 0.75rem;
-  color: var(--texto-suave);
-}
-
-@keyframes latir {
-  50% {
-    opacity: 0.5;
-  }
+  font-size: 0.8rem;
+  color: var(--tinta-suave);
 }
 
 .sin-coincidencias,
 .limpio {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 1.5rem;
-  color: var(--texto-suave);
-}
-
-.limpio span {
-  font-size: 1.6rem;
-}
-
-@keyframes aparecer {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
+  padding: 1.5rem 0;
+  color: var(--tinta-suave);
 }

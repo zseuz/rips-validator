@@ -1,36 +1,30 @@
 @let r = resultado();
 
-<section class="estado estado--{{ r.estado }}">
-  <div class="estado__icono" aria-hidden="true">
-    @switch (r.estado) {
-      @case ('VALIDO') { ✓ }
-      @case ('VALIDO_CON_ADVERTENCIAS') { ! }
-      @default { ✕ }
-    }
-  </div>
-  <div>
-    <span class="insignia insignia--{{ r.estado }}">{{ estado().etiqueta }}</span>
+<section class="veredicto veredicto--{{ r.estado }}">
+  <p class="sello" aria-hidden="true">
+    <span class="sello__texto">{{ estado().sello }}</span>
+    <span class="sello__fecha">{{ fecha() }}</span>
+  </p>
+  <div class="veredicto__texto">
     <h2>{{ estado().titulo }}</h2>
     <p>{{ estado().detalle }}</p>
-    <p class="estado__meta">
-      Factura <strong>{{ r.numFactura ?? 'sin número' }}</strong> · Obligado {{ r.numDocumentoIdObligado ?? '—' }} ·
-      Validación #{{ r.id }} · {{ fecha() }}
+    <p class="resumen">
+      Factura <span class="codigo">{{ r.numFactura ?? 'sin número' }}</span> del obligado
+      <span class="codigo">{{ r.numDocumentoIdObligado ?? 'sin NIT' }}</span>: {{ r.totalUsuarios }}
+      {{ r.totalUsuarios === 1 ? 'usuario' : 'usuarios' }}, {{ r.totalServicios }}
+      {{ r.totalServicios === 1 ? 'servicio' : 'servicios' }},
+      <strong [class.cuenta-error]="r.totalErrores > 0">{{ r.totalErrores }} {{ r.totalErrores === 1 ? 'error' : 'errores' }}</strong> y
+      <strong [class.cuenta-aviso]="r.totalAdvertencias > 0">{{ r.totalAdvertencias }} {{ r.totalAdvertencias === 1 ? 'advertencia' : 'advertencias' }}</strong>.
+      Validación n.º {{ r.id }}.
     </p>
   </div>
 </section>
 
-<section class="totales">
-  <div class="tarjeta total"><span>{{ r.totalUsuarios }}</span>Usuarios</div>
-  <div class="tarjeta total"><span>{{ r.totalServicios }}</span>Servicios</div>
-  <div class="tarjeta total total--error"><span>{{ r.totalErrores }}</span>Errores</div>
-  <div class="tarjeta total total--aviso"><span>{{ r.totalAdvertencias }}</span>Advertencias</div>
-</section>
-
 @if (r.hallazgos.length > 0) {
-  <section class="tarjeta hallazgos">
+  <section class="hallazgos" aria-labelledby="titulo-hallazgos">
     <header class="hallazgos__cabecera">
-      <h3>Hallazgos</h3>
-      <button class="boton" type="button" (click)="descargarCsv()">⬇ Descargar CSV</button>
+      <h3 id="titulo-hallazgos">Qué corregir</h3>
+      <button class="enlace" type="button" (click)="descargarCsv()">Descargar CSV</button>
     </header>
 
     <div class="reglas" aria-label="Hallazgos por regla">
@@ -40,72 +34,77 @@
           class="regla regla--{{ g.severidad }}"
           [class.regla--activa]="regla() === g.codigo"
           [attr.aria-pressed]="regla() === g.codigo"
+          [attr.aria-label]="g.codigo + ', ' + g.titulo + ': ' + g.cantidad + (g.cantidad === 1 ? ' hallazgo' : ' hallazgos')"
           (click)="alternarRegla(g.codigo)">
-          <span class="mono">{{ g.codigo }}</span> {{ g.titulo }} <strong>×{{ g.cantidad }}</strong>
+          <span class="codigo">{{ g.codigo }}</span>
+          <span class="regla__titulo">{{ g.titulo }}</span>
+          <span class="regla__cantidad">{{ g.cantidad }}</span>
         </button>
       }
     </div>
 
     <div class="herramientas">
       <div class="segmentos" role="group" aria-label="Severidad">
-        <button type="button" [class.activo]="filtro() === 'TODOS'" (click)="filtro.set('TODOS')">Todos</button>
-        <button type="button" [class.activo]="filtro() === 'ERROR'" (click)="filtro.set('ERROR')">Errores</button>
-        <button type="button" [class.activo]="filtro() === 'ADVERTENCIA'" (click)="filtro.set('ADVERTENCIA')">Advertencias</button>
+        <button type="button" [attr.aria-pressed]="filtro() === 'TODOS'" (click)="filtro.set('TODOS')">Todos</button>
+        <button type="button" [attr.aria-pressed]="filtro() === 'ERROR'" (click)="filtro.set('ERROR')">Errores</button>
+        <button type="button" [attr.aria-pressed]="filtro() === 'ADVERTENCIA'" (click)="filtro.set('ADVERTENCIA')">Advertencias</button>
       </div>
       <label class="buscar">
         <span class="sr-only">Buscar</span>
-        <input type="search" placeholder="Buscar campo, valor o mensaje…" [value]="busqueda()" (input)="busqueda.set($any($event.target).value)" />
+        <input type="search" placeholder="Buscar por campo, valor o mensaje" [value]="busqueda()" (input)="busqueda.set($any($event.target).value)" />
       </label>
     </div>
 
-    <ul class="lista">
+    <ol class="lista">
       @for (h of visibles(); track $index) {
         <li class="hallazgo hallazgo--{{ h.severidad }}">
-          <div class="hallazgo__cabecera">
-            <span class="insignia insignia--{{ h.severidad }}">{{ h.severidad === 'ERROR' ? 'Error' : 'Advertencia' }}</span>
-            <span class="mono codigo">{{ h.codigo }}</span>
-            <ol class="migas">
-              @for (parte of migas(h.ruta); track $index) {
-                <li>{{ parte }}</li>
-              }
-            </ol>
+          <div class="hallazgo__marca">
+            <span class="codigo">{{ h.codigo }}</span>
+            <span class="estado estado--{{ h.severidad }}">{{ h.severidad === 'ERROR' ? 'Error' : 'Advertencia' }}</span>
           </div>
-          <p class="hallazgo__mensaje">{{ h.mensaje }}</p>
-          <p class="hallazgo__detalle">
-            @if (h.valor !== null) {
-              Valor recibido: <code class="valor">{{ h.valor }}</code> ·
+          <div class="hallazgo__cuerpo">
+            <p class="migas">
+              @for (parte of migas(h.ruta); track $index) {
+                <span>{{ parte }}</span>
+              }
+            </p>
+            <p class="hallazgo__mensaje">{{ h.mensaje }}</p>
+            <p class="hallazgo__detalle">
+              @if (h.valor !== null) {
+                Valor recibido <code class="valor">{{ h.valor }}</code> en
+              }
+              <code>{{ h.ruta }}</code>
+            </p>
+            @if (ia().disponible) {
+              @let e = explicaciones().get(posicion(h));
+              @if (!e) {
+                <button class="enlace explicar" type="button" (click)="explicar(h)">Explicar y cómo corregirlo</button>
+              } @else if (e?.cargando) {
+                <p class="explicacion explicacion--cargando">Consultando a {{ ia().modelo }}…</p>
+              } @else if (e?.explicacion; as x) {
+                <div class="explicacion">
+                  <p><strong>Qué significa.</strong> {{ x.queSignifica }}</p>
+                  <p><strong>Cómo corregirlo.</strong> {{ x.comoCorregirlo }}</p>
+                  <p><strong>Si no se corrige.</strong> {{ x.impacto }}</p>
+                  <p class="explicacion__pie">Explicación generada con IA ({{ ia().modelo }}). Verifícala antes de corregir.</p>
+                </div>
+              } @else {
+                <p class="explicacion explicacion--error">
+                  {{ e?.error }}
+                  <button class="enlace" type="button" (click)="explicar(h)">Intentar de nuevo</button>
+                </p>
+              }
             }
-            <code>{{ h.ruta }}</code>
-          </p>
-          @if (ia().disponible) {
-            @let e = explicaciones().get(posicion(h));
-            @if (!e) {
-              <button class="explicar" type="button" (click)="explicar(h)">✨ Explicar y cómo corregirlo</button>
-            } @else if (e?.cargando) {
-              <p class="explicacion explicacion--cargando">✨ Pensando…</p>
-            } @else if (e?.explicacion; as x) {
-              <div class="explicacion">
-                <p><strong>Qué significa.</strong> {{ x.queSignifica }}</p>
-                <p><strong>Cómo corregirlo.</strong> {{ x.comoCorregirlo }}</p>
-                <p><strong>Si no se corrige.</strong> {{ x.impacto }}</p>
-                <p class="explicacion__pie">Generado con IA ({{ ia().modelo }}); verifícalo antes de corregir.</p>
-              </div>
-            } @else {
-              <p class="explicacion explicacion--error">{{ e?.error }} <button class="explicar" type="button" (click)="explicar(h)">Reintentar</button></p>
-            }
-          }
+          </div>
         </li>
       } @empty {
         <li class="sin-coincidencias">
           Ningún hallazgo coincide con los filtros.
-          <button class="boton" type="button" (click)="limpiarFiltros()">Quitar filtros</button>
+          <button class="enlace" type="button" (click)="limpiarFiltros()">Quitar filtros</button>
         </li>
       }
-    </ul>
+    </ol>
   </section>
 } @else {
-  <section class="tarjeta limpio">
-    <span aria-hidden="true">🎉</span>
-    <p>El archivo pasó todas las reglas.</p>
-  </section>
+  <p class="limpio">El archivo pasó todas las reglas y cuadra con su factura.</p>
 }

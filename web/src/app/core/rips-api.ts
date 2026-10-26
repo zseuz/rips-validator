@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of, shareReplay, throwError } from 'rxjs';
 
@@ -27,15 +27,10 @@ export class RipsApi {
       .pipe(catchError(traducirError));
   }
 
-  /** Envía el archivo tal cual, sin reinterpretarlo, para que la API vea exactamente lo que se subió. */
-  validar(json: string): Observable<ResultadoValidacion> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http
-      .post<ResultadoValidacion>(`${BASE}/validaciones`, json, { headers })
-      .pipe(catchError(traducirError));
-  }
-
-  /** Valida el RIPS y lo cruza con el XML de su factura electrónica. */
+  /**
+   * Valida el RIPS y lo cruza con el XML de su factura electrónica. El JSON viaja tal cual se
+   * subió, sin reinterpretarlo, para que la API vea exactamente el archivo.
+   */
   validarConFactura(json: string, factura: Blob, nombreFactura: string): Observable<ResultadoValidacion> {
     const formulario = new FormData();
     formulario.append('rips', new Blob([json], { type: 'application/json' }), 'rips.json');

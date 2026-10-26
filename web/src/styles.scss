@@ -1,52 +1,47 @@
+// Identidad: un formulario de radicación de cuentas médicas. Papel bond, tinta de esfero y el
+// sello violeta de oficina; el veredicto se estampa. Sin degradados, sin tarjetas flotando.
+
 :root {
   color-scheme: light;
-  --ancho: 1080px;
+  --ancho: 1040px;
 
-  --fondo: #f6f7fb;
-  --superficie: #ffffff;
-  --superficie-2: #eef1f7;
-  --borde: #e0e4ee;
-  --texto: #172033;
-  --texto-suave: #5b6478;
+  --papel: #f3f5f2;
+  --hoja: #ffffff;
+  --tinta: #1b2430;
+  --tinta-suave: #4f5b6a;
+  --renglon: #c9d2dc;
+  --renglon-suave: #e2e7ec;
 
-  --primario: #0d7a72;
-  --primario-suave: #dff3f1;
-  --acento: #4f46e5;
+  --sello: #5b3fa0;
+  --sello-fondo: #ece7f7;
+  --devuelto: #b3261e;
+  --devuelto-fondo: #f8e6e4;
+  --glosa: #8a5a00;
+  --glosa-fondo: #f6edd9;
+  --listo: #22663a;
+  --listo-fondo: #e3f0e6;
 
-  --exito: #15803d;
-  --exito-suave: #dcfce7;
-  --aviso: #b45309;
-  --aviso-suave: #fef3c7;
-  --error: #c2410c;
-  --error-fuerte: #b91c1c;
-  --error-suave: #fee2e2;
-
-  --sombra: 0 1px 2px rgb(16 24 40 / 6%), 0 4px 16px rgb(16 24 40 / 6%);
-  --radio: 14px;
+  --texto: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
+  --codigo: 'Atkinson Hyperlegible Mono', ui-monospace, Consolas, monospace;
 }
 
 @mixin tema-oscuro {
   color-scheme: dark;
-  --fondo: #0d1117;
-  --superficie: #151b24;
-  --superficie-2: #1d2531;
-  --borde: #2a3342;
-  --texto: #e6edf3;
-  --texto-suave: #9aa5b8;
+  --papel: #131922;
+  --hoja: #1a222d;
+  --tinta: #e6eaf0;
+  --tinta-suave: #a3aebd;
+  --renglon: #344050;
+  --renglon-suave: #263040;
 
-  --primario: #2dd4bf;
-  --primario-suave: rgb(45 212 191 / 12%);
-  --acento: #818cf8;
-
-  --exito: #4ade80;
-  --exito-suave: rgb(74 222 128 / 12%);
-  --aviso: #fbbf24;
-  --aviso-suave: rgb(251 191 36 / 12%);
-  --error: #fb923c;
-  --error-fuerte: #f87171;
-  --error-suave: rgb(248 113 113 / 12%);
-
-  --sombra: 0 1px 2px rgb(0 0 0 / 40%);
+  --sello: #b9a3f5;
+  --sello-fondo: #2a2340;
+  --devuelto: #ff8a80;
+  --devuelto-fondo: #3a1f1f;
+  --glosa: #f0c060;
+  --glosa-fondo: #362b16;
+  --listo: #7fd49a;
+  --listo-fondo: #1c3324;
 }
 
 // Sin preferencia guardada se sigue al sistema; el botón del encabezado fija
@@ -69,102 +64,125 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--texto);
-  background: var(--fondo);
+  font-family: var(--texto);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--tinta);
+  background: var(--papel);
   -webkit-font-smoothing: antialiased;
 }
 
 h1,
 h2,
 h3 {
+  margin: 0;
   line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+p {
   margin: 0;
 }
 
+a {
+  color: var(--sello);
+  text-underline-offset: 3px;
+}
+
 code,
-.mono {
-  font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
-  font-size: 0.85em;
+.codigo {
+  font-family: var(--codigo);
+  font-size: 0.92em;
 }
 
-.tarjeta {
-  background: var(--superficie);
-  border: 1px solid var(--borde);
-  border-radius: var(--radio);
-  box-shadow: var(--sombra);
+:focus-visible {
+  outline: 2px solid var(--sello);
+  outline-offset: 2px;
 }
 
+// Botones: rectangulares, como los de un formulario; el principal va en tinta de sello.
 .boton {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.55rem 1rem;
-  border: 1px solid var(--borde);
-  border-radius: 10px;
-  background: var(--superficie);
-  color: var(--texto);
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border: 1.5px solid var(--tinta);
+  border-radius: 3px;
+  background: var(--hoja);
+  color: var(--tinta);
   font: inherit;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.15s, border-color 0.15s;
 
   &:hover:not(:disabled) {
-    border-color: var(--primario);
+    background: var(--renglon-suave);
   }
 
   &:disabled {
-    opacity: 0.5;
-    cursor: default;
+    border-color: var(--renglon);
+    color: var(--tinta-suave);
+    cursor: not-allowed;
   }
 
   &--primario {
-    background: var(--primario);
-    border-color: var(--primario);
-    color: #fff;
+    border-color: var(--sello);
+    background: var(--sello);
+    color: var(--hoja);
 
     &:hover:not(:disabled) {
-      filter: brightness(1.08);
+      background: color-mix(in srgb, var(--sello) 88%, var(--tinta));
+    }
+
+    &:disabled {
+      background: var(--renglon-suave);
     }
   }
 }
 
-.insignia {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.1rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+.enlace {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sello);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+// Marca de estado en tablas y listas: texto con un filete a la izquierda, no una píldora.
+.estado {
+  padding-left: 0.5rem;
+  border-left: 3px solid currentColor;
+  font-weight: 700;
   white-space: nowrap;
 
   &--VALIDO {
-    color: var(--exito);
-    background: var(--exito-suave);
+    color: var(--listo);
   }
 
   &--VALIDO_CON_ADVERTENCIAS,
   &--ADVERTENCIA {
-    color: var(--aviso);
-    background: var(--aviso-suave);
+    color: var(--glosa);
   }
 
   &--RECHAZADO,
   &--ERROR {
-    color: var(--error-fuerte);
-    background: var(--error-suave);
+    color: var(--devuelto);
   }
 }
 
 .alerta {
-  padding: 0.85rem 1rem;
-  border-radius: 10px;
-  color: var(--error-fuerte);
-  background: var(--error-suave);
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--devuelto);
+  background: var(--devuelto-fondo);
+  color: var(--tinta);
+}
+
+.suave {
+  color: var(--tinta-suave);
 }
 
 .sr-only {
@@ -173,4 +191,13 @@ code,
   height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

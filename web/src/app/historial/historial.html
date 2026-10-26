@@ -1,63 +1,60 @@
 <header class="cabecera">
   <h1>Historial</h1>
-  <p>Validaciones guardadas, de la más reciente a la más antigua. Haz clic en una para ver sus hallazgos.</p>
+  <p>Las cuentas validadas, de la más reciente a la más antigua. Abre una para ver qué corregir.</p>
 </header>
 
-<section class="tarjeta powerbi">
-  <div class="powerbi__icono" aria-hidden="true">
-    <svg viewBox="0 0 24 24" width="26" height="26"><rect x="3" y="12" width="4" height="9" rx="1" fill="currentColor" opacity=".55" /><rect x="10" y="7" width="4" height="14" rx="1" fill="currentColor" opacity=".8" /><rect x="17" y="3" width="4" height="18" rx="1" fill="currentColor" /></svg>
-  </div>
-  <div class="powerbi__texto">
-    <h2>Reporte de Power BI</h2>
+<section class="powerbi" aria-labelledby="titulo-powerbi">
+  <div>
+    <h2 id="titulo-powerbi">Reporte de Power BI</h2>
     <p>
-      5 páginas: resumen, reglas, códigos con su nombre oficial de SISPRO, detalle y guía. Descomprime el .zip,
-      abre <code>RipsValidator.pbip</code> en Power BI Desktop y pulsa <strong>Actualizar</strong> con la API encendida
-      (la primera vez elige acceso <em>Anónimo</em>).
+      Cinco páginas con el resumen, las reglas que más fallan, los códigos con su nombre de SISPRO, el detalle y una
+      guía. Descomprime el archivo, abre <span class="codigo">RipsValidator.pbip</span> en Power BI Desktop y pulsa
+      Actualizar con la API encendida.
     </p>
-    <p class="powerbi__datos">
-      ¿Solo los datos? <a href="/api/v1/exportaciones/validaciones.csv" download>validaciones.csv</a> ·
-      <a href="/api/v1/exportaciones/hallazgos.csv" download>hallazgos.csv</a> ·
-      <a href="/api/v1/exportaciones/reglas.csv" download>reglas.csv</a>
+    <p class="datos">
+      Si solo necesitas los datos:
+      <a href="/api/v1/exportaciones/validaciones.csv" download>validaciones.csv</a>,
+      <a href="/api/v1/exportaciones/hallazgos.csv" download>hallazgos.csv</a> y
+      <a href="/api/v1/exportaciones/reglas.csv" download>reglas.csv</a>.
     </p>
   </div>
-  <a class="boton boton--primario" href="/api/v1/exportaciones/power-bi.zip" download>⬇ Descargar reporte</a>
+  <a class="boton" href="/api/v1/exportaciones/power-bi.zip" download>Descargar reporte</a>
 </section>
 
 @if (error(); as mensaje) {
   <p class="alerta" role="alert">{{ mensaje }}</p>
 } @else if (pagina(); as p) {
   @if (p.content.length === 0) {
-    <section class="tarjeta vacio">
-      <p>Aún no hay validaciones.</p>
-      <a class="boton boton--primario" routerLink="/">Validar un archivo</a>
-    </section>
+    <p class="vacio">
+      Todavía no hay cuentas validadas. <a routerLink="/">Valida la primera</a> y aparecerá aquí.
+    </p>
   } @else {
-    <div class="tarjeta tabla-contenedor">
+    <div class="tabla-contenedor">
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Factura</th>
-            <th>Obligado</th>
-            <th>Estado</th>
-            <th class="num">Usuarios</th>
-            <th class="num">Servicios</th>
-            <th class="num">Errores</th>
-            <th class="num">Advertencias</th>
-            <th>Fecha</th>
+            <th scope="col">N.º</th>
+            <th scope="col">Factura</th>
+            <th scope="col">Obligado</th>
+            <th scope="col">Resultado</th>
+            <th scope="col" class="num">Usuarios</th>
+            <th scope="col" class="num">Servicios</th>
+            <th scope="col" class="num">Errores</th>
+            <th scope="col" class="num">Advertencias</th>
+            <th scope="col">Validada</th>
           </tr>
         </thead>
         <tbody>
           @for (v of p.content; track v.id) {
             <tr tabindex="0" (click)="abrir(v.id)" (keydown.enter)="abrir(v.id)">
-              <td class="suave">{{ v.id }}</td>
-              <td><strong>{{ v.numFactura ?? '—' }}</strong></td>
-              <td>{{ v.numDocumentoIdObligado ?? '—' }}</td>
-              <td><span class="insignia insignia--{{ v.estado }}">{{ estados[v.estado].etiqueta }}</span></td>
+              <td class="codigo suave">{{ v.id }}</td>
+              <td class="codigo"><strong>{{ v.numFactura ?? 'sin número' }}</strong></td>
+              <td class="codigo">{{ v.numDocumentoIdObligado ?? 'sin NIT' }}</td>
+              <td><span class="estado estado--{{ v.estado }}">{{ estados[v.estado].etiqueta }}</span></td>
               <td class="num">{{ v.totalUsuarios }}</td>
               <td class="num">{{ v.totalServicios }}</td>
               <td class="num" [class.rojo]="v.totalErrores > 0">{{ v.totalErrores }}</td>
-              <td class="num" [class.ambar]="v.totalAdvertencias > 0">{{ v.totalAdvertencias }}</td>
+              <td class="num" [class.ocre]="v.totalAdvertencias > 0">{{ v.totalAdvertencias }}</td>
               <td class="suave">{{ fecha(v.fechaValidacion) }}</td>
             </tr>
           }
@@ -66,11 +63,11 @@
     </div>
 
     <nav class="paginas" aria-label="Páginas">
-      <button class="boton" type="button" [disabled]="p.page.number === 0" (click)="cargar(p.page.number - 1)">← Anterior</button>
-      <span class="suave">Página {{ p.page.number + 1 }} de {{ p.page.totalPages }} · {{ p.page.totalElements }} validaciones</span>
-      <button class="boton" type="button" [disabled]="p.page.number + 1 >= p.page.totalPages" (click)="cargar(p.page.number + 1)">Siguiente →</button>
+      <button class="boton" type="button" [disabled]="p.page.number === 0" (click)="cargar(p.page.number - 1)">Anterior</button>
+      <span class="suave">Página {{ p.page.number + 1 }} de {{ p.page.totalPages }}, {{ p.page.totalElements }} cuentas</span>
+      <button class="boton" type="button" [disabled]="p.page.number + 1 >= p.page.totalPages" (click)="cargar(p.page.number + 1)">Siguiente</button>
     </nav>
   }
 } @else {
-  <p class="suave">Cargando…</p>
+  <p class="suave">Cargando el historial…</p>
 }

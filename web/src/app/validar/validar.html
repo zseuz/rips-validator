@@ -1,92 +1,105 @@
 @if (resultado(); as r) {
-  <div class="barra-archivo">
-    <span>📄 <strong>{{ archivo()?.nombre }}</strong> <span class="suave">{{ archivo()?.tamano }}</span></span>
-    <button class="boton boton--primario" type="button" (click)="reiniciar()">Validar otro archivo</button>
+  <div class="radicado">
+    <p>
+      <span class="suave">RIPS:</span>&nbsp;<span class="codigo">{{ rips()?.nombre }}</span><br />
+      <span class="suave">Factura:</span>&nbsp;<span class="codigo">{{ factura()?.nombre }}</span>
+    </p>
+    <button class="boton" type="button" (click)="validarOtros()">Validar otros archivos</button>
   </div>
   <app-resultado [resultado]="r" />
 } @else {
-  <section class="intro">
-    <h1>Valida tus RIPS antes de enviarlos</h1>
+  <section class="encabezado">
+    <h1>Revisa la cuenta antes de radicarla</h1>
     <p>
-      Sube el JSON de la factura (Resolución 2275 de 2023). Te decimos qué campo está mal, por qué y qué valor llegó,
-      antes de que el Ministerio lo rechace.
+      Sube el RIPS en JSON y el XML de la factura electrónica. El validador revisa cada campo contra las tablas
+      oficiales de SISPRO, cruza el RIPS con la factura y te dice qué corregir antes de que el Ministerio lo devuelva.
     </p>
   </section>
 
-  <label
-    class="zona"
-    [class.zona--activa]="arrastrando()"
-    [class.zona--ocupada]="validando()"
-    (dragover)="$event.preventDefault(); arrastrando.set(true)"
-    (dragleave)="arrastrando.set(false)"
-    (drop)="alSoltar($event)">
-    <input type="file" accept=".json,application/json" class="sr-only" [disabled]="validando()" (change)="alElegir($event)" />
+  <form class="formulario" (submit)="$event.preventDefault(); validar()">
+    <div class="campos">
+      @for (campo of ['rips', 'factura']; track campo) {
+        @let esRips = campo === 'rips';
+        @let cargado = esRips ? rips() : factura();
+        <div class="campo">
+          <span class="campo__nombre" [id]="'etiqueta-' + campo">{{ esRips ? 'RIPS de la factura' : 'Factura electrónica' }}</span>
+          <span class="campo__ayuda">{{ esRips ? 'Archivo .json de la Resolución 2275 de 2023' : 'Archivo .xml de la DIAN (Invoice o AttachedDocument)' }}</span>
 
-    @if (validando()) {
-      <span class="zona__spinner" aria-hidden="true"></span>
-      <strong>Validando {{ archivo()?.nombre }}…</strong>
-    } @else {
-      <span class="zona__icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
-        </svg>
-      </span>
-      <strong>Arrastra aquí el archivo .json</strong>
-      <span class="suave">o haz clic para elegirlo · máximo 25 MB</span>
-    }
-  </label>
-
-  <div class="factura">
-    @if (factura(); as f) {
-      <span class="factura__chip">🧾 {{ f.nombre }} <button type="button" aria-label="Quitar la factura" (click)="factura.set(null)">✕</button></span>
-      <span class="suave">Se cruzará con el RIPS: número, emisor, valor y fechas.</span>
-    } @else {
-      <label class="factura__adjuntar">
-        <input type="file" accept=".xml,application/xml,text/xml" class="sr-only" (change)="alElegirFactura($event)" />
-        📎 Adjuntar el XML de la factura electrónica (opcional)
-      </label>
-      <span class="suave">Primero el XML, luego el RIPS: se cruzan número, emisor, valor y fechas.</span>
-    }
-  </div>
-
-  @if (error(); as mensaje) {
-    <p class="alerta" role="alert">
-      <strong>{{ archivo()?.nombre }}:</strong> {{ mensaje }}
-    </p>
-  }
-
-  <section class="ejemplos">
-    <span class="suave">¿No tienes un archivo a mano? Prueba con un ejemplo sintético:</span>
-    <button class="boton" type="button" [disabled]="validando()" (click)="probarEjemplo('rips-valido.json')">✓ RIPS válido</button>
-    <button class="boton" type="button" [disabled]="validando()" (click)="probarEjemplo('rips-con-errores.json')">✕ RIPS con errores</button>
-    <button class="boton" type="button" [disabled]="validando()" (click)="probarEjemplo('rips-valido.json', true)">🧾 RIPS + factura XML</button>
-  </section>
-
-  <section class="que-valida">
-    <div class="tarjeta">
-      <h3>📚 Tablas oficiales</h3>
-      <p>Cada código se busca en las tablas de SISPRO: CIE-10, CUPS, municipios, países, tipos de documento y más. Debe existir y estar habilitado.</p>
-    </div>
-    <div class="tarjeta">
-      <h3>👥 Usuarios</h3>
-      <p>Campos obligatorios, fechas, usuarios repetidos, consecutivos fuera de orden y documento que no corresponde a la edad.</p>
-    </div>
-    <div class="tarjeta">
-      <h3>🩺 Coherencia clínica</h3>
-      <p>Diagnósticos que no aplican al sexo o la edad según la CIE-10, CUPS de consulta reportados como procedimiento y atenciones antes del nacimiento.</p>
-    </div>
-    <div class="tarjeta">
-      <h3>💲 Valores</h3>
-      <p>Valores negativos o en cero y pagos moderadores mayores que el servicio.</p>
-    </div>
-  </section>
-
-  @if (resumenTablas(); as t) {
-    <p class="fuente">
-      Validando contra {{ t.cantidad }} tablas de referencia de SISPRO · CIE-10: {{ t.cie10 }} códigos · CUPS: {{ t.cups }} códigos
-      @if (t.fecha) {
-        · descargadas el {{ t.fecha }}
+          @if (cargado; as a) {
+            <div class="archivo">
+              <span class="archivo__nombre codigo">{{ a.nombre }}</span>
+              <span class="suave">{{ a.tamano }}</span>
+              <button class="enlace" type="button" (click)="quitar($any(campo))" [disabled]="validando()">Quitar</button>
+            </div>
+          } @else {
+            <label
+              class="zona"
+              [class.zona--encima]="arrastrando() === campo"
+              (dragover)="$event.preventDefault(); arrastrando.set($any(campo))"
+              (dragleave)="arrastrando.set(null)"
+              (drop)="alSoltar($any(campo), $event)">
+              <input
+                type="file"
+                class="sr-only"
+                [attr.aria-labelledby]="'etiqueta-' + campo"
+                [accept]="esRips ? '.json,application/json' : '.xml,application/xml,text/xml'"
+                (change)="alElegir($any(campo), $event)" />
+              Arrastra el archivo aquí o <span class="zona__elegir">elígelo</span>
+            </label>
+          }
+        </div>
       }
+    </div>
+
+    @if (error(); as mensaje) {
+      <p class="alerta" role="alert">{{ mensaje }}</p>
+    }
+
+    <div class="acciones">
+      <button class="boton boton--primario" type="submit" [disabled]="!rips() || !factura() || validando()">
+        {{ validando() ? 'Validando…' : 'Validar' }}
+      </button>
+      @if (faltan(); as f) {
+        <span class="suave">Falta {{ f }}.</span>
+      }
+    </div>
+
+    <p class="ejemplos">
+      ¿No tienes archivos a mano? Prueba con un ejemplo sintético:
+      <button class="enlace" type="button" [disabled]="validando()" (click)="usarEjemplo('correcto')">cuenta correcta</button>
+      o
+      <button class="enlace" type="button" [disabled]="validando()" (click)="usarEjemplo('errores')">cuenta con errores</button>.
     </p>
-  }
+  </form>
+
+  <section class="revisiones" aria-labelledby="que-revisa">
+    <h2 id="que-revisa">Qué revisa</h2>
+    <dl>
+      <div>
+        <dt>Códigos oficiales</dt>
+        <dd>Cada código debe existir y estar habilitado en SISPRO: CIE-10, CUPS, municipios, países, prestadores del REPS y 18 tablas más.</dd>
+      </div>
+      <div>
+        <dt>Usuarios y servicios</dt>
+        <dd>Consultas, procedimientos, urgencias, hospitalización, recién nacidos, medicamentos y otros servicios, con sus fechas y consecutivos.</dd>
+      </div>
+      <div>
+        <dt>Coherencia clínica</dt>
+        <dd>Diagnósticos que no aplican al sexo o a la edad, CUPS de consulta reportados como procedimiento, egresos antes del ingreso.</dd>
+      </div>
+      <div>
+        <dt>Cruce con la factura</dt>
+        <dd>Número de factura, NIT del emisor, valor total y fechas del XML frente a lo que dice el RIPS.</dd>
+      </div>
+    </dl>
+    @if (resumenTablas(); as t) {
+      <p class="fuente">
+        La API tiene cargadas {{ t.cantidad }} tablas de SISPRO, con {{ t.cie10 }} diagnósticos, {{ t.cups }} procedimientos
+        y {{ t.reps }} sedes de prestadores.
+        @if (t.fecha) {
+          Descargadas el {{ t.fecha }}
+        }
+      </p>
+    }
+  </section>
 }
