@@ -83,6 +83,7 @@ flowchart LR
 | [`web/`](web) | Frontend en Angular 22: arrastrar el archivo, ver los hallazgos filtrables y consultar el historial |
 | [`etl/`](etl) | Descarga de tablas de SISPRO, generador de RIPS sintéticos y validador por lotes con reporte en CSV y Excel |
 | [`catalogos/`](catalogos) | Las 16 tablas de referencia de SISPRO en CSV y `metadatos.json` con la fecha de descarga |
+| [`powerbi/`](powerbi) | Reporte de Power BI (PBIP) con 5 páginas y su generador |
 | [`ejemplos/`](ejemplos) | Un RIPS válido y uno con errores, que también usan las pruebas (el frontend sirve una copia en `web/public/ejemplos`) |
 
 ## Inicio rápido
@@ -122,6 +123,8 @@ curl -X POST http://localhost:8080/api/v1/validaciones -H "Content-Type: applica
 | `GET` | `/api/v1/reglas` | Catálogo de reglas |
 | `GET` | `/api/v1/tablas` | Tablas de SISPRO cargadas, con su tamaño y fecha de descarga |
 | `GET` | `/api/v1/tablas/{tabla}/{codigo}` | Busca un código, p. ej. `/api/v1/tablas/CIE10/O800` |
+| `GET` | `/api/v1/exportaciones/{validaciones,hallazgos,reglas}.csv` | Historial en CSV, listo para Power BI o Excel |
+| `GET` | `/api/v1/exportaciones/power-bi.zip` | Reporte de Power BI apuntando a esta API |
 
 Respuesta real con [`ejemplos/rips-con-errores.json`](ejemplos/rips-con-errores.json) (recortada):
 
@@ -182,6 +185,23 @@ guarda: solo el resumen y los hallazgos.
 Para agregar reglas basta con crear una clase que implemente
 [`ReglaRips`](api/src/main/java/com/zseuz/rips/reglas/ReglaRips.java): Spring la registra sola.
 
+## Power BI
+
+En el frontend, **Historial › Descargar reporte** entrega un `.zip` con el proyecto de Power BI
+(PBIP) ya apuntando a la API. Se abre `RipsValidator.pbip` en Power BI Desktop y se pulsa
+**Actualizar**: las tablas se leen de los CSV de la API con Power Query.
+
+| Página | Qué muestra |
+|---|---|
+| Resumen | Validaciones, % de rechazo, % listas para enviar, errores, advertencias y tendencia diaria |
+| Reglas | Hallazgos y facturas afectadas por regla, grupo y severidad |
+| Códigos | Diagnósticos, CUPS, municipios y países con más hallazgos, con su nombre oficial de SISPRO |
+| Detalle | Un renglón por hallazgo, para preparar la corrección de un archivo |
+| Cómo usar | Origen de los datos y definición de los 18 indicadores DAX |
+
+El modelo, las medidas y las páginas los genera [`powerbi/generar_pbip.py`](powerbi/generar_pbip.py).
+Más detalle en [`powerbi/README.md`](powerbi/README.md).
+
 ## ETL: validación por lotes
 
 ```bash
@@ -208,7 +228,7 @@ cd api && ./mvnw verify
 cd web && npx ng test --watch=false
 ```
 
-La API tiene 34 pruebas (las reglas una por una contra las tablas reales de SISPRO, y la API completa
+La API tiene 38 pruebas (las reglas una por una contra las tablas reales de SISPRO, las exportaciones y la API completa
 con MockMvc) y el frontend 8 (con Vitest). En cada push, el [CI](.github/workflows/ci.yml) además genera un lote sintético, lo
 valida contra la API real y publica el reporte como artefacto.
 
@@ -216,7 +236,7 @@ valida contra la API real y publica el reporte como artefacto.
 
 - [x] Frontend en Angular: subir el archivo, ver los errores resaltados y consultar el historial
 - [ ] Explicación de cada error con IA (Claude) en lenguaje sencillo
-- [ ] Tablero de Power BI sobre `hallazgos.csv`
+- [x] Reporte de Power BI descargable, conectado a la API
 - [ ] Urgencias, hospitalización, recién nacidos, medicamentos y otros servicios
 - [x] Tablas de referencia oficiales de SISPRO (CIE-10, CUPS, municipios…) en la base de datos
 - [ ] Validar el prestador contra el REPS

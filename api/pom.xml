@@ -73,6 +73,16 @@
 				<directory>${project.basedir}/../catalogos</directory>
 				<targetPath>catalogos</targetPath>
 			</resource>
+			<!-- Proyecto de Power BI (powerbi/generar_pbip.py): se entrega en /api/v1/exportaciones/power-bi.zip -->
+			<resource>
+				<directory>${project.basedir}/../powerbi</directory>
+				<targetPath>powerbi</targetPath>
+				<excludes>
+					<exclude>*.py</exclude>
+					<exclude>**/.pbi/**</exclude>
+					<exclude>**/*.pbix</exclude>
+				</excludes>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>

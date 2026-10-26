@@ -12,3 +12,7 @@ __pycache__/
 *.iml
 .vscode/
 .DS_Store
+
+# Power BI Desktop: configuración local y caché de datos del proyecto PBIP
+powerbi/**/.pbi/
+*.pbix

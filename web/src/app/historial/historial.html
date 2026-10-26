@@ -3,6 +3,26 @@
   <p>Validaciones guardadas, de la más reciente a la más antigua. Haz clic en una para ver sus hallazgos.</p>
 </header>
 
+<section class="tarjeta powerbi">
+  <div class="powerbi__icono" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="26" height="26"><rect x="3" y="12" width="4" height="9" rx="1" fill="currentColor" opacity=".55" /><rect x="10" y="7" width="4" height="14" rx="1" fill="currentColor" opacity=".8" /><rect x="17" y="3" width="4" height="18" rx="1" fill="currentColor" /></svg>
+  </div>
+  <div class="powerbi__texto">
+    <h2>Reporte de Power BI</h2>
+    <p>
+      5 páginas: resumen, reglas, códigos con su nombre oficial de SISPRO, detalle y guía. Descomprime el .zip,
+      abre <code>RipsValidator.pbip</code> en Power BI Desktop y pulsa <strong>Actualizar</strong> con la API encendida
+      (la primera vez elige acceso <em>Anónimo</em>).
+    </p>
+    <p class="powerbi__datos">
+      ¿Solo los datos? <a href="/api/v1/exportaciones/validaciones.csv" download>validaciones.csv</a> ·
+      <a href="/api/v1/exportaciones/hallazgos.csv" download>hallazgos.csv</a> ·
+      <a href="/api/v1/exportaciones/reglas.csv" download>reglas.csv</a>
+    </p>
+  </div>
+  <a class="boton boton--primario" href="/api/v1/exportaciones/power-bi.zip" download>⬇ Descargar reporte</a>
+</section>
+
 @if (error(); as mensaje) {
   <p class="alerta" role="alert">{{ mensaje }}</p>
 } @else if (pagina(); as p) {

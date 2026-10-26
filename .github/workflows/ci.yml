@@ -18,6 +18,11 @@ jobs:
           java-version: "21"
           cache: maven
 
+      - name: Proyecto de Power BI al día con su generador
+        run: |
+          python3 powerbi/generar_pbip.py
+          git diff --exit-code powerbi/
+
       - name: Pruebas de la API
         working-directory: api
         run: sh mvnw -B verify

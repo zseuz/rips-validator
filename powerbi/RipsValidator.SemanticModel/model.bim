@@ -1,0 +1,438 @@
+{
+  "compatibilityLevel": 1567,
+  "model": {
+    "culture": "es-ES",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "es-CO",
+    "tables": [
+      {
+        "name": "Validaciones",
+        "columns": [
+          {
+            "name": "IdValidacion",
+            "dataType": "int64",
+            "sourceColumn": "IdValidacion",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "Factura",
+            "dataType": "string",
+            "sourceColumn": "Factura",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Obligado",
+            "dataType": "string",
+            "sourceColumn": "Obligado",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Estado",
+            "dataType": "string",
+            "sourceColumn": "Estado",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "FechaValidacion",
+            "dataType": "dateTime",
+            "sourceColumn": "FechaValidacion",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy hh:nn"
+          },
+          {
+            "name": "Usuarios",
+            "dataType": "int64",
+            "sourceColumn": "Usuarios",
+            "summarizeBy": "none",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Servicios",
+            "dataType": "int64",
+            "sourceColumn": "Servicios",
+            "summarizeBy": "none",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Errores",
+            "dataType": "int64",
+            "sourceColumn": "Errores",
+            "summarizeBy": "none",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Advertencias",
+            "dataType": "int64",
+            "sourceColumn": "Advertencias",
+            "summarizeBy": "none",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Fecha",
+            "dataType": "dateTime",
+            "sourceColumn": "Fecha",
+            "summarizeBy": "none",
+            "formatString": "dd/mm/yyyy"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Validaciones",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Origen = Csv.Document(Web.Contents(UrlApi, [RelativePath = \"api/v1/exportaciones/validaciones.csv\"]), [Delimiter = \",\", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),",
+                "    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),",
+                "    // Los campos vacíos del CSV llegan como texto vacío: se vuelven nulos antes de tipar.",
+                "    Nulos = Table.TransformColumns(Encabezados, {}, each if _ = \"\" then null else _),",
+                "    Tipos = Table.TransformColumnTypes(Nulos, {{\"IdValidacion\", Int64.Type}, {\"Factura\", type text}, {\"Obligado\", type text}, {\"Estado\", type text}, {\"FechaValidacion\", type datetime}, {\"Usuarios\", Int64.Type}, {\"Servicios\", Int64.Type}, {\"Errores\", Int64.Type}, {\"Advertencias\", Int64.Type}}, \"en-US\"),",
+                "    ConFecha = Table.AddColumn(Tipos, \"Fecha\", each DateTime.Date([FechaValidacion]), type date)",
+                "in",
+                "    ConFecha"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Hallazgos",
+        "columns": [
+          {
+            "name": "IdValidacion",
+            "dataType": "int64",
+            "sourceColumn": "IdValidacion",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "Orden",
+            "dataType": "int64",
+            "sourceColumn": "Orden",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "Regla",
+            "dataType": "string",
+            "sourceColumn": "Regla",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "Severidad",
+            "dataType": "string",
+            "sourceColumn": "Severidad",
+            "summarizeBy": "none",
+            "isHidden": true
+          },
+          {
+            "name": "Usuario",
+            "dataType": "int64",
+            "sourceColumn": "Usuario",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "TipoServicio",
+            "dataType": "string",
+            "sourceColumn": "TipoServicio",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Campo",
+            "dataType": "string",
+            "sourceColumn": "Campo",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Ruta",
+            "dataType": "string",
+            "sourceColumn": "Ruta",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Mensaje",
+            "dataType": "string",
+            "sourceColumn": "Mensaje",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Valor",
+            "dataType": "string",
+            "sourceColumn": "Valor",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "TablaReferencia",
+            "dataType": "string",
+            "sourceColumn": "TablaReferencia",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "NombreReferencia",
+            "dataType": "string",
+            "sourceColumn": "NombreReferencia",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Hallazgos",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Origen = Csv.Document(Web.Contents(UrlApi, [RelativePath = \"api/v1/exportaciones/hallazgos.csv\"]), [Delimiter = \",\", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),",
+                "    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),",
+                "    // Los campos vacíos del CSV llegan como texto vacío: se vuelven nulos antes de tipar.",
+                "    Nulos = Table.TransformColumns(Encabezados, {}, each if _ = \"\" then null else _),",
+                "    Tipos = Table.TransformColumnTypes(Nulos, {{\"IdValidacion\", Int64.Type}, {\"Orden\", Int64.Type}, {\"Regla\", type text}, {\"Severidad\", type text}, {\"Usuario\", Int64.Type}, {\"TipoServicio\", type text}, {\"Campo\", type text}, {\"Ruta\", type text}, {\"Mensaje\", type text}, {\"Valor\", type text}, {\"TablaReferencia\", type text}, {\"NombreReferencia\", type text}}, \"en-US\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Reglas",
+        "columns": [
+          {
+            "name": "Regla",
+            "dataType": "string",
+            "sourceColumn": "Regla",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Severidad",
+            "dataType": "string",
+            "sourceColumn": "Severidad",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Titulo",
+            "dataType": "string",
+            "sourceColumn": "Titulo",
+            "summarizeBy": "none",
+            "sortByColumn": "Regla"
+          },
+          {
+            "name": "Grupo",
+            "dataType": "string",
+            "sourceColumn": "Grupo",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Reglas",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Origen = Csv.Document(Web.Contents(UrlApi, [RelativePath = \"api/v1/exportaciones/reglas.csv\"]), [Delimiter = \",\", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),",
+                "    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),",
+                "    // Los campos vacíos del CSV llegan como texto vacío: se vuelven nulos antes de tipar.",
+                "    Nulos = Table.TransformColumns(Encabezados, {}, each if _ = \"\" then null else _),",
+                "    Tipos = Table.TransformColumnTypes(Nulos, {{\"Regla\", type text}, {\"Severidad\", type text}, {\"Titulo\", type text}, {\"Grupo\", type text}}, \"en-US\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "_Medidas",
+        "columns": [
+          {
+            "name": "Medida",
+            "dataType": "string",
+            "isHidden": true,
+            "type": "calculatedTableColumn",
+            "sourceColumn": "[Medida]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "_Medidas",
+            "mode": "import",
+            "source": {
+              "type": "calculated",
+              "expression": "ROW(\"Medida\", BLANK())"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Validaciones",
+            "expression": "COUNTROWS(Validaciones)",
+            "formatString": "#,0",
+            "displayFolder": "1. Validaciones",
+            "description": "Archivos RIPS validados."
+          },
+          {
+            "name": "Válidas",
+            "expression": "CALCULATE([Validaciones], Validaciones[Estado] = \"Válido\")",
+            "formatString": "#,0",
+            "displayFolder": "1. Validaciones",
+            "description": "Validaciones sin errores ni advertencias."
+          },
+          {
+            "name": "Con advertencias",
+            "expression": "CALCULATE([Validaciones], Validaciones[Estado] = \"Con advertencias\")",
+            "formatString": "#,0",
+            "displayFolder": "1. Validaciones",
+            "description": "Se pueden enviar, pero tienen advertencias que suelen terminar en glosas."
+          },
+          {
+            "name": "Rechazadas",
+            "expression": "CALCULATE([Validaciones], Validaciones[Estado] = \"Rechazado\")",
+            "formatString": "#,0",
+            "displayFolder": "1. Validaciones",
+            "description": "Validaciones con al menos un error: el Ministerio las rechazaría."
+          },
+          {
+            "name": "% rechazo",
+            "expression": "DIVIDE([Rechazadas], [Validaciones])",
+            "formatString": "0.0%",
+            "displayFolder": "1. Validaciones",
+            "description": "Rechazadas / validaciones."
+          },
+          {
+            "name": "% listas para enviar",
+            "expression": "DIVIDE([Válidas] + [Con advertencias], [Validaciones])",
+            "formatString": "0.0%",
+            "displayFolder": "1. Validaciones",
+            "description": "Validaciones sin errores / validaciones."
+          },
+          {
+            "name": "Usuarios reportados",
+            "expression": "SUM(Validaciones[Usuarios])",
+            "formatString": "#,0",
+            "displayFolder": "1. Validaciones",
+            "description": "Usuarios en los archivos validados."
+          },
+          {
+            "name": "Servicios reportados",
+            "expression": "SUM(Validaciones[Servicios])",
+            "formatString": "#,0",
+            "displayFolder": "1. Validaciones",
+            "description": "Consultas y procedimientos en los archivos validados."
+          },
+          {
+            "name": "Última validación",
+            "expression": "IF(ISEMPTY(Validaciones), \"Sin datos\", FORMAT(MAX(Validaciones[FechaValidacion]), \"dd/mm/yyyy hh:nn\"))",
+            "displayFolder": "1. Validaciones",
+            "description": "Fecha y hora de la validación más reciente."
+          },
+          {
+            "name": "Hallazgos",
+            "expression": "COUNTROWS(Hallazgos)",
+            "formatString": "#,0",
+            "displayFolder": "2. Hallazgos",
+            "description": "Errores y advertencias encontrados."
+          },
+          {
+            "name": "Errores",
+            "expression": "CALCULATE([Hallazgos], Reglas[Severidad] = \"ERROR\")",
+            "formatString": "#,0",
+            "displayFolder": "2. Hallazgos",
+            "description": "Hallazgos que impiden el envío."
+          },
+          {
+            "name": "Advertencias",
+            "expression": "CALCULATE([Hallazgos], Reglas[Severidad] = \"ADVERTENCIA\")",
+            "formatString": "#,0",
+            "displayFolder": "2. Hallazgos",
+            "description": "Hallazgos que no impiden el envío."
+          },
+          {
+            "name": "Errores por factura",
+            "expression": "DIVIDE([Errores], [Validaciones])",
+            "formatString": "#,0.0",
+            "displayFolder": "2. Hallazgos",
+            "description": "Errores promedio por archivo validado."
+          },
+          {
+            "name": "Facturas con hallazgos",
+            "expression": "DISTINCTCOUNT(Hallazgos[IdValidacion])",
+            "formatString": "#,0",
+            "displayFolder": "2. Hallazgos",
+            "description": "Validaciones con al menos un hallazgo del filtro actual (regla, severidad, campo…)."
+          },
+          {
+            "name": "% facturas con hallazgos",
+            "expression": "DIVIDE([Facturas con hallazgos], [Validaciones])",
+            "formatString": "0.0%",
+            "displayFolder": "2. Hallazgos",
+            "description": "Qué parte de las facturas tiene el hallazgo seleccionado."
+          },
+          {
+            "name": "Hallazgos en códigos",
+            "expression": "CALCULATE([Hallazgos], NOT ISBLANK(Hallazgos[TablaReferencia]))",
+            "formatString": "#,0",
+            "displayFolder": "3. Códigos",
+            "description": "Hallazgos sobre diagnósticos (CIE-10), CUPS, municipios o países."
+          },
+          {
+            "name": "Códigos distintos",
+            "expression": "CALCULATE(DISTINCTCOUNT(Hallazgos[Valor]), NOT ISBLANK(Hallazgos[TablaReferencia]))",
+            "formatString": "#,0",
+            "displayFolder": "3. Códigos",
+            "description": "Códigos diferentes con al menos un hallazgo."
+          },
+          {
+            "name": "Facturas con códigos",
+            "expression": "CALCULATE([Facturas con hallazgos], NOT ISBLANK(Hallazgos[TablaReferencia]))",
+            "formatString": "#,0",
+            "displayFolder": "3. Códigos",
+            "description": "Facturas con al menos un hallazgo sobre un código de SISPRO."
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "5b3fd3e3-7c08-5259-951a-eb1e0863a35b",
+        "fromTable": "Hallazgos",
+        "fromColumn": "IdValidacion",
+        "toTable": "Validaciones",
+        "toColumn": "IdValidacion"
+      },
+      {
+        "name": "6ca9c262-eb52-5dc7-abae-8e233c7c3506",
+        "fromTable": "Hallazgos",
+        "fromColumn": "Regla",
+        "toTable": "Reglas",
+        "toColumn": "Regla"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "UrlApi",
+        "kind": "m",
+        "description": "Dirección de la API del validador (sin / al final).",
+        "expression": "\"http://localhost:8080\" meta [IsParameterQuery=true, Type=\"Text\", IsParameterQueryRequired=true]"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"UrlApi\", \"Validaciones\", \"Hallazgos\", \"Reglas\"]"
+      },
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      }
+    ]
+  }
+}

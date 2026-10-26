@@ -1,0 +1,543 @@
+{
+  "config": "{\"version\": \"5.43\", \"themeCollection\": {}, \"activeSectionIndex\": 0, \"linguisticSchemaSyncVersion\": 0}",
+  "layoutOptimization": 0,
+  "sections": [
+    {
+      "config": "{}",
+      "displayName": "Resumen",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.0,
+      "width": 1280.0,
+      "name": "ReportSection01",
+      "ordinal": 0,
+      "visualContainers": [
+        {
+          "x": 10,
+          "y": 0,
+          "z": 1,
+          "width": 1260,
+          "height": 62,
+          "config": "{\"name\": \"c979bcf9e3a0509eb644\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 0, \"z\": 1, \"width\": 1260, \"height\": 62}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Validación de RIPS – Resumen\", \"textStyle\": {\"fontSize\": \"16pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Archivos RIPS (Resolución 2275 de 2023) validados contra las reglas y las tablas de referencia de SISPRO. Datos de la API del validador: pulse Actualizar para traer las validaciones nuevas.\", \"textStyle\": {\"fontSize\": \"9pt\"}}]}]}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 62,
+          "z": 2,
+          "width": 300,
+          "height": 63,
+          "config": "{\"name\": \"95de2b71e04153319d02\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 62, \"z\": 2, \"width\": 300, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Fecha\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Fecha\"}, \"Name\": \"Validaciones.Fecha\", \"NativeReferenceName\": \"Fecha\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Between'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Fecha de validación'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 320,
+          "y": 62,
+          "z": 3,
+          "width": 306,
+          "height": 63,
+          "config": "{\"name\": \"ea18ec065ab758069098\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 320, \"y\": 62, \"z\": 3, \"width\": 306, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Estado\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Estado\"}, \"Name\": \"Validaciones.Estado\", \"NativeReferenceName\": \"Estado\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Estado'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 636,
+          "y": 62,
+          "z": 4,
+          "width": 306,
+          "height": 63,
+          "config": "{\"name\": \"57f1696e881d5af3a50b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 636, \"y\": 62, \"z\": 4, \"width\": 306, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Obligado\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Obligado\"}, \"Name\": \"Validaciones.Obligado\", \"NativeReferenceName\": \"Obligado\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Obligado (NIT)'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 952,
+          "y": 62,
+          "z": 5,
+          "width": 306,
+          "height": 63,
+          "config": "{\"name\": \"6ea61d2665965fc489d1\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 952, \"y\": 62, \"z\": 5, \"width\": 306, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Factura\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Factura\"}, \"Name\": \"Validaciones.Factura\", \"NativeReferenceName\": \"Factura\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Factura'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 130,
+          "z": 6,
+          "width": 171,
+          "height": 95,
+          "config": "{\"name\": \"08ed4d4350405464942f\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 130, \"z\": 6, \"width\": 171, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Validaciones\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Validaciones\"}, \"Name\": \"_Medidas.Validaciones\", \"NativeReferenceName\": \"Validaciones\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Validaciones'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 191,
+          "y": 130,
+          "z": 7,
+          "width": 171,
+          "height": 95,
+          "config": "{\"name\": \"2862e6a9339b5d3db693\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 191, \"y\": 130, \"z\": 7, \"width\": 171, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.% rechazo\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"% rechazo\"}, \"Name\": \"_Medidas.% rechazo\", \"NativeReferenceName\": \"% rechazo\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'% rechazo'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 372,
+          "y": 130,
+          "z": 8,
+          "width": 171,
+          "height": 95,
+          "config": "{\"name\": \"a096c8d4dc4b541f93f6\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 372, \"y\": 130, \"z\": 8, \"width\": 171, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.% listas para enviar\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"% listas para enviar\"}, \"Name\": \"_Medidas.% listas para enviar\", \"NativeReferenceName\": \"% listas para enviar\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'% listas para enviar'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 553,
+          "y": 130,
+          "z": 9,
+          "width": 171,
+          "height": 95,
+          "config": "{\"name\": \"2b2d32764d2f528eada3\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 553, \"y\": 130, \"z\": 9, \"width\": 171, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Errores\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Errores\"}, \"Name\": \"_Medidas.Errores\", \"NativeReferenceName\": \"Errores\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Errores'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 734,
+          "y": 130,
+          "z": 10,
+          "width": 171,
+          "height": 95,
+          "config": "{\"name\": \"f1316c9786775f23af8f\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 734, \"y\": 130, \"z\": 10, \"width\": 171, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Advertencias\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Advertencias\"}, \"Name\": \"_Medidas.Advertencias\", \"NativeReferenceName\": \"Advertencias\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Advertencias'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 915,
+          "y": 130,
+          "z": 11,
+          "width": 171,
+          "height": 95,
+          "config": "{\"name\": \"35c1b3b2d95b5677af66\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 915, \"y\": 130, \"z\": 11, \"width\": 171, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Errores por factura\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Errores por factura\"}, \"Name\": \"_Medidas.Errores por factura\", \"NativeReferenceName\": \"Errores por factura\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Errores por factura'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 1096,
+          "y": 130,
+          "z": 12,
+          "width": 171,
+          "height": 95,
+          "config": "{\"name\": \"c20d57d87e4c5f5da1e7\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1096, \"y\": 130, \"z\": 12, \"width\": 171, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Servicios reportados\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Servicios reportados\"}, \"Name\": \"_Medidas.Servicios reportados\", \"NativeReferenceName\": \"Servicios reportados\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Servicios reportados'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 235,
+          "z": 13,
+          "width": 400,
+          "height": 230,
+          "config": "{\"name\": \"50803ce6a964526dbc97\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 235, \"z\": 13, \"width\": 400, \"height\": 230}}], \"singleVisual\": {\"visualType\": \"donutChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Validaciones.Estado\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Validaciones\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Estado\"}, \"Name\": \"Validaciones.Estado\", \"NativeReferenceName\": \"Estado\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Validaciones\"}, \"Name\": \"_Medidas.Validaciones\", \"NativeReferenceName\": \"Validaciones\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Validaciones por estado'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 420,
+          "y": 235,
+          "z": 14,
+          "width": 430,
+          "height": 230,
+          "config": "{\"name\": \"ee7160c804a058d59c66\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 420, \"y\": 235, \"z\": 14, \"width\": 430, \"height\": 230}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Reglas.Titulo\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Hallazgos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Titulo\"}, \"Name\": \"Reglas.Titulo\", \"NativeReferenceName\": \"Titulo\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Hallazgos\"}, \"Name\": \"_Medidas.Hallazgos\", \"NativeReferenceName\": \"Hallazgos\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Hallazgos por regla'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 860,
+          "y": 235,
+          "z": 15,
+          "width": 410,
+          "height": 230,
+          "config": "{\"name\": \"2ecd336b0bc75459b097\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 860, \"y\": 235, \"z\": 15, \"width\": 410, \"height\": 230}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Hallazgos.Campo\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Errores\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Hallazgos\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Campo\"}, \"Name\": \"Hallazgos.Campo\", \"NativeReferenceName\": \"Campo\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Errores\"}, \"Name\": \"_Medidas.Errores\", \"NativeReferenceName\": \"Errores\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Campos con más errores'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 475,
+          "z": 16,
+          "width": 630,
+          "height": 235,
+          "config": "{\"name\": \"2974b88761f25691a741\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 475, \"z\": 16, \"width\": 630, \"height\": 235}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Validaciones.Fecha\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Validaciones\"}, {\"queryRef\": \"_Medidas.Rechazadas\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Fecha\"}, \"Name\": \"Validaciones.Fecha\", \"NativeReferenceName\": \"Fecha\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Validaciones\"}, \"Name\": \"_Medidas.Validaciones\", \"NativeReferenceName\": \"Validaciones\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Rechazadas\"}, \"Name\": \"_Medidas.Rechazadas\", \"NativeReferenceName\": \"Rechazadas\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Validaciones y rechazos por día'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 650,
+          "y": 475,
+          "z": 17,
+          "width": 620,
+          "height": 235,
+          "config": "{\"name\": \"0e04eed6302f5df7a37a\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 650, \"y\": 475, \"z\": 17, \"width\": 620, \"height\": 235}}], \"singleVisual\": {\"visualType\": \"clusteredColumnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Hallazgos.TipoServicio\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Errores\"}, {\"queryRef\": \"_Medidas.Advertencias\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Hallazgos\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"TipoServicio\"}, \"Name\": \"Hallazgos.TipoServicio\", \"NativeReferenceName\": \"TipoServicio\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Errores\"}, \"Name\": \"_Medidas.Errores\", \"NativeReferenceName\": \"Errores\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Advertencias\"}, \"Name\": \"_Medidas.Advertencias\", \"NativeReferenceName\": \"Advertencias\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Hallazgos por tipo de registro'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    },
+    {
+      "config": "{}",
+      "displayName": "Reglas",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.0,
+      "width": 1280.0,
+      "name": "ReportSection02",
+      "ordinal": 1,
+      "visualContainers": [
+        {
+          "x": 10,
+          "y": 0,
+          "z": 1,
+          "width": 1260,
+          "height": 62,
+          "config": "{\"name\": \"f5ecbc1e9d1258a19c59\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 0, \"z\": 1, \"width\": 1260, \"height\": 62}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Hallazgos por regla\", \"textStyle\": {\"fontSize\": \"16pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Qué reglas fallan más y en cuántas facturas. Los segmentadores de regla, severidad y tipo de registro filtran los hallazgos; los de fecha y estado, las validaciones.\", \"textStyle\": {\"fontSize\": \"9pt\"}}]}]}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 62,
+          "z": 2,
+          "width": 300,
+          "height": 63,
+          "config": "{\"name\": \"0bf5b95ffa095520b647\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 62, \"z\": 2, \"width\": 300, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Fecha\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Fecha\"}, \"Name\": \"Validaciones.Fecha\", \"NativeReferenceName\": \"Fecha\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Between'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Fecha de validación'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 320,
+          "y": 62,
+          "z": 3,
+          "width": 306,
+          "height": 63,
+          "config": "{\"name\": \"6a6ab2f217b65f4d962e\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 320, \"y\": 62, \"z\": 3, \"width\": 306, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Reglas.Grupo\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Grupo\"}, \"Name\": \"Reglas.Grupo\", \"NativeReferenceName\": \"Grupo\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Grupo de reglas'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 636,
+          "y": 62,
+          "z": 4,
+          "width": 306,
+          "height": 63,
+          "config": "{\"name\": \"46169883fad251919601\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 636, \"y\": 62, \"z\": 4, \"width\": 306, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Reglas.Severidad\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Severidad\"}, \"Name\": \"Reglas.Severidad\", \"NativeReferenceName\": \"Severidad\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Severidad'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 952,
+          "y": 62,
+          "z": 5,
+          "width": 306,
+          "height": 63,
+          "config": "{\"name\": \"ae97ca22e9465ae58e75\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 952, \"y\": 62, \"z\": 5, \"width\": 306, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Hallazgos.TipoServicio\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Hallazgos\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"TipoServicio\"}, \"Name\": \"Hallazgos.TipoServicio\", \"NativeReferenceName\": \"TipoServicio\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Tipo de registro'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 130,
+          "z": 6,
+          "width": 307,
+          "height": 95,
+          "config": "{\"name\": \"4b25ea346795592bbeab\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 130, \"z\": 6, \"width\": 307, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Hallazgos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Hallazgos\"}, \"Name\": \"_Medidas.Hallazgos\", \"NativeReferenceName\": \"Hallazgos\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Hallazgos'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 327,
+          "y": 130,
+          "z": 7,
+          "width": 307,
+          "height": 95,
+          "config": "{\"name\": \"5482f45d40e95aa3865d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 327, \"y\": 130, \"z\": 7, \"width\": 307, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Facturas con hallazgos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Facturas con hallazgos\"}, \"Name\": \"_Medidas.Facturas con hallazgos\", \"NativeReferenceName\": \"Facturas con hallazgos\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Facturas con hallazgos'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 644,
+          "y": 130,
+          "z": 8,
+          "width": 307,
+          "height": 95,
+          "config": "{\"name\": \"913e7a58c8665d75b2a6\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 644, \"y\": 130, \"z\": 8, \"width\": 307, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.% facturas con hallazgos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"% facturas con hallazgos\"}, \"Name\": \"_Medidas.% facturas con hallazgos\", \"NativeReferenceName\": \"% facturas con hallazgos\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'% facturas con hallazgos'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 961,
+          "y": 130,
+          "z": 9,
+          "width": 307,
+          "height": 95,
+          "config": "{\"name\": \"5d3c6c9a88d95fccb26d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 961, \"y\": 130, \"z\": 9, \"width\": 307, \"height\": 95}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Códigos distintos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Códigos distintos\"}, \"Name\": \"_Medidas.Códigos distintos\", \"NativeReferenceName\": \"Códigos distintos\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Códigos distintos'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 235,
+          "z": 10,
+          "width": 760,
+          "height": 475,
+          "config": "{\"name\": \"eaf039a9a07458a39661\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 235, \"z\": 10, \"width\": 760, \"height\": 475}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"Reglas.Regla\"}, {\"queryRef\": \"Reglas.Titulo\"}, {\"queryRef\": \"Reglas.Severidad\"}, {\"queryRef\": \"Reglas.Grupo\"}, {\"queryRef\": \"_Medidas.Hallazgos\"}, {\"queryRef\": \"_Medidas.Facturas con hallazgos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Regla\"}, \"Name\": \"Reglas.Regla\", \"NativeReferenceName\": \"Regla\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Titulo\"}, \"Name\": \"Reglas.Titulo\", \"NativeReferenceName\": \"Titulo\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Severidad\"}, \"Name\": \"Reglas.Severidad\", \"NativeReferenceName\": \"Severidad\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Grupo\"}, \"Name\": \"Reglas.Grupo\", \"NativeReferenceName\": \"Grupo\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Hallazgos\"}, \"Name\": \"_Medidas.Hallazgos\", \"NativeReferenceName\": \"Hallazgos\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Facturas con hallazgos\"}, \"Name\": \"_Medidas.Facturas con hallazgos\", \"NativeReferenceName\": \"Facturas con hallazgos\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Detalle por regla'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 780,
+          "y": 235,
+          "z": 11,
+          "width": 490,
+          "height": 230,
+          "config": "{\"name\": \"e8d1657d1df25873857c\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 780, \"y\": 235, \"z\": 11, \"width\": 490, \"height\": 230}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Reglas.Grupo\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Hallazgos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Grupo\"}, \"Name\": \"Reglas.Grupo\", \"NativeReferenceName\": \"Grupo\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Hallazgos\"}, \"Name\": \"_Medidas.Hallazgos\", \"NativeReferenceName\": \"Hallazgos\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Hallazgos por grupo de reglas'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 780,
+          "y": 475,
+          "z": 12,
+          "width": 490,
+          "height": 235,
+          "config": "{\"name\": \"134d943c24e55921955e\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 780, \"y\": 475, \"z\": 12, \"width\": 490, \"height\": 235}}], \"singleVisual\": {\"visualType\": \"donutChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Reglas.Severidad\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Hallazgos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Severidad\"}, \"Name\": \"Reglas.Severidad\", \"NativeReferenceName\": \"Severidad\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Hallazgos\"}, \"Name\": \"_Medidas.Hallazgos\", \"NativeReferenceName\": \"Hallazgos\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Errores frente a advertencias'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    },
+    {
+      "config": "{}",
+      "displayName": "Códigos",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.0,
+      "width": 1280.0,
+      "name": "ReportSection03",
+      "ordinal": 2,
+      "visualContainers": [
+        {
+          "x": 10,
+          "y": 0,
+          "z": 1,
+          "width": 1260,
+          "height": 62,
+          "config": "{\"name\": \"cc2c2df411645f758b37\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 0, \"z\": 1, \"width\": 1260, \"height\": 62}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Diagnósticos, CUPS y municipios con más hallazgos\", \"textStyle\": {\"fontSize\": \"16pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Con el nombre oficial de la tabla de referencia de SISPRO. '(no existe en SISPRO)' marca códigos que no están en la tabla: suelen ser errores de digitación.\", \"textStyle\": {\"fontSize\": \"9pt\"}}]}]}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 62,
+          "z": 2,
+          "width": 300,
+          "height": 63,
+          "config": "{\"name\": \"8df4f8148f9e5948b5f3\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 62, \"z\": 2, \"width\": 300, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Fecha\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Fecha\"}, \"Name\": \"Validaciones.Fecha\", \"NativeReferenceName\": \"Fecha\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Between'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Fecha de validación'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 320,
+          "y": 62,
+          "z": 3,
+          "width": 465,
+          "height": 63,
+          "config": "{\"name\": \"30f0f4b00721568bba67\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 320, \"y\": 62, \"z\": 3, \"width\": 465, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Hallazgos.TablaReferencia\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Hallazgos\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"TablaReferencia\"}, \"Name\": \"Hallazgos.TablaReferencia\", \"NativeReferenceName\": \"TablaReferencia\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Tabla de SISPRO'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 795,
+          "y": 62,
+          "z": 4,
+          "width": 465,
+          "height": 63,
+          "config": "{\"name\": \"88a16ccc13e45b2a9ebf\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 795, \"y\": 62, \"z\": 4, \"width\": 465, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Reglas.Titulo\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Titulo\"}, \"Name\": \"Reglas.Titulo\", \"NativeReferenceName\": \"Titulo\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Regla'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 130,
+          "z": 5,
+          "width": 630,
+          "height": 580,
+          "config": "{\"name\": \"99cd383dc1085bb9b00c\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 130, \"z\": 5, \"width\": 630, \"height\": 580}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Hallazgos.NombreReferencia\", \"active\": true}], \"Y\": [{\"queryRef\": \"_Medidas.Hallazgos en códigos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Hallazgos\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"NombreReferencia\"}, \"Name\": \"Hallazgos.NombreReferencia\", \"NativeReferenceName\": \"NombreReferencia\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Hallazgos en códigos\"}, \"Name\": \"_Medidas.Hallazgos en códigos\", \"NativeReferenceName\": \"Hallazgos en códigos\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Códigos con más hallazgos'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 650,
+          "y": 130,
+          "z": 6,
+          "width": 620,
+          "height": 580,
+          "config": "{\"name\": \"5721e894020a569abb9d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 650, \"y\": 130, \"z\": 6, \"width\": 620, \"height\": 580}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"Hallazgos.TablaReferencia\"}, {\"queryRef\": \"Hallazgos.Valor\"}, {\"queryRef\": \"Hallazgos.NombreReferencia\"}, {\"queryRef\": \"_Medidas.Hallazgos en códigos\"}, {\"queryRef\": \"_Medidas.Facturas con códigos\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Hallazgos\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"TablaReferencia\"}, \"Name\": \"Hallazgos.TablaReferencia\", \"NativeReferenceName\": \"TablaReferencia\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Valor\"}, \"Name\": \"Hallazgos.Valor\", \"NativeReferenceName\": \"Valor\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"NombreReferencia\"}, \"Name\": \"Hallazgos.NombreReferencia\", \"NativeReferenceName\": \"NombreReferencia\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Hallazgos en códigos\"}, \"Name\": \"_Medidas.Hallazgos en códigos\", \"NativeReferenceName\": \"Hallazgos en códigos\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Facturas con códigos\"}, \"Name\": \"_Medidas.Facturas con códigos\", \"NativeReferenceName\": \"Facturas con códigos\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Detalle por código'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    },
+    {
+      "config": "{}",
+      "displayName": "Detalle",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.0,
+      "width": 1280.0,
+      "name": "ReportSection04",
+      "ordinal": 3,
+      "visualContainers": [
+        {
+          "x": 10,
+          "y": 0,
+          "z": 1,
+          "width": 1260,
+          "height": 62,
+          "config": "{\"name\": \"00305ec1aca75d36a896\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 0, \"z\": 1, \"width\": 1260, \"height\": 62}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Detalle de hallazgos\", \"textStyle\": {\"fontSize\": \"16pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Un renglón por hallazgo, con la factura, el usuario, el campo y el valor recibido. Filtre por factura para preparar la corrección de un archivo.\", \"textStyle\": {\"fontSize\": \"9pt\"}}]}]}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 62,
+          "z": 2,
+          "width": 300,
+          "height": 63,
+          "config": "{\"name\": \"33c36024c0be532d8d88\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 62, \"z\": 2, \"width\": 300, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Fecha\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Fecha\"}, \"Name\": \"Validaciones.Fecha\", \"NativeReferenceName\": \"Fecha\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Between'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Fecha de validación'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 320,
+          "y": 62,
+          "z": 3,
+          "width": 227,
+          "height": 63,
+          "config": "{\"name\": \"b16500ce288251ffb7d4\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 320, \"y\": 62, \"z\": 3, \"width\": 227, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Factura\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Factura\"}, \"Name\": \"Validaciones.Factura\", \"NativeReferenceName\": \"Factura\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Factura'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 557,
+          "y": 62,
+          "z": 4,
+          "width": 227,
+          "height": 63,
+          "config": "{\"name\": \"915540c6a3165ef1b324\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 557, \"y\": 62, \"z\": 4, \"width\": 227, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Reglas.Severidad\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Severidad\"}, \"Name\": \"Reglas.Severidad\", \"NativeReferenceName\": \"Severidad\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Severidad'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 794,
+          "y": 62,
+          "z": 5,
+          "width": 227,
+          "height": 63,
+          "config": "{\"name\": \"406454b6c8c05df4aa69\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 794, \"y\": 62, \"z\": 5, \"width\": 227, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Reglas.Regla\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Reglas\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Regla\"}, \"Name\": \"Reglas.Regla\", \"NativeReferenceName\": \"Regla\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Regla'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 1031,
+          "y": 62,
+          "z": 6,
+          "width": 227,
+          "height": 63,
+          "config": "{\"name\": \"c30587f85f6e5fb19951\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1031, \"y\": 62, \"z\": 6, \"width\": 227, \"height\": 63}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Hallazgos.TipoServicio\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Hallazgos\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"TipoServicio\"}, \"Name\": \"Hallazgos.TipoServicio\", \"NativeReferenceName\": \"TipoServicio\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}], \"header\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Tipo de registro'\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 130,
+          "z": 7,
+          "width": 1260,
+          "height": 580,
+          "config": "{\"name\": \"9fa5d2588c4a51c3a472\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 130, \"z\": 7, \"width\": 1260, \"height\": 580}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"Validaciones.Factura\"}, {\"queryRef\": \"Validaciones.FechaValidacion\"}, {\"queryRef\": \"Reglas.Regla\"}, {\"queryRef\": \"Reglas.Severidad\"}, {\"queryRef\": \"Hallazgos.Usuario\"}, {\"queryRef\": \"Hallazgos.TipoServicio\"}, {\"queryRef\": \"Hallazgos.Campo\"}, {\"queryRef\": \"Hallazgos.Valor\"}, {\"queryRef\": \"Hallazgos.Mensaje\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"Validaciones\", \"Type\": 0}, {\"Name\": \"t1\", \"Entity\": \"Reglas\", \"Type\": 0}, {\"Name\": \"t2\", \"Entity\": \"Hallazgos\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Factura\"}, \"Name\": \"Validaciones.Factura\", \"NativeReferenceName\": \"Factura\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"FechaValidacion\"}, \"Name\": \"Validaciones.FechaValidacion\", \"NativeReferenceName\": \"FechaValidacion\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Regla\"}, \"Name\": \"Reglas.Regla\", \"NativeReferenceName\": \"Regla\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t1\"}}, \"Property\": \"Severidad\"}, \"Name\": \"Reglas.Severidad\", \"NativeReferenceName\": \"Severidad\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t2\"}}, \"Property\": \"Usuario\"}, \"Name\": \"Hallazgos.Usuario\", \"NativeReferenceName\": \"Usuario\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t2\"}}, \"Property\": \"TipoServicio\"}, \"Name\": \"Hallazgos.TipoServicio\", \"NativeReferenceName\": \"TipoServicio\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t2\"}}, \"Property\": \"Campo\"}, \"Name\": \"Hallazgos.Campo\", \"NativeReferenceName\": \"Campo\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t2\"}}, \"Property\": \"Valor\"}, \"Name\": \"Hallazgos.Valor\", \"NativeReferenceName\": \"Valor\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t2\"}}, \"Property\": \"Mensaje\"}, \"Name\": \"Hallazgos.Mensaje\", \"NativeReferenceName\": \"Mensaje\"}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Hallazgos'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    },
+    {
+      "config": "{}",
+      "displayName": "Cómo usar",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.0,
+      "width": 1280.0,
+      "name": "ReportSection05",
+      "ordinal": 4,
+      "visualContainers": [
+        {
+          "x": 10,
+          "y": 0,
+          "z": 1,
+          "width": 1260,
+          "height": 62,
+          "config": "{\"name\": \"75375e9d4a1e517ca107\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 0, \"z\": 1, \"width\": 1260, \"height\": 62}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Cómo usar este reporte\", \"textStyle\": {\"fontSize\": \"16pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Origen de los datos, actualización y definición de los indicadores.\", \"textStyle\": {\"fontSize\": \"9pt\"}}]}]}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 70,
+          "z": 2,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"02f82eb7a4d85b569917\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 70, \"z\": 2, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Origen de los datos\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Parámetro UrlApi\", \"textStyle\": {\"fontSize\": \"9pt\", \"fontWeight\": \"bold\", \"color\": \"#595959\"}}]}, {\"textRuns\": [{\"value\": \"Las tablas se leen de la API del validador (/api/v1/exportaciones/*.csv). Para cambiar la dirección: Transformar datos > Editar parámetros > UrlApi.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#EEF7F6'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#9CCFC9'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 433,
+          "y": 70,
+          "z": 3,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"fa4b6ed6af7150729980\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 433, \"y\": 70, \"z\": 3, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Actualizar\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Inicio > Actualizar\", \"textStyle\": {\"fontSize\": \"9pt\", \"fontWeight\": \"bold\", \"color\": \"#595959\"}}]}, {\"textRuns\": [{\"value\": \"Trae las validaciones nuevas. La API debe estar encendida. Si Power BI pide el tipo de acceso a la dirección web, elija Anónimo.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#EEF7F6'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#9CCFC9'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 856,
+          "y": 70,
+          "z": 4,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"8b43e5c92d3a51cebeff\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 856, \"y\": 70, \"z\": 4, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"% rechazo\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Rechazadas / validaciones\", \"textStyle\": {\"fontSize\": \"9pt\", \"fontWeight\": \"bold\", \"color\": \"#595959\"}}]}, {\"textRuns\": [{\"value\": \"Facturas con al menos un error que el Ministerio rechazaría. Es el indicador principal de calidad del RIPS antes del envío.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#EEF7F6'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#9CCFC9'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 228,
+          "z": 5,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"c1a2915a26d05cbab626\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 228, \"z\": 5, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"% listas para enviar\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"(Válidas + con advertencias) / validaciones\", \"textStyle\": {\"fontSize\": \"9pt\", \"fontWeight\": \"bold\", \"color\": \"#595959\"}}]}, {\"textRuns\": [{\"value\": \"Facturas sin errores. Las advertencias no bloquean el envío, pero suelen terminar en glosas.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#EEF7F6'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#9CCFC9'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 433,
+          "y": 228,
+          "z": 6,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"64c15fc0242a53e188ee\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 433, \"y\": 228, \"z\": 6, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Errores por factura\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Errores / validaciones\", \"textStyle\": {\"fontSize\": \"9pt\", \"fontWeight\": \"bold\", \"color\": \"#595959\"}}]}, {\"textRuns\": [{\"value\": \"Esfuerzo de corrección promedio. Sirve para comparar prestadores o meses.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#EEF7F6'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#9CCFC9'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 856,
+          "y": 228,
+          "z": 7,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"c1fd2ffd3ad25a38b6d1\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 856, \"y\": 228, \"z\": 7, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Facturas con hallazgos\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"Validaciones distintas con el hallazgo filtrado\", \"textStyle\": {\"fontSize\": \"9pt\", \"fontWeight\": \"bold\", \"color\": \"#595959\"}}]}, {\"textRuns\": [{\"value\": \"Con una regla seleccionada, dice cuántas facturas afecta: ayuda a priorizar qué capacitar o qué corregir en el sistema de origen.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#EEF7F6'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#9CCFC9'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 386,
+          "z": 8,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"560bd5a4fd9d59b98eab\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 386, \"z\": 8, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Tablas de SISPRO\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#0D4F4A\"}}]}, {\"textRuns\": [{\"value\": \"CIE-10, CUPS, municipios, países y 12 más\", \"textStyle\": {\"fontSize\": \"9pt\", \"fontWeight\": \"bold\", \"color\": \"#595959\"}}]}, {\"textRuns\": [{\"value\": \"Los códigos se validan contra las tablas de referencia del Ministerio que trae la API; la página Códigos muestra su nombre oficial.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#EEF7F6'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#9CCFC9'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 433,
+          "y": 386,
+          "z": 9,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"dfdf12fe648650e89763\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 433, \"y\": 386, \"z\": 9, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Datos personales\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#8A6D00\"}}]}, {\"textRuns\": [{\"value\": \"La API no guarda el RIPS, solo el resumen y los hallazgos: este reporte no tiene nombres ni documentos de pacientes.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#FFF8E1'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#E6C35C'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 856,
+          "y": 386,
+          "z": 10,
+          "width": 413,
+          "height": 150,
+          "config": "{\"name\": \"85f77c51694c5f6485d8\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 856, \"y\": 386, \"z\": 10, \"width\": 413, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Proyecto de portafolio\", \"textStyle\": {\"fontSize\": \"12pt\", \"fontWeight\": \"bold\", \"color\": \"#8A6D00\"}}]}, {\"textRuns\": [{\"value\": \"No reemplaza la validación oficial del Ministerio (MUV). Código en github.com/zseuz/rips-validator.\", \"textStyle\": {\"fontSize\": \"9pt\", \"color\": \"#262626\"}}]}]}}]}, \"vcObjects\": {\"background\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#FFF8E1'\"}}}}}, \"transparency\": {\"expr\": {\"Literal\": {\"Value\": \"0D\"}}}}}], \"border\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#E6C35C'\"}}}}}, \"radius\": {\"expr\": {\"Literal\": {\"Value\": \"8D\"}}}}}]}}}",
+          "filters": "[]"
+        },
+        {
+          "x": 10,
+          "y": 640,
+          "z": 11,
+          "width": 400,
+          "height": 70,
+          "config": "{\"name\": \"d2ba7785e9e256cca148\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 10, \"y\": 640, \"z\": 11, \"width\": 400, \"height\": 70}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"_Medidas.Última validación\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t0\", \"Entity\": \"_Medidas\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t0\"}}, \"Property\": \"Última validación\"}, \"Name\": \"_Medidas.Última validación\", \"NativeReferenceName\": \"Última validación\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"20D\"}}}}}], \"categoryLabels\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"false\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Última validación cargada'\"}}}}}]}}}",
+          "filters": "[]"
+        }
+      ]
+    }
+  ]
+}

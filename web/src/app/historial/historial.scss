@@ -12,6 +12,51 @@
   margin: 0.4rem 0 0;
 }
 
+.powerbi {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0.3rem 0 0;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+  }
+
+  a:not(.boton) {
+    color: var(--primario);
+  }
+
+  .boton {
+    flex: none;
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.powerbi__icono {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  color: #f2c811;
+  background: color-mix(in srgb, #f2c811 14%, transparent);
+}
+
+.powerbi__texto {
+  flex: 1;
+}
+
 .tabla-contenedor {
   overflow-x: auto;
 }
