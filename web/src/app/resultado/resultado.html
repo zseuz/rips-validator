@@ -7,17 +7,37 @@
   </p>
   <div class="veredicto__texto">
     <h2>{{ estado().titulo }}</h2>
-    <p>{{ estado().detalle }}</p>
-    <p class="resumen">
-      Factura <span class="codigo">{{ r.numFactura ?? 'sin número' }}</span> del obligado
-      <span class="codigo">{{ r.numDocumentoIdObligado ?? 'sin NIT' }}</span>: {{ r.totalUsuarios }}
-      {{ r.totalUsuarios === 1 ? 'usuario' : 'usuarios' }}, {{ r.totalServicios }}
-      {{ r.totalServicios === 1 ? 'servicio' : 'servicios' }},
-      <strong [class.cuenta-error]="r.totalErrores > 0">{{ r.totalErrores }} {{ r.totalErrores === 1 ? 'error' : 'errores' }}</strong> y
-      <strong [class.cuenta-aviso]="r.totalAdvertencias > 0">{{ r.totalAdvertencias }} {{ r.totalAdvertencias === 1 ? 'advertencia' : 'advertencias' }}</strong>.
-      Validación n.º {{ r.id }}.
-    </p>
+    <p class="veredicto__detalle">{{ estado().detalle }}</p>
   </div>
+
+  <!-- Casillas de formulario: los datos de la cuenta y sus totales, como en una planilla de radicación. -->
+  <dl class="casillas">
+    <div class="casilla casilla--ancha">
+      <dt>Factura</dt>
+      <dd class="codigo">{{ r.numFactura ?? 'sin número' }}</dd>
+    </div>
+    <div class="casilla casilla--ancha">
+      <dt>Obligado</dt>
+      <dd class="codigo">{{ r.numDocumentoIdObligado ?? 'sin NIT' }}</dd>
+    </div>
+    <div class="casilla">
+      <dt>Usuarios</dt>
+      <dd>{{ r.totalUsuarios }}</dd>
+    </div>
+    <div class="casilla">
+      <dt>Servicios</dt>
+      <dd>{{ r.totalServicios }}</dd>
+    </div>
+    <div class="casilla" [class.casilla--error]="r.totalErrores > 0">
+      <dt>Errores</dt>
+      <dd>{{ r.totalErrores }}</dd>
+    </div>
+    <div class="casilla" [class.casilla--aviso]="r.totalAdvertencias > 0">
+      <dt>Advertencias</dt>
+      <dd>{{ r.totalAdvertencias }}</dd>
+    </div>
+  </dl>
+  <p class="veredicto__pie">Validación n.º {{ r.id }}</p>
 </section>
 
 @if (r.hallazgos.length > 0) {
