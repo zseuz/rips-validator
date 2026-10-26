@@ -36,8 +36,9 @@ con mensajes poco claros. Este proyecto revisa el archivo **antes** de enviarlo:
 | **Formato** | RIPS en **JSON** de la Resolución 2275 de 2023: el que acompaña a la factura electrónica de venta en salud (FEV) y con el que el Ministerio genera el CUV |
 | **Transacción** | Obligado, número de factura y tipo de nota (incluida `RS`, RIPS sin factura) |
 | **Usuarios** | Identificación, tipo de usuario, sexo, residencia, fecha de nacimiento y consecutivos |
-| **Servicios validados** | ✅ Consultas · ✅ Procedimientos |
-| **Aún no** | Urgencias, hospitalización, recién nacidos, medicamentos y otros servicios: se aceptan, pero no se revisan |
+| **Servicios validados** | ✅ Consultas · ✅ Procedimientos · ✅ Urgencias · ✅ Hospitalización · ✅ Recién nacidos · ✅ Medicamentos · ✅ Otros servicios |
+| **Prestador** | Código de habilitación contra el REPS (tabla `IPSCodHabilitacion` de SISPRO) |
+| **Factura electrónica** | Opcional: con el XML de la DIAN (Invoice o AttachedDocument) se cruzan número, emisor, valor y fechas |
 | **No aplica** | Los RIPS antiguos en archivos planos (Resolución 3374 de 2000: `AF`, `US`, `AC`, `AP`…) |
 
 ## Tablas de referencia de SISPRO
@@ -62,7 +63,11 @@ empaqueta en el jar, las carga en memoria para validar y, al arrancar, las copia
 cd etl && python descargar_tablas_sispro.py --salida ../catalogos
 ```
 
-Aún no se validan contra tablas el código del prestador (REPS) ni `codServicio`: solo su formato.
+También están el REPS (`IPSCodHabilitacion`, 207.495 sedes, e `IPSnoREPS`), condición de egreso, tipo de
+medicamento y de otro servicio, unidades de medida (`UMM`) y formas farmacéuticas (`FFM`): 23 tablas y
+238.695 códigos. Aún no se validan `codServicio` ni el CUM de los medicamentos. Los ejemplos y el
+generador usan códigos REPS reales de hospitales públicos (E.S.E.) solo para que los datos sintéticos
+pasen la regla RV007.
 
 ## Arquitectura
 
@@ -169,21 +174,45 @@ guarda: solo el resumen y los hallazgos.
 | RV004 | Error | Fecha inexistente, mal formada o posterior a hoy |
 | RV005 | Error | Código deshabilitado en SISPRO |
 | RV006 | Error | CUPS de consulta reportado como procedimiento, o al revés |
+| RV007 | Error | Prestador que no está habilitado en el REPS |
 | RV010 | Error | Transacción sin usuarios |
 | RV011 | Error | Usuario repetido en la transacción |
 | RV012 | Error | Consecutivo fuera de secuencia |
 | RV013 | Advertencia | Usuario sin servicios reportados |
 | RV020 | Advertencia | Tipo de documento que no corresponde a la edad (RC, TI, CC) |
 | RV021 | Error | Atención anterior a la fecha de nacimiento |
+| RV022 | Error | Egreso anterior al ingreso (urgencias, hospitalización, recién nacidos) |
 | RV030 | Error | Diagnóstico que no aplica al sexo del usuario según la CIE-10 de SISPRO |
 | RV031 | Advertencia | Diagnóstico relacionado igual al principal |
 | RV032 | Advertencia | Diagnóstico fuera del rango de edad de la CIE-10 (edad el día de la atención) |
 | RV040 | Error | Valor monetario negativo |
 | RV041 | Error | Pago moderador mayor que el valor del servicio |
 | RV042 | Advertencia | Servicio con valor cero |
+| RV043 | Error | Cantidad o peso que debe ser mayor que cero |
+| RV050 | Error | Número de factura distinto al del XML de la factura electrónica |
+| RV051 | Error | Obligado distinto al emisor de la factura |
+| RV052 | Advertencia | Suma de `vrServicio` distinta al valor bruto de la factura |
+| RV053 | Advertencia | Atención posterior a la emisión de la factura |
 
 Para agregar reglas basta con crear una clase que implemente
 [`ReglaRips`](api/src/main/java/com/zseuz/rips/reglas/ReglaRips.java): Spring la registra sola.
+
+## Explicación con IA (opcional)
+
+Con la variable `ANTHROPIC_API_KEY` en la API, cada hallazgo muestra **✨ Explicar y cómo corregirlo**:
+Claude (`claude-opus-5-5`, configurable en `rips.ia.modelo`) responde qué significa, cómo corregirlo y qué
+pasa si no se corrige. No se envían datos personales (documentos ni fechas de nacimiento), las
+explicaciones se guardan para no pagar dos veces la misma y cuentan dentro del límite por minuto. Sin
+clave, todo lo demás funciona igual y el botón no aparece.
+
+## Base de datos
+
+El esquema está versionado con Flyway en
+[`db/migration`](api/src/main/resources/db/migration); Hibernate solo comprueba que coincida. En
+desarrollo la base es H2 en archivo (`api/data/`), así que el historial sobrevive a los reinicios, y se
+puede consultar en http://localhost:8080/h2-console (JDBC URL `jdbc:h2:file:./data/rips;AUTO_SERVER=TRUE`,
+usuario `sa`). Con Docker es MySQL. Las validaciones están limitadas a 25 MB por archivo y 60 por minuto
+por IP.
 
 ## Power BI
 
@@ -228,19 +257,31 @@ cd api && ./mvnw verify
 cd web && npx ng test --watch=false
 ```
 
-La API tiene 38 pruebas (las reglas una por una contra las tablas reales de SISPRO, las exportaciones y la API completa
-con MockMvc) y el frontend 8 (con Vitest). En cada push, el [CI](.github/workflows/ci.yml) además genera un lote sintético, lo
-valida contra la API real y publica el reporte como artefacto.
+```bash
+cd web && npm run e2e
+```
+
+- **API:** 55 pruebas (las reglas una por una contra las tablas reales de SISPRO, la factura XML, las
+  exportaciones, los límites y la API completa con MockMvc).
+- **Frontend:** 8 pruebas unitarias con Vitest.
+- **Punta a punta:** 5 pruebas con Playwright que manejan el frontend real contra la API real (subir
+  archivos, filtros, factura XML, historial, tema). Necesitan el jar: `cd api && ./mvnw -DskipTests package`.
+
+En cada push, el [CI](.github/workflows/ci.yml) corre todo eso y además valida un lote sintético contra la
+API real. Cada mes, [otro workflow](.github/workflows/tablas-sispro.yml) vuelve a descargar las tablas de
+SISPRO y abre un PR si cambió algún código.
 
 ## Hoja de ruta
 
 - [x] Frontend en Angular: subir el archivo, ver los errores resaltados y consultar el historial
-- [ ] Explicación de cada error con IA (Claude) en lenguaje sencillo
+- [x] Explicación de cada error con IA (Claude) en lenguaje sencillo
 - [x] Reporte de Power BI descargable, conectado a la API
-- [ ] Urgencias, hospitalización, recién nacidos, medicamentos y otros servicios
+- [x] Urgencias, hospitalización, recién nacidos, medicamentos y otros servicios
 - [x] Tablas de referencia oficiales de SISPRO (CIE-10, CUPS, municipios…) en la base de datos
-- [ ] Validar el prestador contra el REPS
-- [ ] Cruce de los totales de los RIPS con el XML de la factura electrónica
+- [x] Validar el prestador contra el REPS
+- [x] Cruce de los RIPS con el XML de la factura electrónica
+- [x] Base de datos persistente con Flyway, límites de uso y pruebas de punta a punta
+- [ ] Validar el CUM de los medicamentos y `codServicio`
 
 ---
 
